@@ -6,20 +6,25 @@ import Layout from "./components/Layout";
 import Feed from "./routes/Feed";
 import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
+import Auth from "./components/Auth";
 
 export default function App() {
   return (
     <Routes>
-      <Route element={<PersistLogin />}> {/* Persistencia de login */}
-        <Route element={<Layout />}> {/* Componente pai responsavel pelo layout das childs */}
-          <Route path="/" element={<Feed />} /> 
-          <Route element={<RequireAuth />}> {/* Rotas protegidas, apenas logado pode acessar */}
-            {/* <Route path="/home" element={<Home />} /> */}
+      <Route element={<PersistLogin />}>
+        <Route element={<Layout />}>
+          {/* Layout: Componente pai responsavel pelo layout das childs */}
+          <Route path="/" element={<Feed />} />
+          <Route element={<RequireAuth />}>
+            {/* Abaixo rotas protegidas, apenas logado pode acessar */}
           </Route>
         </Route>
-        <Route element={<RedirectIfAuth />}> {/* Redirecionar caso esteja logado */}
-        <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
+        <Route element={<RedirectIfAuth />}>
+          {/* Abaixo redirecionar caso esteja logado */}
+          <Route element={<Auth />}>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+          </Route>
         </Route>
       </Route>
     </Routes>
