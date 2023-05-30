@@ -32,23 +32,28 @@ const SignUp = () => {
 
     if (!emailRegex.test(email)) {
       setErrMsg("Email inválido");
+      window.alert("Email inválido");
       return;
     }
     if (!password) {
       setErrMsg("Insira uma senha");
+      window.alert("Insira uma senha");
       return;
     }
     if (password.length < 6) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
+      window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
     if (!user) {
       setErrMsg("Preencha o campo user");
+      window.alert("Preencha o campo user");
       return;
     }
     if (!isUri(pictureUrl)) {
-        setErrMsg("Picture url deve ser uma url válida");
-        return;
+      setErrMsg("Picture url deve ser uma url válida");
+      window.alert("Picture url deve ser uma url válida");
+      return;
     }
     const body = { email, password, name: user, picture: pictureUrl };
 
@@ -67,6 +72,7 @@ const SignUp = () => {
         setErrMsg("Não autorizado");
       } else if (err.response?.status === 409) {
         setErrMsg("E-mail em uso");
+        window.alert("E-mail em uso");
       } else {
         setErrMsg("Falha ao criar a conta");
       }

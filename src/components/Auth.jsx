@@ -23,8 +23,8 @@ const Auth = () => {
 };
 
 const Main = styled.main`
-    display: flex;
-    height: 100dvh;
+  display: flex;
+  height: 100dvh;
 `;
 
 const Left = styled.section`

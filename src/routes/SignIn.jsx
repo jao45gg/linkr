@@ -10,8 +10,6 @@ import { isUri } from "valid-url";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
-  const [pictureUrl, setPictureUrl] = useState("");
   const [isLoading, setIsLoading] = useState();
   const [errMsg, setErrMsg] = useState("");
   const emailRef = useRef();
@@ -24,7 +22,7 @@ const SignIn = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [email, password, user, pictureUrl]);
+  }, [email, password]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,14 +30,17 @@ const SignIn = () => {
 
     if (!emailRegex.test(email)) {
       setErrMsg("Email inválido");
+      window.alert("Email inválido");
       return;
     }
     if (!password) {
       setErrMsg("Insira uma senha");
+      window.alert("Insira uma senha");
       return;
     }
     if (password.length < 6) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
+      window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
     const body = { email, password };
@@ -48,7 +49,7 @@ const SignIn = () => {
       setIsLoading(true);
       await axiosPrivate.post("/signin", body);
 
-      navigate("/", { replace: true });
+      navigate("/timeline", { replace: true });
     } catch (err) {
       console.log(err);
       if (!err?.response) {
@@ -57,6 +58,7 @@ const SignIn = () => {
         setErrMsg("Faltando Email e/ou senha");
       } else if (err.response?.status === 401) {
         setErrMsg("Não autorizado");
+        window.alert("Não autorizado")
       } else if (err.response?.status === 409) {
         setErrMsg("Falha ao logar");
       } else {
