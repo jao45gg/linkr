@@ -1,11 +1,24 @@
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import PersistLogin from "./components/redirects/PersistLogin";
+import RedirectIfAuth from "./components/redirects/RedirectIfAuth";
+import RequireAuth from "./components/redirects/RequireAuth";
+import Layout from "./components/Layout";
 
-function App() {
+export default function App() {
   return (
-    <>
-      <h1>asdasd</h1>
-    </>
+    <Routes>
+      <Route element={<PersistLogin />}> {/* Persistencia de login */}
+        <Route element={<Layout />}> {/* Componente pai responsavel pelo layout das childs */}
+          <Route path="/" element={<Feed />} /> 
+          <Route element={<RequireAuth />}> {/* Rotas protegidas, apenas logado pode acessar */}
+            {/* <Route path="/home" element={<Home />} /> */}
+          </Route>
+        </Route>
+        <Route element={<RedirectIfAuth />}> {/* Redirecionar caso esteja logado */}
+        <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
