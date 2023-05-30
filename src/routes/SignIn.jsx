@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/AuthInput";
-import AuthButton from "../components/AuthButton";
+import AuthInput from "../components/forms/AuthInput";
+import AuthButton from "../components/forms/AuthButton";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
