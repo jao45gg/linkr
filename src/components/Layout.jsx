@@ -71,6 +71,8 @@ const ResponsiveContainer = styled.div`
   display: flex;
   gap: 25px;
   justify-content: center;
+  border: 1px solid red;
+  margin-top: 53px;
 
   @media (max-width: 719px) {
     flex-direction: column;
@@ -88,6 +90,7 @@ const Sidebar = styled.div`
   width: 301px;
   display: none;
   height: 100vh;
+  border: 1px solid yellowgreen;
 
   @media (min-width: 920px) {
     display: block;
