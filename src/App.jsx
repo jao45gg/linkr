@@ -3,6 +3,9 @@ import PersistLogin from "./components/redirects/PersistLogin";
 import RedirectIfAuth from "./components/redirects/RedirectIfAuth";
 import RequireAuth from "./components/redirects/RequireAuth";
 import Layout from "./components/Layout";
+import Feed from "./routes/Feed";
+import SignUp from "./routes/SignUp";
+import SignIn from "./routes/SignIn";
 
 export default function App() {
   return (
