@@ -18,7 +18,7 @@ const AuthButton = (props) => {
             visible={true}
           />
         ) : (
-          "Log In"
+          props.children // Render the text directly
         )}
       </StyledAuthButton>
     </>

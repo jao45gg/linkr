@@ -47,8 +47,8 @@ const SignUp = () => {
       return;
     }
     if (!isUri(pictureUrl)) {
-      setErrMsg("Picture url deve ser uma url válida");
-      return;
+        setErrMsg("Picture url deve ser uma url válida");
+        return;
     }
     const body = { email, password, name: user, picture: pictureUrl };
 
