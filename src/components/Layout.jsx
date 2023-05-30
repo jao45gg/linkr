@@ -1,5 +1,14 @@
-import "./index.css";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+
+const Layout = () => {
+  return (
+    <LayoutBar>
+      <Outlet />
+    </LayoutBar>
+  );
+};
 
 const LayoutBar = styled.main`
   position: fixed;
@@ -9,11 +18,4 @@ const LayoutBar = styled.main`
   top: 0px;
   background: #151515;
 `;
-
-const Layout = ({ children }) => {
-  return <LayoutBar>{children}</LayoutBar>;
-};
-
-
-
 export default Layout;
