@@ -4,24 +4,26 @@ import { ThreeDots } from "react-loader-spinner";
 
 const AuthButton = (props) => {
   return (
-    <div>
-      <StyledAuthButton {...props}>{props.disabled ? (
-              <ThreeDots
-                height="60"
-                width="80"
-                radius="15"
-                color="#1072f1"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClassName=""
-                visible={true}
-              />
-          ) : (
-            "Log In"
-          )}</StyledAuthButton>
-    </div>
+    <>
+      <StyledAuthButton {...props}>
+        {props.disabled ? (
+          <ThreeDots
+            height="60"
+            width="80"
+            radius="15"
+            color="#1072f1"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        ) : (
+          "Log In"
+        )}
+      </StyledAuthButton>
+    </>
   );
-}
+};
 
 const StyledAuthButton = styled.button`
   height: 65px;
@@ -47,7 +49,7 @@ const StyledAuthButton = styled.button`
     cursor: not-allowed;
     text-decoration: line-through;
   }
-  
+
   button:not(:disabled):hover,
   button:not(:disabled):focus {
     background: #1072f1;

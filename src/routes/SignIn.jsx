@@ -3,14 +3,26 @@ import styled from "styled-components";
 import AuthInput from "../components/forms/AuthInput";
 import AuthButton from "../components/forms/AuthButton";
 import { Link } from "react-router-dom";
+import { axiosPrivate } from "../api/axios";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axiosPrivate.post("/signin", body);
+    } catch {
+    } finally {
+    }
+  };
+
   return (
     <Container>
-      <form>
+      <form onSubmit={handleSubmit}>
         <AuthInput
           placeholder="e-mail"
           value={email}
@@ -26,7 +38,9 @@ const SignIn = () => {
         />
         <AuthButton disabled={isLoading}>Log In</AuthButton>
       </form>
-      <Link to="/signup"><p>First time? Create an account!</p></Link>
+      <Link to="/signup">
+        <p>First time? Create an account!</p>
+      </Link>
     </Container>
   );
 };
