@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const AuthInput = (props) => {
+const AuthInput = React.forwardRef((props, ref) => {
   return (
-    <div>
-      <StyledAuthInput {...props} />
-    </div>
+    <>
+      <StyledAuthInput ref={ref} {...props} />
+    </>
   );
-}
+});
 
 const StyledAuthInput = styled.input`
   height: 65px;
@@ -34,16 +34,16 @@ const StyledAuthInput = styled.input`
   }
 
   :focus {
-    border: 2px solid #FFFFFF;
-    background-color: rgb(224,237,253);
+    border: 2px solid #ffffff;
+    background-color: rgb(224, 237, 253);
     outline: none;
   }
   :disabled {
-        background-color: rgb(224,237,253);
-        color: #999;
-        cursor: not-allowed;
-        text-decoration: line-through;
-      }
+    background-color: rgb(224, 237, 253);
+    color: #999;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
 `;
 
 export default AuthInput;
