@@ -10,19 +10,10 @@ const LayoutBar = styled.main`
   background: #151515;
 `;
 
-import PropTypes from "prop-types";
-
-const Layout = ({ context }) => {
-  return (
-    <LayoutBar>
-      {/* Aqui você pode renderizar o componente desejado */}
-      {context}
-    </LayoutBar>
-  );
+const Layout = ({ children }) => {
+  return <LayoutBar>{children}</LayoutBar>;
 };
 
-Layout.propTypes = {
-  context: PropTypes.any.isRequired,
-};
+
 
 export default Layout;

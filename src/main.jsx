@@ -6,6 +6,9 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Layout context={<App />} />
+    <Layout>
+      <App />
+      <h1>Olá, mundo!</h1>
+    </Layout>
   </React.StrictMode>
 );
