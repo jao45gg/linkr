@@ -10,7 +10,6 @@ const HeaderBar = styled.div`
   height: 72px;
   width: 100%;
   box-sizing: border-box;
-
   padding: 0 12px;
   display: flex;
   justify-content: space-between;
@@ -52,7 +51,7 @@ const Layout = () => {
       <HeaderBar>
         <HeaderContent>
           <div>
-            <a href="/"> linkr </a>
+            <a href="/">linkr</a>
           </div>
           <div>
             <img className="dropDown" src="/drop down icon.svg" alt="drop" />
@@ -71,6 +70,7 @@ const Layout = () => {
 const ResponsiveContainer = styled.div`
   display: flex;
   gap: 25px;
+  justify-content: center;
 
   @media (max-width: 719px) {
     flex-direction: column;
@@ -87,6 +87,7 @@ const ResponsiveContainer = styled.div`
 const Sidebar = styled.div`
   width: 301px;
   display: none;
+  height: 100vh;
 
   @media (min-width: 920px) {
     display: block;
