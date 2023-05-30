@@ -54,13 +54,13 @@ const SignIn = () => {
       if (!err?.response) {
         setErrMsg("Sem resposta do servidor");
       } else if (err.response?.status === 400) {
-        setErrMsg("Faltando nome, email e/ou senhas");
+        setErrMsg("Faltando Email e/ou senha");
       } else if (err.response?.status === 401) {
         setErrMsg("Não autorizado");
       } else if (err.response?.status === 409) {
-        setErrMsg("E-mail em uso");
+        setErrMsg("Falha ao logar");
       } else {
-        setErrMsg("Falha ao criar a conta");
+        setErrMsg("Falha ao logar");
       }
       errRef.current.focus();
     } finally {
