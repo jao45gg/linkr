@@ -60,9 +60,37 @@ const Layout = () => {
           </div>
         </HeaderContent>
       </HeaderBar>
-      <Outlet />
+      <ResponsiveContainer>
+        <Outlet />
+        <Sidebar />
+      </ResponsiveContainer>
     </LayoutContent>
   );
 };
+
+const ResponsiveContainer = styled.div`
+  display: flex;
+  gap: 25px;
+
+  @media (max-width: 719px) {
+    flex-direction: column;
+    align-items: center;
+    width: 611px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 920px) {
+    width: 100%;
+  }
+`;
+
+const Sidebar = styled.div`
+  width: 301px;
+  display: none;
+
+  @media (min-width: 920px) {
+    display: block;
+  }
+`;
 
 export default Layout;
