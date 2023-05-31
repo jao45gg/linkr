@@ -5,7 +5,7 @@ import AuthButton from "../components/authRoute/forms/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
 import ErrWrapper from "../components/authRoute/forms/Err";
-import { isUri } from "valid-url";
+import useAuth from "../hooks/useAuth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +15,7 @@ const SignIn = () => {
   const emailRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -47,7 +48,8 @@ const SignIn = () => {
 
     try {
       setIsLoading(true);
-      await axiosPrivate.post("/signin", body);
+      const response = await axiosPrivate.post("/signin", body);
+      setAuth(response.data);
 
       navigate("/timeline", { replace: true });
     } catch (err) {
@@ -58,7 +60,7 @@ const SignIn = () => {
         setErrMsg("Faltando Email e/ou senha");
       } else if (err.response?.status === 401) {
         setErrMsg("Não autorizado");
-        window.alert("Não autorizado")
+        window.alert("Não autorizado");
       } else if (err.response?.status === 409) {
         setErrMsg("Falha ao logar");
       } else {
