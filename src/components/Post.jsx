@@ -19,7 +19,7 @@ export default function Post({ id, link, description, userId, likes, picture, us
     return (
         <Container>
             <Header>
-                <Imagem />
+                <Imagem picture={picture}/>
                 <Text>
                     <h1>{userName}</h1>
                     <h2>{description}</h2>
@@ -52,7 +52,7 @@ const Container = styled.div`
     
     background-color: #171717;;
     width: 100%;
-    height: 30vh;
+    height: 400px;
 
     margin-bottom: 15px;
 
@@ -60,10 +60,6 @@ const Container = styled.div`
 
     position: relative;
 
-    @media(max-width: 860px){
-        border-radius: 0px;
-        height: 40vh;
-    }
 `
 
 const Header = styled.div`
@@ -81,13 +77,9 @@ const Imagem = styled.div`
     left: 15px;
     top: 10px;
     background-size: cover;
-    background-image: url("https://t.ctcdn.com.br/5XPASDBUosgmBv5Ptpxcd6eTJso=/512x288/smart/filters:format(webp)/i257652.jpeg");
+    background-image: url(${props => props.picture});
     background-position: center center;
 
-    @media(max-width: 860px){
-        width: 40px;
-        height: 40px;
-    }
 `
 
 const Text = styled.div`
@@ -120,42 +112,29 @@ const Text = styled.div`
         color: #B7B7B7;
     }
 
-    @media(max-width: 860px){
-        margin-top: 10%;
-        margin-left: 13%;
-    }
-
 
 `
 const Main = styled.div`
     border: 1px solid #FFFFFF;
 
-    width: 35vw;
-    height: 150px;
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 80%;
+    height: 200px;
     border: 1px solid #4D4D4D;
     border-radius: 11px;
 
-    position: absolute;
-    top:10vh;
-    left: 8vw;
-
     display: flex;
     align-items: center;
-
-    @media(max-width: 860px){
-        width: 80%;
-        height: 150px;
-        margin: 0 auto;
-        margin-left: 7%;
-        
-    }
+    margin-left: 100px;
 
 `
 
 const Block = styled.div`
     
-    width: 70vw;
+    width: 100%;
     height: 100%;
+
    
     margin-top: 25px;
     margin-left: 20px;
@@ -191,41 +170,6 @@ const Block = styled.div`
         color: #CECECE;
     }
 
-
-    @media(max-width: 860px){
-        width: 70%;
-    h1{
-        font-family: 'Lato';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 19px;
-        color: #CECECE;
-
-        margin-bottom: 5px;
-    }
-
-    h2{
-        font-family: 'Lato';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 9px;
-        color: #9B9595;
-        margin-bottom: 5px;
-    }
-
-    p{
-        font-family: 'Lato';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 9px;
-        line-height: 13px;
-
-        color: #CECECE;
-    }
-        
-    }
 `
 
 const ImageLink = styled.div`
@@ -238,7 +182,4 @@ const ImageLink = styled.div`
     background-image: url(${props => props.image});
     background-position: center center;
 
-    @media(max-width: 860px){
-        width: 40%;
-    }
 `

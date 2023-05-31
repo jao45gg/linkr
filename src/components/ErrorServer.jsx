@@ -2,23 +2,29 @@ import React from 'react';
 import { RotatingLines } from 'react-loader-spinner';
 import styled from 'styled-components';
 
-const LoadingPage = () => {
+const ErrorServer = ({message}) => {
     return (
         <Div>
-            <RotatingLines strokeColor="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="96"
-                visible={true} />
+            {message}
         </Div>
     );
 };
 
-export default LoadingPage;
+export default ErrorServer;
 
 const Div = styled.div`
     display: flex;
     justify-content:center;
     align-items: center;
     margin-top: 100px;
+
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 43px;
+    line-height: 64px;
+
+    color: #FFFFFF;
+
+
 `

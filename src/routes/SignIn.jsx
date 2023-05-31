@@ -39,7 +39,7 @@ const SignIn = () => {
       window.alert("Insira uma senha");
       return;
     }
-    if (password.length < 6) {
+    if (password.length < 2) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
       window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
