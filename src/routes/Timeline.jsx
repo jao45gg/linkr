@@ -52,8 +52,6 @@ export default function Timeline() {
                                 required />
 
                             <textarea placeholder="Awesome article about #javascript"
-                                rows={4}
-                                cols={58}
                                 name={"description"}
                                 value={form.description}
                                 onChange={handleForm}
@@ -86,14 +84,15 @@ export default function Timeline() {
 const Container = styled.div`
     
     background-color: rgba(51,51,51);
-    width: 611px;
-    height: 90vh;
-    margin: 15vh auto;
+    width: 100%;
+    margin: 0 auto;
 
 `
 
 const Titulo = styled.div`
     margin-bottom: 20px;
+    width: 60%;
+    margin: 0 auto;
 
     h1{
         font-family: 'Oswald';
@@ -105,6 +104,10 @@ const Titulo = styled.div`
         color: #FFFFFF;
     }
 
+    @media(max-width: 860px){
+        width: 90%;
+    }
+
 `
 
 const Posts = styled.div`
@@ -112,25 +115,32 @@ const Posts = styled.div`
 `
 
 const Aside = styled.div`
-     height: calc(55vh - 15vh);
-     overflow-y: auto;
-     
+    width: 60%;
+    margin: 0 auto;
 
-     
+    @media(max-width: 860px){
+        width: 100%;
+    }
 `
 
 const Publish = styled.div`
 
-    width: 100%;
+    width: 60%;
     height: 210px;
     background-color: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
+    margin: 0 auto;
 
     position: relative;
     display: flex;
 
     margin-bottom: 30px;
+
+    @media(max-width: 860px){
+        width: 100%;
+        border-radius: 0px;
+    }
     
 `
 
@@ -140,7 +150,8 @@ const Imagem = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 26.5px;
-    /*passar a imagem como props para background: url(${props => props.image});*/
+    background: url("/profile.jpg");
+    background-size: cover;
     position: absolute;
     left: 15px;
     top: 20px;
@@ -150,6 +161,7 @@ const Block = styled.div`
     margin-top: 20px;
     margin-left: 100px;
     position: relative;
+  
 
     p{
         font-family: 'Lato';
@@ -168,6 +180,8 @@ const Block = styled.div`
         resize: none;
         display: flex;
         flex-wrap:wrap;
+        width: 35vw;
+        height: 6vh;
     }
 
     textarea::placeholder{
@@ -183,10 +197,40 @@ const Block = styled.div`
         color: #949494;
     }
 
+    @media(max-width: 860px){
+        width: 150%;
+        margin-top: 10%;
+        margin-left: 40%;
+        p{
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 17px;
+            line-height: 20px;
+            text-align: center;
+
+            color: #707070;
+            margin-bottom: 5px;
+        }
+
+        textarea{
+            background: #EFEFEF;
+            border-radius: 5px;
+            border: none;
+            resize: none;
+            display: flex;
+            flex-wrap:wrap;
+            width: 100%;
+            height: 6vh;
+    }
+
+        
+    }
+
 `
 
 const Input = styled.input`
-    width: 99%;
+    width: 35vw;
     height: 30px;
 
     background: #EFEFEF;
@@ -208,6 +252,11 @@ const Input = styled.input`
         color: #949494;
 
 }
+
+    @media(max-width: 860px){
+        width: 100%;
+        
+    }
 `
 
 const Button = styled.button`
