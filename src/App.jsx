@@ -16,9 +16,9 @@ export default function App() {
         <Route element={<Layout />}>
           {/* Layout: Componente pai responsavel pelo layout das childs */}
           <Route path="/" element={<Feed />} />
-          <Route path="/timeline" element={<Timeline/>} />
           <Route element={<RequireAuth />}>
             {/* Abaixo rotas protegidas, apenas logado pode acessar */}
+            <Route path="/timeline" element={<Timeline/>} />
           </Route>
         </Route>
         <Route element={<RedirectIfAuth />}>
