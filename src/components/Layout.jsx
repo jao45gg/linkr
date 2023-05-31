@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
@@ -122,6 +122,20 @@ const Layout = () => {
       alert("Erro ao fazer logout");
     }
   };
+  // sidebar request
+  const [trending, setTrending] = useState([]);
+  useEffect(() => {
+    const getTrending = async () => {
+      try {
+        const response = await axios.get("/hash");
+        setTrending(response.data.hashtags);
+      } catch (error) {
+        alert("Erro ao carregar os trending");
+      }
+    };
+    getTrending();
+  }, []);
+  // sidebar request
 
   return (
     <LayoutContent>
@@ -150,16 +164,9 @@ const Layout = () => {
             <div>
               <h3>trending</h3>
               <ul>
-                <li>javascript</li>
-                <li>react</li>
-                <li>react-native</li>
-                <li>material</li>
-                <li>web-dev</li>
-                <li>mobile</li>
-                <li>css</li>
-                <li>html</li>
-                <li>node</li>
-                <li>sql</li>
+                {trending.map((trend) => (
+                  <li key={trend.id}>{trend.name}</li>
+                ))}
               </ul>
             </div>
           </Sidebar>
