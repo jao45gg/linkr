@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
-const Auth = () => {
+const LayoutDesktop = () => {
   return (
     <Main>
       <Left>
@@ -23,8 +23,8 @@ const Auth = () => {
 };
 
 const Main = styled.main`
-    display: flex;
-    height: 100dvh;
+  display: flex;
+  height: 100dvh;
 `;
 
 const Left = styled.section`
@@ -67,4 +67,4 @@ const Right = styled.section`
     left: 9.53%;
   }
 `;
-export default Auth;
+export default LayoutDesktop;
