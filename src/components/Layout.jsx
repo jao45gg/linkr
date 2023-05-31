@@ -41,21 +41,33 @@ const HeaderContent = styled.div`
       margin-left: 30px;
       cursor: pointer;
     }
-    input {
-      width: 563px;
-      height: 45px;
-      border-radius: 8px;
-      border: none;
-      padding-left: 17px;
-      box-sizing: border-box;
+  }
 
-      font-family: "Lato";
-      font-size: 19px;
-      line-height: 23px;
-
-      color: #c6c6c6;
-      background: #ffffff;
-    }
+  .search {
+    width: 563px;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    padding-left: 17px;
+    box-sizing: border-box;
+    background: #ffffff;
+  }
+  .search input {
+    width: 90%;
+    height: 100%;
+    border: none;
+    background: none;
+    outline: none;
+    font-family: "Lato";
+    font-size: 19px;
+    line-height: 23px;
+    color: #c6c6c6;
+  }
+  .search img {
+    width: 26px;
+    height: 22px;
+    margin-left: 10px;
+    cursor: pointer;
   }
 `;
 const DropIcon = styled.img`
@@ -115,7 +127,7 @@ const Layout = () => {
           </div>
           <div className="search">
             <input type="text" placeholder="Search for people" />
-            {/* <image src="/search.svg" alt="search" /> */}
+            <img src="/search.svg" alt="search" />
           </div>
           <div>
             <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
