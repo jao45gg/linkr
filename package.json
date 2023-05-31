@@ -16,7 +16,8 @@
     "react-icons": "^4.9.0",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.11.2",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "url-metadata": "^3.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
