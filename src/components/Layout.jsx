@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth.js";
 
 const LayoutContent = styled.main`
   width: 100vw;
@@ -102,8 +104,6 @@ const DropDownMenu = styled.div`
   }
 `;
 
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth.js";
 const Layout = () => {
   const [menuActive, setMenuActive] = useState(false);
   const navigate = useNavigate();
