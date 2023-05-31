@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
+import axios from "../api/axios";
 
 const LayoutContent = styled.main`
   width: 100vw;
@@ -37,15 +39,85 @@ const HeaderContent = styled.div`
       height: 53px;
       border-radius: 26.5px;
       margin-left: 30px;
+      cursor: pointer;
     }
   }
-  .dropDown {
-    width: 20px;
-    height: 20px;
+
+  .search {
+    width: 563px;
+    height: 45px;
+    border-radius: 8px;
+    border: none;
+    padding-left: 17px;
+    box-sizing: border-box;
+    background: #ffffff;
+  }
+  .search input {
+    width: 90%;
+    height: 100%;
+    border: none;
+    background: none;
+    outline: none;
+    font-family: "Lato";
+    font-size: 19px;
+    line-height: 23px;
+    color: #c6c6c6;
+  }
+  .search img {
+    width: 26px;
+    height: 22px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+`;
+const DropIcon = styled.img`
+  width: 20px !important;
+  height: 20px !important;
+  position: relative;
+  cursor: pointer;
+  rotate: ${({ menuActive }) => (menuActive ? "180deg" : "0deg")} !important;
+`;
+const DropDownMenu = styled.div`
+  position: absolute;
+  top: 70px;
+  right: 0;
+
+  width: 150px;
+  height: 47px;
+  padding: 8px;
+  border-radius: 0px 0px 20px 20px;
+
+  background: #171717;
+  cursor: pointer;
+  display: ${({ menuActive }) => (menuActive ? "block" : "none")} !important;
+  P {
+    margin-top: 12px;
+    text-align: center;
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    color: #fff;
   }
 `;
 
 const Layout = () => {
+  const [menuActive, setMenuActive] = useState(false);
+  const logoutMenu = () => {
+    setMenuActive(!menuActive);
+  };
+
+  const logout = async () => {
+    try {
+      await axios.post("/logout");
+      localStorage.clear();
+      window.location.href = "/";
+    } catch (error) {
+      alert("Erro ao fazer logout");
+    }
+  };
+
   return (
     <LayoutContent>
       <HeaderBar>
@@ -53,26 +125,50 @@ const Layout = () => {
           <div>
             <a href="/">linkr</a>
           </div>
+          <div className="search">
+            <input type="text" placeholder="Search for people" />
+            <img src="/search.svg" alt="search" />
+          </div>
           <div>
-            <img className="dropDown" src="/drop down icon.svg" alt="drop" />
-            <img src="/profile.jpg" alt="profile" />
+            <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
+            <img onClick={logoutMenu} src="/profile.jpg" alt="profile" />
+            <DropDownMenu menuActive={menuActive} onClick={logout}>
+              <p>Logout</p>
+            </DropDownMenu>
           </div>
         </HeaderContent>
       </HeaderBar>
       <ResponsiveContainer>
-        <Outlet />
-        <Sidebar />
+        <ContentContainer>
+          <Outlet />
+          <Sidebar>
+            <div>
+              <h3>trending</h3>
+              <ul>
+                <li>javascript</li>
+                <li>react</li>
+                <li>react-native</li>
+                <li>material</li>
+                <li>web-dev</li>
+                <li>mobile</li>
+                <li>css</li>
+                <li>html</li>
+                <li>node</li>
+                <li>sql</li>
+              </ul>
+            </div>
+          </Sidebar>
+        </ContentContainer>
       </ResponsiveContainer>
     </LayoutContent>
   );
 };
 
 const ResponsiveContainer = styled.div`
-  display: flex;
-  gap: 25px;
-  justify-content: center;
-  border: 1px solid red;
   margin-top: 53px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 
   @media (max-width: 719px) {
     flex-direction: column;
@@ -83,17 +179,73 @@ const ResponsiveContainer = styled.div`
 
   @media (min-width: 920px) {
     width: 100%;
+    align-items: center;
   }
 `;
-
+const ContentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 25px;
+`;
 const Sidebar = styled.div`
   width: 301px;
   display: none;
-  height: 100vh;
-  border: 1px solid yellowgreen;
+  overflow: hidden;
 
   @media (min-width: 920px) {
     display: block;
+  }
+  div {
+    width: 100%;
+    padding: 30px 0;
+    background: #171717;
+    border-radius: 16px;
+  }
+  div h3 {
+    border-bottom: 1px solid #484848;
+    width: 100%;
+    height: 40px;
+    padding: 0px 20px;
+    padding-bottom: 9px;
+
+    font-family: "Oswald";
+    font-weight: 700;
+    font-size: 27px;
+    line-height: 40px;
+
+    color: #ffffff;
+  }
+  div ul {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin: 9px 0;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+
+    li {
+      width: 100%;
+      padding: 9px 20px;
+
+      box-sizing: border-box;
+      font-family: "Lato";
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 23px;
+      letter-spacing: 0.05em;
+
+      color: #ffffff;
+    }
+    li:before {
+      content: "# ";
+    }
+
+    li:hover {
+      background: #353535;
+      border-radius: 8px;
+    }
   }
 `;
 
