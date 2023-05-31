@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "../api/axios";
 
 const LayoutContent = styled.main`
   width: 100vw;
@@ -38,14 +39,31 @@ const HeaderContent = styled.div`
       height: 53px;
       border-radius: 26.5px;
       margin-left: 30px;
+      cursor: pointer;
+    }
+    input {
+      width: 563px;
+      height: 45px;
+      border-radius: 8px;
+      border: none;
+      padding-left: 17px;
+      box-sizing: border-box;
+
+      font-family: "Lato";
+      font-size: 19px;
+      line-height: 23px;
+
+      color: #c6c6c6;
+      background: #ffffff;
     }
   }
-  .dropDown {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    cursor: pointer;
-  }
+`;
+const DropIcon = styled.img`
+  width: 20px !important;
+  height: 20px !important;
+  position: relative;
+  cursor: pointer;
+  rotate: ${({ menuActive }) => (menuActive ? "180deg" : "0deg")} !important;
 `;
 const DropDownMenu = styled.div`
   position: absolute;
@@ -77,9 +95,15 @@ const Layout = () => {
   const logoutMenu = () => {
     setMenuActive(!menuActive);
   };
-  const logout = () => {
-    localStorage.clear();
-    window.location.reload();
+
+  const logout = async () => {
+    try {
+      await axios.post("/logout");
+      localStorage.clear();
+      window.location.href = "/";
+    } catch (error) {
+      alert("Erro ao fazer logout");
+    }
   };
 
   return (
@@ -89,9 +113,13 @@ const Layout = () => {
           <div>
             <a href="/">linkr</a>
           </div>
+          <div className="search">
+            <input type="text" placeholder="Search for people" />
+            {/* <image src="/search.svg" alt="search" /> */}
+          </div>
           <div>
-            <img onClick={logoutMenu} className="dropDown" src="/drop down icon.svg" alt="drop" />
-            <img src="/profile.jpg" alt="profile" />
+            <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
+            <img onClick={logoutMenu} src="/profile.jpg" alt="profile" />
             <DropDownMenu menuActive={menuActive} onClick={logout}>
               <p>Logout</p>
             </DropDownMenu>
