@@ -2,12 +2,19 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { getPublish, publish } from "../api/axios"
 import Post from "../components/Post"
+import useAuth from "../hooks/useAuth"
+import LoadingPage from "../components/loadings/LoadingPage"
+import ErrorServer from "../components/ErrorServer"
 
 export default function Timeline() {
 
     const [form, setForm] = useState({ url: "", description: "" })
     const [disabled, setDisabled] = useState(false)
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
+    const [erro, setErro] = useState(false)
+    const { auth } = useAuth()
+
+    console.log(auth)
 
     useEffect(() => {
         const promise = getPublish()
@@ -26,9 +33,16 @@ export default function Timeline() {
         console.log(form)
         setDisabled(false)
 
-        const promise = publish(form)
-        promise.then(res => { setDisabled(false); window.location.reload(); })
-        promise.catch(err => { alert("Erro ao publicar seu link"); setDisabled(false) })
+        const promise = publish(form, auth.accessToken)
+        promise.then(res => {
+            setDisabled(false);
+            setForm({ url: "", description: "" })
+            const promise = getPublish()
+            promise.then(res => setData(res.data))
+            promise.catch(err => console.log(err))
+
+        })
+        promise.catch(err => { setDisabled(false); setErro(true) })
     }
 
     return (
@@ -39,7 +53,7 @@ export default function Timeline() {
 
             <Posts>
                 <Publish>
-                    <Imagem />
+                    <Imagem picture={auth.avatar} />
                     <form onSubmit={posting} >
                         <Block>
                             <p>{"What are you going to share today?"}</p>
@@ -65,15 +79,21 @@ export default function Timeline() {
 
                 </Publish>
                 <Aside>
-                    {data !== undefined && data.map(item => <Post key={item.id}
-                        id={item.id}
-                        link={item.link}
-                        description={item.description}
-                        userId={item.user_Id}
-                        likes={item.likes}
-                        picture={item.picture}
-                        userName={item.name}
-                    />)}
+                    {
+                        erro === true ? <ErrorServer message={"An error occured while trying to fetch the posts, please refresh the page"} /> :
+                            data.length === 0 ? <ErrorServer message={"There are no posts yet"} /> :
+                                (data !== undefined) ? data.map(item => <Post key={item.id}
+                                    id={item.id}
+                                    link={item.link}
+                                    description={item.description}
+                                    userId={item.user_Id}
+                                    likes={item.likes}
+                                    picture={item.picture}
+                                    userName={item.name}
+                                />) : <LoadingPage />
+                    }
+
+
                 </Aside>
 
             </Posts>
@@ -85,13 +105,15 @@ const Container = styled.div`
     
     background-color: rgba(51,51,51);
     width: 100%;
-    margin: 0 auto;
-
+    height: 100vh;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
 `
 
 const Titulo = styled.div`
     margin-bottom: 20px;
-    width: 60%;
+    width: 100%;
     margin: 0 auto;
 
     h1{
@@ -104,43 +126,27 @@ const Titulo = styled.div`
         color: #FFFFFF;
     }
 
-    @media(max-width: 860px){
-        width: 90%;
-    }
-
 `
 
 const Posts = styled.div`
-    
+    width: 100%;
 `
 
 const Aside = styled.div`
-    width: 60%;
+    width: 100%;
     margin: 0 auto;
-
-    @media(max-width: 860px){
-        width: 100%;
-    }
 `
 
 const Publish = styled.div`
-
-    width: 60%;
-    height: 210px;
+    width: 100%;
+    height: 300px;
     background-color: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
-    margin: 0 auto;
+   
 
     position: relative;
-    display: flex;
-
-    margin-bottom: 30px;
-
-    @media(max-width: 860px){
-        width: 100%;
-        border-radius: 0px;
-    }
+   
     
 `
 
@@ -150,8 +156,10 @@ const Imagem = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 26.5px;
-    background: url("/profile.jpg");
+    background: url(${props => props.picture});
     background-size: cover;
+    background-position: center center;
+    
     position: absolute;
     left: 15px;
     top: 20px;
@@ -161,7 +169,8 @@ const Block = styled.div`
     margin-top: 20px;
     margin-left: 100px;
     position: relative;
-  
+    width: 80%;
+    margin-right: 20px;
 
     p{
         font-family: 'Lato';
@@ -171,6 +180,7 @@ const Block = styled.div`
         line-height: 24px;
         color: #707070;
         margin-bottom: 5px;
+        padding-top: 20px;
     }
 
     textarea{
@@ -180,8 +190,9 @@ const Block = styled.div`
         resize: none;
         display: flex;
         flex-wrap:wrap;
-        width: 35vw;
-        height: 6vh;
+
+        width: 90%;
+        height: 100px;
     }
 
     textarea::placeholder{
@@ -197,40 +208,10 @@ const Block = styled.div`
         color: #949494;
     }
 
-    @media(max-width: 860px){
-        width: 150%;
-        margin-top: 10%;
-        margin-left: 40%;
-        p{
-            font-family: 'Lato';
-            font-style: normal;
-            font-weight: 300;
-            font-size: 17px;
-            line-height: 20px;
-            text-align: center;
-
-            color: #707070;
-            margin-bottom: 5px;
-        }
-
-        textarea{
-            background: #EFEFEF;
-            border-radius: 5px;
-            border: none;
-            resize: none;
-            display: flex;
-            flex-wrap:wrap;
-            width: 100%;
-            height: 6vh;
-    }
-
-        
-    }
-
 `
 
 const Input = styled.input`
-    width: 35vw;
+    width: 90%;
     height: 30px;
 
     background: #EFEFEF;
@@ -238,6 +219,7 @@ const Input = styled.input`
     border: none;
 
     margin-bottom: 10px;
+   
 
     ::placeholder{
         font-family: 'Lato';
@@ -253,15 +235,11 @@ const Input = styled.input`
 
 }
 
-    @media(max-width: 860px){
-        width: 100%;
-        
-    }
 `
 
 const Button = styled.button`
     width: 112px;
-    height: 31px;
+    height: 30px;
 
     background: #1877F2;
     border-radius: 5px;
@@ -272,7 +250,7 @@ const Button = styled.button`
 
     position: absolute;
     top: 120%;
-    right: 0;
+    right: 10%;
     transform: translateY(-50%);
     
     p{
@@ -284,6 +262,8 @@ const Button = styled.button`
         /* identical to box height */
         color: #FFFFFF;
 
-        margin-top: 5px;
+        margin-top: -10px;
+       
+        
 }
 `

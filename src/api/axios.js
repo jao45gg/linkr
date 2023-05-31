@@ -9,8 +9,10 @@ export const axiosPrivate = axios.create({
     withCredentials: true
 })
 
-export const publish = async (body) => {
-    const promise = await axios.post(`${import.meta.env.VITE_APP_API_URL}/publish/post`, body)
+export const publish = async (body, token) => {
+
+    const config = { headers: { Authorization: `Bearer ${token}` } }
+    const promise = await axios.post(`${import.meta.env.VITE_APP_API_URL}/publish/post`, body, config)
     return promise
 }
 
