@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/forms/AuthInput";
-import AuthButton from "../components/forms/AuthButton";
+import AuthInput from "../components/authRoute/forms/Input";
+import AuthButton from "../components/authRoute/forms/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
-import ErrWrapper from "../components/forms/Err";
+import ErrWrapper from "../components/authRoute/forms/Err";
 import { isUri } from "valid-url";
 
 const SignUp = () => {
@@ -32,23 +32,28 @@ const SignUp = () => {
 
     if (!emailRegex.test(email)) {
       setErrMsg("Email inválido");
+      window.alert("Email inválido");
       return;
     }
     if (!password) {
       setErrMsg("Insira uma senha");
+      window.alert("Insira uma senha");
       return;
     }
     if (password.length < 6) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
+      window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
     if (!user) {
       setErrMsg("Preencha o campo user");
+      window.alert("Preencha o campo user");
       return;
     }
     if (!isUri(pictureUrl)) {
-        setErrMsg("Picture url deve ser uma url válida");
-        return;
+      setErrMsg("Picture url deve ser uma url válida");
+      window.alert("Picture url deve ser uma url válida");
+      return;
     }
     const body = { email, password, name: user, picture: pictureUrl };
 
@@ -67,6 +72,7 @@ const SignUp = () => {
         setErrMsg("Não autorizado");
       } else if (err.response?.status === 409) {
         setErrMsg("E-mail em uso");
+        window.alert("E-mail em uso");
       } else {
         setErrMsg("Falha ao criar a conta");
       }
@@ -123,7 +129,7 @@ const SignUp = () => {
 };
 
 const Container = styled.div`
-  width: 429px;
+  max-width: 429px;
   && span {
     width: 100%;
     height: 100%;

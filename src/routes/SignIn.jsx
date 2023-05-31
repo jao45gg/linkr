@@ -1,17 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/forms/AuthInput";
-import AuthButton from "../components/forms/AuthButton";
+import AuthInput from "../components/authRoute/forms/Input";
+import AuthButton from "../components/authRoute/forms/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
-import ErrWrapper from "../components/forms/Err";
+import ErrWrapper from "../components/authRoute/forms/Err";
 import { isUri } from "valid-url";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
-  const [pictureUrl, setPictureUrl] = useState("");
   const [isLoading, setIsLoading] = useState();
   const [errMsg, setErrMsg] = useState("");
   const emailRef = useRef();
@@ -24,7 +22,7 @@ const SignIn = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [email, password, user, pictureUrl]);
+  }, [email, password]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,14 +30,17 @@ const SignIn = () => {
 
     if (!emailRegex.test(email)) {
       setErrMsg("Email inválido");
+      window.alert("Email inválido");
       return;
     }
     if (!password) {
       setErrMsg("Insira uma senha");
+      window.alert("Insira uma senha");
       return;
     }
     if (password.length < 6) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
+      window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
     const body = { email, password };
@@ -48,7 +49,7 @@ const SignIn = () => {
       setIsLoading(true);
       await axiosPrivate.post("/signin", body);
 
-      navigate("/", { replace: true });
+      navigate("/timeline", { replace: true });
     } catch (err) {
       console.log(err);
       if (!err?.response) {
@@ -57,6 +58,7 @@ const SignIn = () => {
         setErrMsg("Faltando Email e/ou senha");
       } else if (err.response?.status === 401) {
         setErrMsg("Não autorizado");
+        window.alert("Não autorizado")
       } else if (err.response?.status === 409) {
         setErrMsg("Falha ao logar");
       } else {
@@ -96,14 +98,14 @@ const SignIn = () => {
         <AuthButton disabled={isLoading}>Log In</AuthButton>
       </form>
       <Link to="/signup">
-        <p>First time? Create an account!</p>
+        <P>First time? Create an account!</P>
       </Link>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 429px;
+  max-width: 429px;
   && span {
     width: 100%;
     height: 100%;
