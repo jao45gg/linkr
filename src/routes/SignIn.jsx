@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/forms/AuthInput";
-import AuthButton from "../components/forms/AuthButton";
+import AuthInput from "../components/authRoute/forms/Input";
+import AuthButton from "../components/authRoute/forms/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
-import ErrWrapper from "../components/forms/Err";
+import ErrWrapper from "../components/authRoute/forms/Err";
 import { isUri } from "valid-url";
 
 const SignIn = () => {
@@ -98,14 +98,14 @@ const SignIn = () => {
         <AuthButton disabled={isLoading}>Log In</AuthButton>
       </form>
       <Link to="/signup">
-        <p>First time? Create an account!</p>
+        <P>First time? Create an account!</P>
       </Link>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 429px;
+  max-width: 429px;
   && span {
     width: 100%;
     height: 100%;

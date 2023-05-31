@@ -1,16 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import useWindowSize from "../../../hooks/useWindowSize";
 
-const AuthInput = React.forwardRef((props, ref) => {
-  return (
-    <>
-      <StyledAuthInput ref={ref} {...props} />
-    </>
-  );
+const Input = React.forwardRef((props, ref) => {
+  const { width } = useWindowSize();
+  return <StyledInput ref={ref} {...props} mobile={width < 860} />;
 });
 
-const StyledAuthInput = styled.input`
-  height: 65px;
+const StyledInput = styled.input`
+  height: ${(props) => (props.mobile ? "55px" : "65px")};
   background: #ffffff;
   border-radius: 6px;
   width: calc(100% - 18px);
@@ -46,4 +44,4 @@ const StyledAuthInput = styled.input`
   }
 `;
 
-export default AuthInput;
+export default Input;

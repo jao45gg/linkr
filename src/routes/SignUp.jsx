@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/forms/AuthInput";
-import AuthButton from "../components/forms/AuthButton";
+import AuthInput from "../components/authRoute/forms/Input";
+import AuthButton from "../components/authRoute/forms/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
-import ErrWrapper from "../components/forms/Err";
+import ErrWrapper from "../components/authRoute/forms/Err";
 import { isUri } from "valid-url";
 
 const SignUp = () => {
@@ -129,7 +129,7 @@ const SignUp = () => {
 };
 
 const Container = styled.div`
-  width: 429px;
+  max-width: 429px;
   && span {
     width: 100%;
     height: 100%;
