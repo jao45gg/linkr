@@ -102,8 +102,13 @@ const DropDownMenu = styled.div`
   }
 `;
 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth.js";
 const Layout = () => {
   const [menuActive, setMenuActive] = useState(false);
+  const navigate = useNavigate();
+  const { setAuth } = useAuth();
+
   const logoutMenu = () => {
     setMenuActive(!menuActive);
   };
@@ -111,8 +116,8 @@ const Layout = () => {
   const logout = async () => {
     try {
       await axios.post("/logout");
-      localStorage.clear();
-      window.location.href = "/";
+      setAuth("");
+      navigate("/");
     } catch (error) {
       alert("Erro ao fazer logout");
     }
