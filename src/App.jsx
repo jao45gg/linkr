@@ -6,8 +6,7 @@ import Layout from "./components/Layout";
 import Feed from "./routes/Feed";
 import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
-import Auth from "./components/Auth";
-import Timeline from "./routes/Timeline";
+import Auth from "./components/authRoute/Auth";
 
 export default function App() {
   return (

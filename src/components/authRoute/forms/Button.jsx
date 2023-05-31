@@ -1,30 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
+import useWindowSize from "../../../hooks/useWindowSize";
 
-const AuthButton = (props) => {
+const Button = (props) => {
+  const { width } = useWindowSize();
   return (
-    <div>
-      <StyledAuthButton {...props}>{props.disabled ? (
-              <ThreeDots
-                height="60"
-                width="80"
-                radius="15"
-                color="#1072f1"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClassName=""
-                visible={true}
-              />
-          ) : (
-            "Log In"
-          )}</StyledAuthButton>
-    </div>
+    <StyledButton {...props} mobile={width < 860}>
+      {props.disabled ? (
+        <ThreeDots
+          height="60"
+          width="80"
+          radius="15"
+          color="#1072f1"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      ) : (
+        props.children // Render the text directly
+      )}
+    </StyledButton>
   );
-}
+};
 
-const StyledAuthButton = styled.button`
-  height: 65px;
+const StyledButton = styled.button`
+  height: ${(props) => (props.mobile ? "55px" : "65px")};
   background: #1877f2;
   border-radius: 6px;
   width: 100%;
@@ -47,7 +49,7 @@ const StyledAuthButton = styled.button`
     cursor: not-allowed;
     text-decoration: line-through;
   }
-  
+
   button:not(:disabled):hover,
   button:not(:disabled):focus {
     background: #1072f1;
@@ -56,4 +58,4 @@ const StyledAuthButton = styled.button`
   }
 `;
 
-export default AuthButton;
+export default Button;
