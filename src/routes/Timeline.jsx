@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { getPublish, publish } from "../api/axios"
+import { getLikes, getPublish, publish } from "../api/axios"
 import Post from "../components/Post"
 import useAuth from "../hooks/useAuth"
 import LoadingPage from "../components/loadings/LoadingPage"
@@ -12,15 +12,26 @@ export default function Timeline() {
     const [disabled, setDisabled] = useState(false)
     const [data, setData] = useState([])
     const [erro, setErro] = useState(false)
+    const [likesUser, setlikesUser] = useState()
     const { auth } = useAuth()
 
-    console.log(auth)
-
     useEffect(() => {
+        RefreshDataLikes()
+        RefreshTimeline()
+        
+    }, [])
+
+    function RefreshDataLikes(){
         const promise = getPublish()
         promise.then(res => setData(res.data))
         promise.catch(err => console.log(err))
-    }, [])
+    }
+
+    function RefreshTimeline(){
+        const promise = getLikes(auth.accessToken)
+        promise.then(res => {setlikesUser(res.data)})
+        promise.catch(err => console.log(err))
+    }
 
     function handleForm(event) {
         setForm({ ...form, [event.target.name]: event.target.value })
@@ -43,6 +54,7 @@ export default function Timeline() {
 
         })
         promise.catch(err => { setDisabled(false); setErro(true) })
+
     }
 
     return (
@@ -81,14 +93,18 @@ export default function Timeline() {
                     {
                         erro === true ? <ErrorServer message={"An error occured while trying to fetch the posts, please refresh the page"} /> :
                             data.length === 0 ? <ErrorServer message={"There are no posts yet"} /> :
-                                (data !== undefined) ? data.map(item => <Post key={item.id}
+                                (data !== undefined && likesUser!==undefined) ? data.map(item => <Post key={item.id}
                                     id={item.id}
                                     link={item.link}
                                     description={item.description}
-                                    userId={item.user_Id}
+                                    userId={auth.id}
                                     likes={item.likes}
                                     picture={item.picture}
                                     userName={item.name}
+                                    token={auth.accessToken}
+                                    liked={likesUser.some(like => like.post_id === item.id)}
+                                    RefreshDataLikes={RefreshDataLikes}
+                                    RefreshTimeline={RefreshTimeline}
                                 />) : <LoadingPage />
                     }
 
