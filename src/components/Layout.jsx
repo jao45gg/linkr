@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
+import { DebounceInput } from 'react-debounce-input';
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 
 const LayoutContent = styled.main`
   width: 100vw;
@@ -26,6 +28,7 @@ const HeaderContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   div {
     display: flex;
     align-items: center;
@@ -47,8 +50,8 @@ const HeaderContent = styled.div`
 
   .search {
     width: 563px;
-    height: 45px;
     border-radius: 8px;
+    height: 45px;
     border: none;
     padding-left: 17px;
     box-sizing: border-box;
@@ -71,6 +74,33 @@ const HeaderContent = styled.div`
     margin-left: 10px;
     cursor: pointer;
   }
+
+  .input-menu {
+    width: 563px;
+    border-radius: 8px;
+    position: absolute;
+    display: flex;
+    left: 35%;
+    top: 7%;
+    max-height: 176px;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #E7E7E7;
+    :hover{
+      .users{
+        display: flex !important;
+      }
+    }
+    .users {
+      background-color: red;
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      overflow-y: scroll;
+    }
+  }
+
+
 `;
 const DropIcon = styled.img`
   width: 20px !important;
@@ -104,8 +134,27 @@ const DropDownMenu = styled.div`
   }
 `;
 
+const UserContainer = styled.div`
+  min-height: 66px;
+  width: 100%;
+  .searchImg {
+    height: 39px;
+    width: 39px;
+  }
+  h1{
+    font-family: "Lato";
+    font-weight: 400;
+    margin-left: 12px;
+    font-size: 19px;
+    color: #515151;
+  }
+`
+
 const Layout = () => {
   const [menuActive, setMenuActive] = useState(false);
+  const [name, setName] = useState("");
+  const [usersData, setUsersData] = useState([]);
+  const axios = useAxiosPrivate();
   const navigate = useNavigate();
   const { setAuth } = useAuth();
 
@@ -122,6 +171,32 @@ const Layout = () => {
       alert("Erro ao fazer logout");
     }
   };
+  // sidebar request
+  const [trending, setTrending] = useState([]);
+  useEffect(() => {
+    const getTrending = async () => {
+      try {
+        const response = await axios.get("/hash");
+        setTrending(response.data.hashtags);
+      } catch (error) {
+        alert("Erro ao carregar os trending");
+      }
+    };
+    getTrending();
+  }, []);
+  // sidebar request
+
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const data = await axios.get(`/users/getByName/${name}`);
+        setUsersData(data.data);
+      } catch (err) {
+        setUsersData([]);
+      }
+    }
+    getUsers();
+  }, [name, axios]);
 
   return (
     <LayoutContent>
@@ -130,9 +205,23 @@ const Layout = () => {
           <div>
             <a href="/">linkr</a>
           </div>
-          <div className="search">
-            <input type="text" placeholder="Search for people" />
-            <img src="/search.svg" alt="search" />
+          <div className="input-menu">
+            <div>
+              <div className="search">
+                <DebounceInput type="text" placeholder="Search for people"
+                  minLength={3}
+                  debounceTimeout={300}
+                  onChange={e => setName(e.target.value)} />
+                <img src="/search.svg" alt="search" />
+              </div>
+            </div>
+            <div className="users">
+              {usersData.length > 0 && usersData.map((m, index) =>
+                <UserContainer key={index}>
+                  <img className="searchImg" src={m.picture} />
+                  <h1>{m.name}</h1>
+                </UserContainer>)}
+            </div>
           </div>
           <div>
             <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
@@ -150,16 +239,9 @@ const Layout = () => {
             <div>
               <h3>trending</h3>
               <ul>
-                <li>javascript</li>
-                <li>react</li>
-                <li>react-native</li>
-                <li>material</li>
-                <li>web-dev</li>
-                <li>mobile</li>
-                <li>css</li>
-                <li>html</li>
-                <li>node</li>
-                <li>sql</li>
+                {trending.map((trend) => (
+                  <li key={trend.id}>{trend.name}</li>
+                ))}
               </ul>
             </div>
           </Sidebar>
