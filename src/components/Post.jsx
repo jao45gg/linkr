@@ -64,14 +64,14 @@ export default function Post({ id, link,
             if (currentUser) {
                 const aleatoryNumber = Math.floor(Math.random() * otherPeople.length)
                 if (people.length - 2 === 1) {
-                    return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
+                    return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outra pessoa`;
                 }
-                return `Você, ${otherPeople[aleatoryNumber].user_name} e outras ${people.length - 2} pessoas`;
+                return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${people.length - 2} pessoas`;
             } else {
                 if (people.length - 2 === 0) {
-                    return `${people[people.length - 1].user_name} e ${people[people.length - 2].user_name}`;
+                    return `${people[people.length - 1]?.user_name} e ${people[people.length - 2]?.user_name}`;
                 }
-                return `${people[people.length - 1].user_name}, ${people[people.length - 2].user_name} e ${people.length - 2} pessoas`;
+                return `${people[people.length - 1]?.user_name}, ${people[people.length - 2]?.user_name} e ${people.length - 2} pessoas`;
             }
         }
         return ""; // Retorna uma string vazia caso people seja undefined
