@@ -48,9 +48,8 @@ export default function Timeline() {
     return (
         <Container>
             <Titulo>
-                <h1> {"timeline"} </h1>
-            </Titulo>
-
+                    <h1> {"timeline"} </h1>
+                </Titulo>
             <Posts>
                 <Publish>
                     <Imagem picture={auth.avatar} />
@@ -102,10 +101,8 @@ export default function Timeline() {
 }
 
 const Container = styled.div`
-    
     background-color: rgba(51,51,51);
     width: 100%;
-    height: 100vh;
     padding-left: 15px;
     padding-right: 15px;
     box-sizing: border-box;
@@ -113,8 +110,6 @@ const Container = styled.div`
 
 const Titulo = styled.div`
     margin-bottom: 20px;
-    width: 100%;
-    margin: 0 auto;
 
     h1{
         font-family: 'Oswald';
@@ -138,16 +133,23 @@ const Aside = styled.div`
 `
 
 const Publish = styled.div`
-    width: 100%;
-    height: 300px;
+    width: 611px;
+    height: 209px;
     background-color: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
-   
+    margin-bottom: 10px;
+    position: relative; 
 
-    position: relative;
+    margin: 10px auto;
+
+    @media (max-width: 719px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 10px auto;
    
-    
+  }
 `
 
 const Imagem = styled.div`

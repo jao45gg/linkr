@@ -185,7 +185,7 @@ const ResponsiveContainer = styled.div`
   @media (max-width: 719px) {
     flex-direction: column;
     align-items: center;
-    width: 611px;
+    width: 100%;
     margin: 0 auto;
   }
 
@@ -199,6 +199,7 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   gap: 25px;
+  width: 100%;
 `;
 const Sidebar = styled.div`
   width: 301px;
