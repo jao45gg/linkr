@@ -8,6 +8,7 @@ import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
 import Auth from "./components/authRoute/Auth";
 import Timeline from "./routes/Timeline";
+import Users from "./routes/Users.jsx";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route element={<RequireAuth />}>
             {/* Abaixo rotas protegidas, apenas logado pode acessar */}
             <Route path="/timeline" element={<Timeline/>} />
+            <Route path="/user/:id" element={<Users/>} />
           </Route>
         </Route>
         <Route element={<RedirectIfAuth />}>
