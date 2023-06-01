@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 import axios from "../api/axios"
+import { AiOutlineHeart } from 'react-icons/ai';
 
 export default function Post({ id, link, description, userId, likes, picture, userName }) {
 
@@ -19,31 +20,34 @@ export default function Post({ id, link, description, userId, likes, picture, us
     return (
         <Container>
             <Header>
-                <Imagem picture={picture}/>
-                <Text>
-                    <h1>{userName}</h1>
-                    <h2>{description}</h2>
-                </Text>
-
-                {
-                    metaData !== undefined &&
-                    <a href={metaData.url} target="_blank">
-                        <Main>
-
-
-                            <>
-                                <Block>
-                                    <h1>{metaData.title}</h1>
-                                    <h2>{metaData.description}</h2>
-                                    <p>{metaData.url}</p>
-                                </Block>
-
-                                <ImageLink image={metaData.images[0]} />
-                            </>
-                        </Main>
-                    </a>
-                }
+                <Aside>
+                    <Imagem picture={picture} />
+                    <AiOutlineHeart style={{fontSize:'30px', color:'#ffffff'}} />
+                </Aside>
             </Header>
+
+            {
+                metaData !== undefined &&
+                <a href={metaData.url} target="_blank">
+                    <Section>
+                        <Text>
+                            <h1>{userName}</h1>
+                            <h2>{description}</h2>
+                        </Text>
+                        <Main>
+                            <Block>
+                                <h1>{metaData.title}</h1>
+                                <h2>{metaData.description}</h2>
+                                <p>{metaData.url}</p>
+                            </Block>
+
+                            <ImageLink image={metaData.images[0]} />
+
+                        </Main>
+                    </Section>
+                </a>
+            }
+
         </Container>
     )
 }
@@ -51,21 +55,31 @@ export default function Post({ id, link, description, userId, likes, picture, us
 const Container = styled.div`
     
     background-color: #171717;;
-    width: 100%;
-    height: 400px;
+    width: 611px;
+    height: 276px;
+
+    margin: 0 auto;
 
     margin-bottom: 15px;
-
     border-radius: 16px;
 
     position: relative;
 
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: 719px) {
+    width: 100%;
+
+  }
+
 `
 
 const Header = styled.div`
-    width: 100%;
-
-    
+    width: 60px;
+    height: 200px;
+    display: flex;
+    margin-right: 8px;
 `
 
 const Imagem = styled.div`
@@ -73,9 +87,6 @@ const Imagem = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 26.5px;
-    position: absolute;
-    left: 15px;
-    top: 10px;
     background-size: cover;
     background-image: url(${props => props.picture});
     background-position: center center;
@@ -87,10 +98,8 @@ const Text = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    margin-bottom: 10px;
     
-    margin-top: 20px;
-    margin-left: 100px;
-
     h1{
         padding-top: 10px;
         padding-bottom: 7px;
@@ -116,17 +125,21 @@ const Text = styled.div`
 `
 const Main = styled.div`
     border: 1px solid #FFFFFF;
-
-    margin: 0 auto;
     margin-top: 40px;
-    width: 80%;
-    height: 200px;
+    width: 503px;
+    height: 155px;
     border: 1px solid #4D4D4D;
     border-radius: 11px;
 
     display: flex;
-    align-items: center;
-    margin-left: 100px;
+   
+    margin: 0 auto;
+    @media (max-width: 719px) {
+    width: 90%;
+   
+
+  }
+
 
 `
 
@@ -134,10 +147,6 @@ const Block = styled.div`
     
     width: 100%;
     height: 100%;
-
-   
-    margin-top: 25px;
-    margin-left: 20px;
 
     h1{
         font-family: 'Lato';
@@ -170,6 +179,8 @@ const Block = styled.div`
         color: #CECECE;
     }
 
+    
+
 `
 
 const ImageLink = styled.div`
@@ -181,5 +192,24 @@ const ImageLink = styled.div`
     background-size: cover;
     background-image: url(${props => props.image});
     background-position: center center;
+
+`
+
+const Aside = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 60px;
+    height: 100%;
+    
+
+`
+const Section = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 100%;
+   
 
 `
