@@ -16,6 +16,7 @@
     "react-icons": "^4.9.0",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.11.2",
+    "react-tooltip": "^5.13.1",
     "styled-components": "^5.3.11",
     "url-metadata": "^3.0.1",
     "valid-url": "^1.0.9"
