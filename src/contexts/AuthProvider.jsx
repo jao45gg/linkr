@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         auth,
         setAuth,
-        cookiesAccepted: false,
+        cookiesAccepted,
         setCookiesAccepted,
         tokenOnStorage,
         setTokenOnStorage,
