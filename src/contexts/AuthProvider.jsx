@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import React from "react";
-import useCookieCheck from "../hooks/useCookieCheck";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const AuthContext = createContext({});
@@ -11,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     "refreshToken",
     ""
   );
-  const cookiesAccepted = useCookieCheck();
+  const [cookiesAccepted, setCookiesAccepted] = useState("");
 
   return (
     <AuthContext.Provider
@@ -19,6 +18,7 @@ export const AuthProvider = ({ children }) => {
         auth,
         setAuth,
         cookiesAccepted,
+        setCookiesAccepted,
         tokenOnStorage,
         setTokenOnStorage,
       }}

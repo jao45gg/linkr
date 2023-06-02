@@ -1,13 +1,33 @@
 import axios from "../api/axios";
 import useAuth from "./useAuth";
+import { axiosPrivate } from "../api/axios";
 
 const useRefreshToken = () => {
-  const { setAuth, cookiesAccepted, tokenOnStorage } = useAuth();
+  const { setAuth, tokenOnStorage, cookiesAccepted, setCookiesAccepted } =
+    useAuth();
+
+  const checkCookiesWithBackend = async () => {
+    try {
+      await axiosPrivate.post("/check-cookies", { testCookie: "test-value" });
+      const response = await axiosPrivate.get("/check-cookies");
+      setCookiesAccepted(response.data.cookiesAccepted);
+      return response.data.cookiesAccepted;
+    } catch (error) {
+      console.error("Erro na verificação de cookies:", error);
+    }
+  };
 
   const refresh = async () => {
     try {
-      let response;
-      if (cookiesAccepted) {
+      let response, useCookies;
+      if (cookiesAccepted === "") {
+        useCookies = checkCookiesWithBackend();
+      }
+        else {
+          useCookies = cookiesAccepted;
+        }
+
+      if (useCookies) {
         response = await axios.get("/refresh", {
           withCredentials: true,
         });

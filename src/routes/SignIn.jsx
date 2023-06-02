@@ -15,7 +15,7 @@ const SignIn = () => {
   const emailRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
-  const { setAuth, cookiesAccepted, setTokenOnStorage } = useAuth();
+  const { setAuth, setTokenOnStorage, cookiesAccepted } = useAuth();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -44,7 +44,7 @@ const SignIn = () => {
       window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
-    const body = { email, password, cookiesAccepted:false };
+    const body = { email, password, cookiesAccepted };
 
     try {
       setIsLoading(true);
