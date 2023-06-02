@@ -92,7 +92,6 @@ const HeaderContent = styled.div`
       }
     }
     .users {
-      background-color: red;
       width: 100%;
       display: none;
       flex-direction: column;
@@ -173,18 +172,18 @@ const Layout = () => {
   };
   // sidebar request
   const [trending, setTrending] = useState([]);
-  useEffect(() => {
-    const getTrending = async () => {
-      try {
-        const response = await axios.get("/hash");
-        setTrending(response.data.hashtags);
-      } catch (error) {
-        alert("Erro ao carregar os trending");
-      }
-    };
-    getTrending();
-  }, []);
-  // sidebar request
+  // useEffect(() => {
+  //   const getTrending = async () => {
+  //     try {
+  //       const response = await axios.get("/hash");
+  //       setTrending(response.data.hashtags);
+  //     } catch (error) {
+  //       alert("Erro ao carregar os trending");
+  //     }
+  //   };
+  //   getTrending();
+  // }, []);
+  // // sidebar request
 
   useEffect(() => {
     async function getUsers() {

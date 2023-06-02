@@ -75,14 +75,26 @@ export default function Post({
         if (people.length - 2 === 1) {
           return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
         }
-        return `Você, ${otherPeople[aleatoryNumber].user_name} e outras ${
-          people.length - 2
-        } pessoas`;
-      } else {
-        if (people.length - 2 === 0) {
-          return `${people[people.length - 1].user_name} e ${
-            people[people.length - 2].user_name
-          }`;
+
+    };
+
+    const getTooltipContent = () => {
+        if (people && people.length > 0) {
+            const currentUser = people.some(item => item.user_id === userId)
+            const otherPeople = people.filter(item => item.user_id !== userId)
+
+            if (currentUser) {
+                const aleatoryNumber = Math.floor(Math.random() * otherPeople.length)
+                if (people.length - 2 === 1) {
+                    return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outra pessoa`;
+                }
+                return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${people.length - 2} pessoas`;
+            } else {
+                if (people.length - 2 === 0) {
+                    return `${people[people.length - 1]?.user_name} e ${people[people.length - 2]?.user_name}`;
+                }
+                return `${people[people.length - 1]?.user_name}, ${people[people.length - 2]?.user_name} e ${people.length - 2} pessoas`;
+            }
         }
         return `${people[people.length - 1].user_name}, ${
           people[people.length - 2].user_name
