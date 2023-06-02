@@ -32,6 +32,7 @@ export default function Timeline() {
         promise.then(res => {setlikesUser(res.data)})
         promise.catch(err => console.log(err))
     }
+    console.log(data);
 
     function handleForm(event) {
         setForm({ ...form, [event.target.name]: event.target.value })
@@ -102,6 +103,7 @@ export default function Timeline() {
                                     picture={item.picture}
                                     userName={item.name}
                                     token={auth.accessToken}
+                                    userPostId={item.userPostId}
                                     liked={likesUser.some(like => like.post_id === item.id)}
                                     RefreshDataLikes={RefreshDataLikes}
                                     RefreshTimeline={RefreshTimeline}

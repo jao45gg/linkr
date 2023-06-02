@@ -3,17 +3,20 @@ import styled from "styled-components"
 import axios, { disLikePost, getLikes, getPeople, likePost } from "../api/axios"
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { Tooltip } from "react-tooltip";
+import { useNavigate } from "react-router-dom";
 
 export default function Post({ id, link,
     description,
     userId, likes,
     picture, userName,
     token, liked,
-    RefreshDataLikes, RefreshTimeline }) {
+    RefreshDataLikes, RefreshTimeline,
+    userPostId }) {
 
     const [metaData, setMetaData] = useState()
     const [isLike, setIsLike] = useState(false)
     const [people, setPeople] = useState()
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`https://jsonlink.io/api/extract?url=${link}`)
@@ -31,7 +34,6 @@ export default function Post({ id, link,
 
     const toggleIcon = (id, type) => {
         setIsLike(!isLike);
-        console.log(id, type)
 
         if (type === true) {
             const promise = likePost(id, token)
@@ -82,7 +84,7 @@ export default function Post({ id, link,
         <Container>
             <Header>
                 <Aside>
-                    <Imagem picture={picture} />
+                    <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
                     <Article>
                         {(liked) ? (
                             <AiFillHeart
@@ -115,7 +117,7 @@ export default function Post({ id, link,
 
                 <Section>
                     <Text>
-                        <h1>{userName}</h1>
+                        <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
                         <h2>{description}</h2>
                     </Text>
                     <a href={metaData.url} target="_blank">
@@ -171,6 +173,7 @@ const Header = styled.div`
 
 const Imagem = styled.div`
 
+            cursor: pointer;
             width: 50px;
             height: 50px;
             border-radius: 26.5px;
@@ -181,13 +184,14 @@ const Imagem = styled.div`
             `
 
 const Text = styled.div`
-
+            
             display: flex;
             flex-direction: column;
             flex-wrap: wrap;
             margin-bottom: 10px;
     
             h1{
+            cursor: pointer;
             padding-top: 10px;
             padding-bottom: 7px;
             font-family: 'Lato';
