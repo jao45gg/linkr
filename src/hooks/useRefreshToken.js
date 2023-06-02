@@ -3,8 +3,7 @@ import useAuth from "./useAuth";
 import { axiosPrivate } from "../api/axios";
 
 const useRefreshToken = () => {
-  const { setAuth, tokenOnStorage, cookiesAccepted, setCookiesAccepted } =
-    useAuth();
+  const { setAuth, tokenOnStorage, cookiesAccepted, setCookiesAccepted } = useAuth();
 
   const checkCookiesWithBackend = async () => {
     try {
