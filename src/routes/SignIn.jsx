@@ -15,7 +15,7 @@ const SignIn = () => {
   const emailRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { setAuth, cookiesAccepted, setTokenOnStorage } = useAuth();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -44,12 +44,15 @@ const SignIn = () => {
       window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
-    const body = { email, password };
+    const body = { email, password, cookiesAccepted:false };
 
     try {
       setIsLoading(true);
       const response = await axiosPrivate.post("/signin", body);
       setAuth(response.data);
+      if (!cookiesAccepted) {
+        setTokenOnStorage(response?.data?.refreshToken);
+      }
 
       navigate("/timeline", { replace: true });
     } catch (err) {
