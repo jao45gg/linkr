@@ -21,11 +21,10 @@ const useRefreshToken = () => {
     try {
       let response, useCookies;
       if (cookiesAccepted === "") {
-        useCookies = checkCookiesWithBackend();
+        useCookies = await checkCookiesWithBackend();
+      } else {
+        useCookies = cookiesAccepted;
       }
-        else {
-          useCookies = cookiesAccepted;
-        }
 
       if (useCookies) {
         response = await axios.get("/refresh", {
@@ -34,7 +33,9 @@ const useRefreshToken = () => {
       } else {
         response = await axios.get("/refreshnojwt", {
           withCredentials: true,
-          Authorization: `Bearer ${tokenOnStorage}`,
+          headers: {
+            Authorization: `Bearer ${tokenOnStorage}`,
+          },
         });
       }
 
