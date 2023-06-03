@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Post from "../components/Post";
-import useAuth from "../hooks/useAuth";
-import LoadingPage from "../components/loadings/LoadingPage";
-import ErrorServer from "../components/ErrorServer";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import Post from "../components/Post.jsx";
+import useAuth from "../hooks/useAuth.js";
+import LoadingPage from "../components/loadings/LoadingPage.jsx";
+import ErrorServer from "../components/ErrorServer.jsx";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 
 export default function Users() {
   const [form, setForm] = useState({ url: "", description: "" });

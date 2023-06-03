@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
 import { DebounceInput } from 'react-debounce-input';

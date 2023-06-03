@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import PersistLogin from "./components/redirects/PersistLogin";
-import RedirectIfAuth from "./components/redirects/RedirectIfAuth";
-import RequireAuth from "./components/redirects/RequireAuth";
-import Layout from "./components/Layout";
-import Feed from "./routes/Feed";
-import SignUp from "./routes/SignUp";
-import SignIn from "./routes/SignIn";
-import Auth from "./components/authRoute/Auth";
-import Timeline from "./routes/Timeline";
+import PersistLogin from "./components/redirects/PersistLogin.jsx";
+import RedirectIfAuth from "./components/redirects/RedirectIfAuth.jsx";
+import RequireAuth from "./components/redirects/RequireAuth.jsx";
+import Layout from "./components/Layout.jsx";
+import Feed from "./routes/Feed.jsx";
+import SignUp from "./routes/SignUp.jsx";
+import SignIn from "./routes/SignIn.jsx";
+import Auth from "./components/authRoute/Auth.jsx";
+import Timeline from "./routes/Timeline.jsx";
 import Users from "./routes/Users.jsx";
 
 export default function App() {

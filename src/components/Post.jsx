@@ -3,7 +3,8 @@ import styled from "styled-components";
 import axios from "axios"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
+import PropTypes from 'prop-types';
 
 export default function Post({
   id,
@@ -13,11 +14,24 @@ export default function Post({
   likes,
   picture,
   userName,
-  token,
   liked,
   RefreshDataLikes,
   RefreshTimeline,
 }) {
+
+  Post.propTypes = {
+    id: PropTypes.number.isRequired,
+    link: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
+    likes: PropTypes.number.isRequired,
+    picture: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
+    liked: PropTypes.bool.isRequired,
+    RefreshDataLikes: PropTypes.func.isRequired,
+    RefreshTimeline: PropTypes.func.isRequired,
+  };
+
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
