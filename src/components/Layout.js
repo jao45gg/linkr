@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
 import { DebounceInput } from 'react-debounce-input';
@@ -92,7 +91,6 @@ const HeaderContent = styled.div`
       }
     }
     .users {
-      background-color: red;
       width: 100%;
       display: none;
       flex-direction: column;
@@ -148,6 +146,10 @@ const UserContainer = styled.div`
     font-size: 19px;
     color: #515151;
   }
+
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const Layout = () => {
@@ -156,7 +158,7 @@ const Layout = () => {
   const [usersData, setUsersData] = useState([]);
   const axios = useAxiosPrivate();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { setAuth, auth } = useAuth();
 
   const logoutMenu = () => {
     setMenuActive(!menuActive);
@@ -171,7 +173,7 @@ const Layout = () => {
       alert("Erro ao fazer logout");
     }
   };
-  // sidebar request
+
   const [trending, setTrending] = useState([]);
   useEffect(() => {
     const getTrending = async () => {
@@ -183,14 +185,15 @@ const Layout = () => {
       }
     };
     getTrending();
-  }, []);
-  // sidebar request
+  }, [axios]);
 
   useEffect(() => {
     async function getUsers() {
       try {
-        const data = await axios.get(`/users/getByName/${name}`);
-        setUsersData(data.data);
+        if (name !== "") {
+          const data = await axios.get(`/users/getByName/${name}`);
+          setUsersData(data.data);
+        }
       } catch (err) {
         setUsersData([]);
       }
@@ -208,24 +211,41 @@ const Layout = () => {
           <div className="input-menu">
             <div>
               <div className="search">
-                <DebounceInput type="text" placeholder="Search for people"
+                <DebounceInput
+                  type="text"
+                  placeholder="Search for people"
                   minLength={3}
                   debounceTimeout={300}
-                  onChange={e => setName(e.target.value)} />
+                  onChange={(e) => setName(e.target.value)}
+                />
                 <img src="/search.svg" alt="search" />
               </div>
             </div>
             <div className="users">
-              {usersData.length > 0 && usersData.map((m, index) =>
-                <UserContainer key={index}>
-                  <img className="searchImg" src={m.picture} />
-                  <h1>{m.name}</h1>
-                </UserContainer>)}
+              {usersData.length > 0 &&
+                usersData.map((m, index) => (
+                  <UserContainer
+                    onClick={() => {
+                      navigate(`/user/${m.id}`);
+                      location.reload();
+                    }}
+                    key={index}>
+                    <img className="searchImg" src={m.picture} />
+                    <h1>{m.name}</h1>
+                  </UserContainer>
+                ))}
             </div>
           </div>
           <div>
             <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
-            <img onClick={logoutMenu} src="/profile.jpg" alt="profile" />
+            <img
+              onClick={() => {
+                navigate(`/user/${auth?.id}`);
+                location.reload();
+              }}
+              src={auth?.avatar}
+              alt="profile"
+            />
             <DropDownMenu menuActive={menuActive} onClick={logout}>
               <p>Logout</p>
             </DropDownMenu>

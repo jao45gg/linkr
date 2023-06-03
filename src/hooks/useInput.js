@@ -1,4 +1,4 @@
-import useLocalStorage from "./useLocalStorage";
+import useLocalStorage from "./useLocalStorage.js";
 
 const useInput = (key, initValue) => {
   const [value, setValue] = useLocalStorage(key, initValue);

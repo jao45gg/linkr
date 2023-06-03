@@ -1,22 +1,21 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/authRoute/forms/Input";
-import AuthButton from "../components/authRoute/forms/Button";
+import AuthInput from "../components/authRoute/forms/Input.js";
+import AuthButton from "../components/authRoute/forms/Button.js";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosPrivate } from "../api/axios";
-import ErrWrapper from "../components/authRoute/forms/Err";
-import { isUri } from "valid-url";
+import { axiosPrivate } from "../api/axios.js";
+import ErrWrapper from "../components/authRoute/forms/Err.js";
+import useAuth from "../hooks/useAuth.js";
 
-const SignUp = () => {
+const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
-  const [pictureUrl, setPictureUrl] = useState("");
   const [isLoading, setIsLoading] = useState();
   const [errMsg, setErrMsg] = useState("");
   const emailRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
+  const { setAuth, setTokenOnStorage, cookiesAccepted } = useAuth();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -24,7 +23,7 @@ const SignUp = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [email, password, user, pictureUrl]);
+  }, [email, password]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,43 +39,37 @@ const SignUp = () => {
       window.alert("Insira uma senha");
       return;
     }
-    if (password.length < 6) {
+    if (password.length < 2) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
       window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
-    if (!user) {
-      setErrMsg("Preencha o campo user");
-      window.alert("Preencha o campo user");
-      return;
-    }
-    if (!isUri(pictureUrl)) {
-      setErrMsg("Picture url deve ser uma url válida");
-      window.alert("Picture url deve ser uma url válida");
-      return;
-    }
-    const body = { email, password, name: user, picture: pictureUrl };
+    const body = { email, password, cookiesAccepted };
 
     try {
       setIsLoading(true);
-      await axiosPrivate.post("/signup", body);
+      const response = await axiosPrivate.post("/signin", body);
+      setAuth(response.data);
+      if (!cookiesAccepted) {
+        setTokenOnStorage(response?.data?.refreshToken);
+      }
 
-      navigate("/signin", { replace: true });
+      navigate("/timeline", { replace: true });
     } catch (err) {
-      console.log(err);
       if (!err?.response) {
         setErrMsg("Sem resposta do servidor");
       } else if (err.response?.status === 400) {
-        setErrMsg("Faltando nome, email e/ou senhas");
+        setErrMsg("Faltando Email e/ou senha");
       } else if (err.response?.status === 401) {
         setErrMsg("Não autorizado");
+        window.alert("Não autorizado");
       } else if (err.response?.status === 409) {
-        setErrMsg("E-mail em uso");
-        window.alert("E-mail em uso");
+        setErrMsg("Falha ao logar");
       } else {
-        setErrMsg("Falha ao criar a conta");
+        setErrMsg("Falha ao logar");
       }
       errRef.current.focus();
+      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -107,22 +100,10 @@ const SignUp = () => {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
         />
-        <AuthInput
-          placeholder="user"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
-          disabled={isLoading}
-        />
-        <AuthInput
-          placeholder="picture url"
-          value={pictureUrl}
-          onChange={(e) => setPictureUrl(e.target.value)}
-          disabled={isLoading}
-        />
-        <AuthButton disabled={isLoading}>Sign Up</AuthButton>
+        <AuthButton disabled={isLoading}>Log In</AuthButton>
       </form>
-      <Link to="/signin">
-        <P>Switch back to log in</P>
+      <Link to="/signup">
+        <P>First time? Create an account!</P>
       </Link>
     </Container>
   );
@@ -153,4 +134,4 @@ const P = styled.p`
   text-align: center;
 `;
 
-export default SignUp;
+export default SignIn;

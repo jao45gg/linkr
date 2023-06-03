@@ -1,21 +1,22 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/authRoute/forms/Input";
-import AuthButton from "../components/authRoute/forms/Button";
+import AuthInput from "../components/authRoute/forms/Input.js";
+import AuthButton from "../components/authRoute/forms/Button.js";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosPrivate } from "../api/axios";
-import ErrWrapper from "../components/authRoute/forms/Err";
-import useAuth from "../hooks/useAuth";
+import { axiosPrivate } from "../api/axios.js";
+import ErrWrapper from "../components/authRoute/forms/Err.js";
+import { isUri } from "valid-url";
 
-const SignIn = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
+  const [pictureUrl, setPictureUrl] = useState("");
   const [isLoading, setIsLoading] = useState();
   const [errMsg, setErrMsg] = useState("");
   const emailRef = useRef();
   const errRef = useRef();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
 
   useEffect(() => {
     emailRef.current.focus();
@@ -23,7 +24,7 @@ const SignIn = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [email, password]);
+  }, [email, password, user, pictureUrl]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,32 +40,41 @@ const SignIn = () => {
       window.alert("Insira uma senha");
       return;
     }
-    if (password.length < 2) {
+    if (password.length < 6) {
       setErrMsg("Senha deve possuir pelo menos 6 caracteres");
       window.alert("Senha deve possuir pelo menos 6 caracteres");
       return;
     }
-    const body = { email, password };
+    if (!user) {
+      setErrMsg("Preencha o campo user");
+      window.alert("Preencha o campo user");
+      return;
+    }
+    if (!isUri(pictureUrl)) {
+      setErrMsg("Picture url deve ser uma url válida");
+      window.alert("Picture url deve ser uma url válida");
+      return;
+    }
+    const body = { email, password, name: user, picture: pictureUrl };
 
     try {
       setIsLoading(true);
-      const response = await axiosPrivate.post("/signin", body);
-      setAuth(response.data);
+      await axiosPrivate.post("/signup", body);
 
-      navigate("/timeline", { replace: true });
+      navigate("/signin", { replace: true });
     } catch (err) {
       console.log(err);
       if (!err?.response) {
         setErrMsg("Sem resposta do servidor");
       } else if (err.response?.status === 400) {
-        setErrMsg("Faltando Email e/ou senha");
+        setErrMsg("Faltando nome, email e/ou senhas");
       } else if (err.response?.status === 401) {
         setErrMsg("Não autorizado");
-        window.alert("Não autorizado");
       } else if (err.response?.status === 409) {
-        setErrMsg("Falha ao logar");
+        setErrMsg("E-mail em uso");
+        window.alert("E-mail em uso");
       } else {
-        setErrMsg("Falha ao logar");
+        setErrMsg("Falha ao criar a conta");
       }
       errRef.current.focus();
     } finally {
@@ -97,10 +107,22 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
         />
-        <AuthButton disabled={isLoading}>Log In</AuthButton>
+        <AuthInput
+          placeholder="user"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          disabled={isLoading}
+        />
+        <AuthInput
+          placeholder="picture url"
+          value={pictureUrl}
+          onChange={(e) => setPictureUrl(e.target.value)}
+          disabled={isLoading}
+        />
+        <AuthButton disabled={isLoading}>Sign Up</AuthButton>
       </form>
-      <Link to="/signup">
-        <P>First time? Create an account!</P>
+      <Link to="/signin">
+        <P>Switch back to log in</P>
       </Link>
     </Container>
   );
@@ -131,4 +153,4 @@ const P = styled.p`
   text-align: center;
 `;
 
-export default SignIn;
+export default SignUp;

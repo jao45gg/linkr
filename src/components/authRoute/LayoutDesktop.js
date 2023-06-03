@@ -1,8 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
-const LayoutMobile = () => {
+const LayoutDesktop = () => {
   return (
     <Main>
       <Left>
@@ -24,46 +23,47 @@ const LayoutMobile = () => {
 
 const Main = styled.main`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   height: 100dvh;
-  width: 100dvw;
 `;
 
 const Left = styled.section`
+  width: calc(100vw - 535px);
   background: #151515;
   box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
-  height: 175px;
-  width: 100%;
+  position: relative;
 
   span {
+    position: absolute;
+    top: 29.39%;
+    left: 15.91%;
   }
   h1 {
     font-family: "Passion One";
     font-style: normal;
     font-weight: 700;
-    font-size: 76px;
-    line-height: 84px;
+    font-size: 106px;
+    line-height: 117px;
     letter-spacing: 0.05em;
-    text-align: center;
     color: #ffffff;
   }
   p {
     font-family: "Oswald";
     font-style: normal;
     font-weight: 700;
-    font-size: 23px;
-    line-height: 34px;
-    text-align: center;
+    font-size: 43px;
+    line-height: 64px;
     color: #ffffff;
   }
 `;
 
 const Right = styled.section`
-  margin: 40px 0;
+  position: relative;
+  width: 535px;
 
   span {
+    position: absolute;
+    top: 30.96%;
+    left: 9.53%;
   }
 `;
-export default LayoutMobile;
+export default LayoutDesktop;

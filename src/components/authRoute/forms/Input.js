@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import useWindowSize from "../../../hooks/useWindowSize";
+import useWindowSize from "../../../hooks/useWindowSize.js";
 
-const Input = React.forwardRef((props, ref) => {
+const Input = React.forwardRef(function InputComponent(props, ref) {
   const { width } = useWindowSize();
   return <StyledInput ref={ref} {...props} mobile={width < 860} />;
 });
+
+Input.displayName = "Input";
 
 const StyledInput = styled.input`
   height: ${(props) => (props.mobile ? "55px" : "65px")};
