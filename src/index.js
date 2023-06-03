@@ -9,11 +9,12 @@ import GlobalStyle from "./styles/GlobalStyle.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ResetStyle />
-      <GlobalStyle />
-        <AuthProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-        </AuthProvider>
+    {/* revisar globalStyle */}
+    <GlobalStyle />
+    <AuthProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
