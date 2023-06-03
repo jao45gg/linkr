@@ -77,6 +77,32 @@ export default function Post({ id, link,
         return ""; // Retorna uma string vazia caso people seja undefined
     };
 
+    const formatHashtags = (text) => {
+        const hashtagRegex = /#[^\s#]+/g;
+        const hashtags = text.match(hashtagRegex);
+
+        if (!hashtags) {
+            return text;
+        }
+
+        const parts = text.split(hashtagRegex);
+        const formattedText = [];
+
+        parts.forEach((part, index) => {
+            formattedText.push(part);
+            if (hashtags[index]) {
+                formattedText.push(
+                    <span key={index} className="hashtag">
+                        {hashtags[index]}
+                    </span>
+                );
+            }
+        });
+
+        return formattedText;
+    };
+
+    
 
     return (
         <Container>
@@ -116,7 +142,7 @@ export default function Post({ id, link,
                 <Section>
                     <Text>
                         <h1>{userName}</h1>
-                        <h2>{description}</h2>
+                        <h2>{formatHashtags(description)} </h2>
                     </Text>
                     <a href={metaData.url} target="_blank">
                         <Main>
@@ -209,6 +235,11 @@ const Text = styled.div`
             color: #B7B7B7;
            
            
+    }
+
+    span{
+        color:#FFFFFF;
+        font-weight: bolder;
     }
 
 
