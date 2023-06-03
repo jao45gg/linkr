@@ -221,7 +221,7 @@ const Layout = () => {
             </div>
             <div className="users">
               {usersData.length > 0 && usersData.map((m, index) =>
-                <UserContainer onClick={() => navigate(`/user/${m.id}`)} key={index}>
+                <UserContainer onClick={() => { navigate(`/user/${m.id}`); location.reload(); }} key={index}>
                   <img className="searchImg" src={m.picture} />
                   <h1>{m.name}</h1>
                 </UserContainer>)}

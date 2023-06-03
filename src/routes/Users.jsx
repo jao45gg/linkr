@@ -10,31 +10,29 @@ import { useParams } from "react-router-dom";
 export default function Users() {
 
     const { id } = useParams();
-    const [form, setForm] = useState({ url: "", description: "" })
-    const [disabled, setDisabled] = useState(false)
     const [data, setData] = useState([])
     const [erro, setErro] = useState(false)
     const [likesUser, setlikesUser] = useState()
     const { auth } = useAuth()
+    const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
         getPosts()
         RefreshTimeline()
-
     }, [])
 
     async function getPosts() {
-        const data = await axios.get(`/users/getById/${id}`);
+        const data = await axiosPrivate.get(`/users/getById/${id}`);
         setData(data.data);
     }
 
-  function RefreshTimeline() {
-    const promise = axiosPrivate.get("posts/isliked");
-    promise.then((res) => {
-      setlikesUser(res.data);
-    });
-    promise.catch((err) => console.log(err));
-  }
+    function RefreshTimeline() {
+        const promise = axiosPrivate.get("posts/isliked");
+        promise.then((res) => {
+            setlikesUser(res.data);
+        });
+        promise.catch((err) => console.log(err));
+    }
 
     return (
         <Container>
@@ -56,6 +54,7 @@ export default function Users() {
                                     picture={data.picture}
                                     userName={data.name}
                                     token={auth.accessToken}
+                                    userPostId={item.userPostId}
                                     liked={likesUser.some(like => like.post_id === item.id)}
                                     RefreshDataLikes={getPosts}
                                     RefreshTimeline={RefreshTimeline}

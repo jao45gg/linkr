@@ -46,14 +46,14 @@ export default function Timeline() {
     setDisabled(false);
 
     const promise = axiosPrivate.post("/posts/", form);
-    promise.then((res) => {
+    promise.then(() => {
       setDisabled(false);
       setForm({ url: "", description: "" });
       const promise = axiosPrivate.get("/posts/");
       promise.then((res) => setData(res.data));
       promise.catch((err) => console.log(err));
     });
-    promise.catch((err) => {
+    promise.catch(() => {
       setDisabled(false);
       setErro(true);
     });
