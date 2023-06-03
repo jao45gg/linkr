@@ -20,6 +20,9 @@ const HeaderBar = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #151515;
+  @media (max-width: 520px) {
+    margin-bottom: 72px;
+  }
 `;
 
 const HeaderContent = styled.div`
@@ -48,7 +51,7 @@ const HeaderContent = styled.div`
   }
 
   .search {
-    width: 563px;
+    width: 100%;
     border-radius: 8px;
     height: 45px;
     border: none;
@@ -57,7 +60,7 @@ const HeaderContent = styled.div`
     background: #ffffff;
   }
   .search input {
-    width: 90%;
+    width: 85%;
     height: 100%;
     border: none;
     background: none;
@@ -75,18 +78,16 @@ const HeaderContent = styled.div`
   }
 
   .input-menu {
-    width: 563px;
+    width: 100%;
+    max-width: 563px;
     border-radius: 8px;
-    position: absolute;
-    display: flex;
-    left: 35%;
-    top: 7%;
+
     max-height: 176px;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #E7E7E7;
-    :hover{
-      .users{
+    background-color: #e7e7e7;
+    :hover {
+      .users {
         display: flex !important;
       }
     }
@@ -97,9 +98,14 @@ const HeaderContent = styled.div`
       overflow-y: scroll;
     }
   }
-
-
+  @media (max-width: 520px) {
+    .input-menu {
+      position: absolute;
+      top: 75px;
+    }
+  }
 `;
+
 const DropIcon = styled.img`
   width: 20px !important;
   height: 20px !important;
@@ -109,7 +115,7 @@ const DropIcon = styled.img`
 `;
 const DropDownMenu = styled.div`
   position: absolute;
-  top: 70px;
+  top: 60px;
   right: 0;
 
   width: 150px;
@@ -139,7 +145,7 @@ const UserContainer = styled.div`
     height: 39px;
     width: 39px;
   }
-  h1{
+  h1 {
     font-family: "Lato";
     font-weight: 400;
     margin-left: 12px;
@@ -150,7 +156,7 @@ const UserContainer = styled.div`
   :hover {
     cursor: pointer;
   }
-`
+`;
 
 const Layout = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -170,7 +176,7 @@ const Layout = () => {
       setAuth("");
       navigate("/");
     } catch (error) {
-      alert("Erro ao fazer logout");
+      // alert("Erro ao fazer logout");
     }
   };
 
@@ -181,7 +187,7 @@ const Layout = () => {
         const response = await axios.get("/hash");
         setTrending(response.data.hashtags);
       } catch (error) {
-        alert("Erro ao carregar os trending");
+        // alert("Erro ao carreimage.pnggar os trending");
       }
     };
     getTrending();
@@ -209,17 +215,15 @@ const Layout = () => {
             <a href="/">linkr</a>
           </div>
           <div className="input-menu">
-            <div>
-              <div className="search">
-                <DebounceInput
-                  type="text"
-                  placeholder="Search for people"
-                  minLength={3}
-                  debounceTimeout={300}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <img src="/search.svg" alt="search" />
-              </div>
+            <div className="search">
+              <DebounceInput
+                type="text"
+                placeholder="Search for people"
+                minLength={3}
+                debounceTimeout={300}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <img src="/search.svg" alt="search" />
             </div>
             <div className="users">
               {usersData.length > 0 &&
@@ -301,7 +305,7 @@ const Sidebar = styled.div`
   display: none;
   overflow: hidden;
 
-  @media (min-width: 920px) {
+  @media (min-width: 1024px) {
     display: block;
   }
   div {
