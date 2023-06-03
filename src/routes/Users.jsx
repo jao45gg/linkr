@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react"
-import styled from "styled-components"
-import { getLikes } from "../api/axios"
-import Post from "../components/Post"
-import useAuth from "../hooks/useAuth"
-import LoadingPage from "../components/loadings/LoadingPage"
-import ErrorServer from "../components/ErrorServer"
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import Post from "../components/Post";
+import useAuth from "../hooks/useAuth";
+import LoadingPage from "../components/loadings/LoadingPage";
+import ErrorServer from "../components/ErrorServer";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate.js"
 
 export default function Users() {
 
     const { id } = useParams();
-
-    const axios = useAxiosPrivate();
+    const [form, setForm] = useState({ url: "", description: "" })
+    const [disabled, setDisabled] = useState(false)
     const [data, setData] = useState([])
     const [erro, setErro] = useState(false)
     const [likesUser, setlikesUser] = useState()
@@ -29,11 +28,13 @@ export default function Users() {
         setData(data.data);
     }
 
-    function RefreshTimeline() {
-        const promise = getLikes(auth.accessToken)
-        promise.then(res => { setlikesUser(res.data) })
-        promise.catch(err => console.log(err))
-    }
+  function RefreshTimeline() {
+    const promise = axiosPrivate.get("posts/isliked");
+    promise.then((res) => {
+      setlikesUser(res.data);
+    });
+    promise.catch((err) => console.log(err));
+  }
 
     return (
         <Container>
@@ -104,13 +105,13 @@ const Titulo = styled.div`
 `
 
 const Posts = styled.div`
-    width: 100%;
-`
+  width: 100%;
+`;
 
 const Aside = styled.div`
-    width: 100%;
-    margin: 0 auto;
-`
+  width: 100%;
+  margin: 0 auto;
+`;
 
 const Imagem = styled.img`
 
