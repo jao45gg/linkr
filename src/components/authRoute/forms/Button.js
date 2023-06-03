@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
-import useWindowSize from "../../../hooks/useWindowSize";
+import useWindowSize from "../../../hooks/useWindowSize.js";
 
 const Button = (props) => {
   const { width } = useWindowSize();

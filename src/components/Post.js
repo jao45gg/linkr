@@ -3,8 +3,13 @@ import styled from "styled-components";
 import axios from "axios";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useNavigate } from "react-router-dom";
+// <<<<<<< HEAD:src/components/Post.js
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
+import PropTypes from "prop-types";
+// =======
+// import useAxiosPrivate from "../hooks/useAxiosPrivate";
+// import { useNavigate } from "react-router-dom";
+// >>>>>>> main:src/components/Post.jsx
 
 export default function Post({
   id,
@@ -14,12 +19,24 @@ export default function Post({
   likes,
   picture,
   userName,
-  token,
   liked,
   RefreshDataLikes,
   RefreshTimeline,
-  userPostId
+  userPostId,
 }) {
+  Post.propTypes = {
+    id: PropTypes.number.isRequired,
+    link: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
+    likes: PropTypes.number.isRequired,
+    picture: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
+    liked: PropTypes.bool.isRequired,
+    RefreshDataLikes: PropTypes.func.isRequired,
+    RefreshTimeline: PropTypes.func.isRequired,
+  };
+
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
@@ -77,10 +94,9 @@ export default function Post({
         if (people.length - 2 === 1) {
           return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
         }
-
       }
     }
-  }
+  };
 
   //   const getTooltipContent = () => {
   //       if (people && people.length > 0) {
@@ -125,10 +141,7 @@ export default function Post({
                 style={{ fontSize: "30px", color: "#ffffff" }}
               />
             )}
-            <div
-              data-tooltip-content={getTooltipContent()}
-              data-tooltip-id="example"
-            >
+            <div data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
               {likes !== 0 && `${likes} likes`}
             </div>
             <Tooltip
@@ -197,36 +210,32 @@ const Header = styled.div`
 `;
 
 const Imagem = styled.div`
-
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border-radius: 26.5px;
-            background-size: cover;
-            background-image: url(${props => props.picture});
-            background-position: center center;
-
-            `
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 26.5px;
+  background-size: cover;
+  background-image: url(${(props) => props.picture});
+  background-position: center center;
+`;
 
 const Text = styled.div`
-            
-            display: flex;
-            flex-direction: column;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-    
-            h1{
-            cursor: pointer;
-            padding-top: 10px;
-            padding-bottom: 7px;
-            font-family: 'Lato';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 19px;
-            line-height: 23px;
-            color: #FFFFFF;
-            
-    }
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+
+  h1 {
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 7px;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #ffffff;
+  }
 
   h2 {
     font-family: "Lato";

@@ -1,6 +1,6 @@
-import axios from "../api/axios";
-import useAuth from "./useAuth";
-import { axiosPrivate } from "../api/axios";
+import axios from "../api/axios.js";
+import useAuth from "./useAuth.js";
+import { axiosPrivate } from "../api/axios.js";
 
 const useRefreshToken = () => {
   const { setAuth, tokenOnStorage, cookiesAccepted, setCookiesAccepted } = useAuth();

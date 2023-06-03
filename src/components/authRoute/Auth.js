@@ -1,7 +1,7 @@
 import React from "react";
-import useWindowSize from "../../hooks/useWindowSize";
-import LayoutDesktop from "./LayoutDesktop";
-import LayoutMobile from "./LayoutMobile";
+import useWindowSize from "../../hooks/useWindowSize.js";
+import LayoutDesktop from "./LayoutDesktop.js";
+import LayoutMobile from "./LayoutMobile.js";
 
 const Auth = () => {
   const { width } = useWindowSize();
