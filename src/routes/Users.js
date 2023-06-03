@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-// <<<<<<< HEAD:src/routes/Users.js
-// import Post from "../components/Post.js";
-// import useAuth from "../hooks/useAuth.js";
-// import LoadingPage from "../components/loadings/LoadingPage.js";
-// import ErrorServer from "../components/ErrorServer.js";
-// import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-// =======
 import Post from "../components/Post";
 import useAuth from "../hooks/useAuth";
 import LoadingPage from "../components/loadings/LoadingPage";
 import ErrorServer from "../components/ErrorServer";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
-// >>>>>>> main:src/routes/Users.jsx
 
 export default function Users() {
   const { id } = useParams();
@@ -35,10 +27,14 @@ export default function Users() {
 
   function RefreshTimeline() {
     const promise = axiosPrivate.get("posts/isliked");
-    promise.then((res) => {
-      setlikesUser(res.data);
-    });
-    promise.catch((err) => console.log(err));
+    promise
+      .then((res) => {
+        setlikesUser(res.data);
+      })
+      .catch((err) => {
+        setErro(true);
+        console.log(err);
+      });
   }
 
   return (

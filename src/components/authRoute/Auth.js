@@ -1,4 +1,3 @@
-import React from "react";
 import useWindowSize from "../../hooks/useWindowSize.js";
 import LayoutDesktop from "./LayoutDesktop.js";
 import LayoutMobile from "./LayoutMobile.js";

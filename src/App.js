@@ -3,7 +3,6 @@ import PersistLogin from "./components/redirects/PersistLogin.js";
 import RedirectIfAuth from "./components/redirects/RedirectIfAuth.js";
 import RequireAuth from "./components/redirects/RequireAuth.js";
 import Layout from "./components/Layout.js";
-import Feed from "./routes/Feed.js";
 import SignUp from "./routes/SignUp.js";
 import SignIn from "./routes/SignIn.js";
 import Auth from "./components/authRoute/Auth.js";
@@ -16,11 +15,10 @@ export default function App() {
       <Route element={<PersistLogin />}>
         <Route element={<Layout />}>
           {/* Layout: Componente pai responsavel pelo layout das childs */}
-          <Route path="/" element={<Feed />} />
           <Route element={<RequireAuth />}>
             {/* Abaixo rotas protegidas, apenas logado pode acessar */}
-            <Route path="/timeline" element={<Timeline/>} />
-            <Route path="/user/:id" element={<Users/>} />
+            <Route path="/timeline" element={<Timeline />} />
+            <Route path="/user/:id" element={<Users />} />
           </Route>
         </Route>
         <Route element={<RedirectIfAuth />}>

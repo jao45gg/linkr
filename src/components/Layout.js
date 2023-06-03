@@ -173,20 +173,19 @@ const Layout = () => {
       alert("Erro ao fazer logout");
     }
   };
-  // sidebar request
+
   const [trending, setTrending] = useState([]);
-  // useEffect(() => {
-  //   const getTrending = async () => {
-  //     try {
-  //       const response = await axios.get("/hash");
-  //       setTrending(response.data.hashtags);
-  //     } catch (error) {
-  //       alert("Erro ao carregar os trending");
-  //     }
-  //   };
-  //   getTrending();
-  // }, []);
-  // // sidebar request
+  useEffect(() => {
+    const getTrending = async () => {
+      try {
+        const response = await axios.get("/hash");
+        setTrending(response.data.hashtags);
+      } catch (error) {
+        alert("Erro ao carregar os trending");
+      }
+    };
+    getTrending();
+  }, [axios]);
 
   useEffect(() => {
     async function getUsers() {
@@ -212,24 +211,41 @@ const Layout = () => {
           <div className="input-menu">
             <div>
               <div className="search">
-                <DebounceInput type="text" placeholder="Search for people"
+                <DebounceInput
+                  type="text"
+                  placeholder="Search for people"
                   minLength={3}
                   debounceTimeout={300}
-                  onChange={e => setName(e.target.value)} />
+                  onChange={(e) => setName(e.target.value)}
+                />
                 <img src="/search.svg" alt="search" />
               </div>
             </div>
             <div className="users">
-              {usersData.length > 0 && usersData.map((m, index) =>
-                <UserContainer onClick={() => { navigate(`/user/${m.id}`); location.reload(); }} key={index}>
-                  <img className="searchImg" src={m.picture} />
-                  <h1>{m.name}</h1>
-                </UserContainer>)}
+              {usersData.length > 0 &&
+                usersData.map((m, index) => (
+                  <UserContainer
+                    onClick={() => {
+                      navigate(`/user/${m.id}`);
+                      location.reload();
+                    }}
+                    key={index}>
+                    <img className="searchImg" src={m.picture} />
+                    <h1>{m.name}</h1>
+                  </UserContainer>
+                ))}
             </div>
           </div>
           <div>
             <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
-            <img onClick={() => { navigate(`/user/${auth?.id}`); location.reload(); }} src={auth?.avatar} alt="profile" />
+            <img
+              onClick={() => {
+                navigate(`/user/${auth?.id}`);
+                location.reload();
+              }}
+              src={auth?.avatar}
+              alt="profile"
+            />
             <DropDownMenu menuActive={menuActive} onClick={logout}>
               <p>Logout</p>
             </DropDownMenu>

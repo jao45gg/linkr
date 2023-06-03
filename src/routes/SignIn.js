@@ -56,7 +56,6 @@ const SignIn = () => {
 
       navigate("/timeline", { replace: true });
     } catch (err) {
-      console.log(err);
       if (!err?.response) {
         setErrMsg("Sem resposta do servidor");
       } else if (err.response?.status === 400) {
@@ -70,6 +69,7 @@ const SignIn = () => {
         setErrMsg("Falha ao logar");
       }
       errRef.current.focus();
+      console.log(err);
     } finally {
       setIsLoading(false);
     }

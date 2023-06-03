@@ -9,7 +9,7 @@ const RedirectIfAuth = () => {
     if (auth?.accessToken) {
       navigate("/");
     }
-  }, []);
+  }, [navigate, auth?.accessToken]);
 
   return <Outlet />;
 };
