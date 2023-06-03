@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Post from "../components/Post.jsx";
+import Post from "../components/Post.js";
 import useAuth from "../hooks/useAuth.js";
-import LoadingPage from "../components/loadings/LoadingPage.jsx";
-import ErrorServer from "../components/ErrorServer.jsx";
+import LoadingPage from "../components/loadings/LoadingPage.js";
+import ErrorServer from "../components/ErrorServer.js";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 
-export default function Users() {
+export default function Timeline() {
   const [form, setForm] = useState({ url: "", description: "" });
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState([]);
@@ -21,13 +21,13 @@ export default function Users() {
   }, []);
 
   function RefreshDataLikes() {
-    const promise = axiosPrivate.get("/posts");
+    const promise = axiosPrivate.get("/posts/");
     promise.then((res) => setData(res.data));
     promise.catch((err) => console.log(err));
   }
 
   function RefreshTimeline() {
-    const promise = axiosPrivate.get("posts/isliked");
+    const promise = axiosPrivate.get("/posts/isliked");
     promise.then((res) => {
       setlikesUser(res.data);
     });
@@ -38,7 +38,7 @@ export default function Users() {
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
-  function posting(event) {
+  async function posting(event) {
     event.preventDefault();
     setDisabled(true);
 
@@ -49,7 +49,7 @@ export default function Users() {
     promise.then((res) => {
       setDisabled(false);
       setForm({ url: "", description: "" });
-      const promise = axiosPrivate.get("/posts");
+      const promise = axiosPrivate.get("/posts/");
       promise.then((res) => setData(res.data));
       promise.catch((err) => console.log(err));
     });

@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import AuthInput from "../components/authRoute/forms/Input.jsx";
-import AuthButton from "../components/authRoute/forms/Button.jsx";
+import AuthInput from "../components/authRoute/forms/Input.js";
+import AuthButton from "../components/authRoute/forms/Button.js";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPrivate } from "../api/axios.js";
-import ErrWrapper from "../components/authRoute/forms/Err.jsx";
+import ErrWrapper from "../components/authRoute/forms/Err.js";
 import { isUri } from "valid-url";
 
 const SignUp = () => {
