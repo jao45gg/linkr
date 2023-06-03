@@ -107,8 +107,8 @@ export const HContent = styled.div`
 `;
 
 export const Drop = styled(AiOutlineDown)`
-  width: 20px !important;
-  height: 20px !important;
+  width: 20px;
+  height: 20px;
   position: relative;
   cursor: pointer;
   rotate: ${({ menuActive }) => (menuActive ? "180deg" : "0deg")} !important;
