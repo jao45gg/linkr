@@ -28,7 +28,7 @@ const Logout = () => {
 
   return (
     <div>
-      <Drop onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
+      <Drop onClick={logoutMenu} menuActive={menuActive} />
       <img
         onClick={() => {
           navigate(`/user/${auth?.id}`);

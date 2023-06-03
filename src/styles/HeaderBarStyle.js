@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AiOutlineDown } from "react-icons/ai";
 
 export const Content = styled.main`
   width: 100vw;
@@ -52,6 +53,9 @@ export const HContent = styled.div`
     padding-left: 17px;
     box-sizing: border-box;
     background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   .search input {
     width: 85%;
@@ -64,10 +68,12 @@ export const HContent = styled.div`
     line-height: 23px;
     color: #c6c6c6;
   }
-  .search img {
-    width: 26px;
-    height: 22px;
-    margin-left: 10px;
+  .search svg {
+    border-left: #c6c6c6 1px solid;
+    padding-left: 17px;
+    font-size: 24px;
+    margin-right: 17px;
+    color: #c6c6c6;
     cursor: pointer;
   }
 
@@ -100,7 +106,7 @@ export const HContent = styled.div`
   }
 `;
 
-export const Drop = styled.img`
+export const Drop = styled(AiOutlineDown)`
   width: 20px !important;
   height: 20px !important;
   position: relative;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineSearch } from "react-icons/ai";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import { UserContainer } from "../../styles/HeaderBarStyle.js";
@@ -34,7 +35,7 @@ const Input = () => {
           debounceTimeout={300}
           onChange={(e) => setName(e.target.value)}
         />
-        <img src="/search.svg" alt="search" />
+        <AiOutlineSearch />
       </div>
       <div className="users">
         {usersData.length > 0 &&
