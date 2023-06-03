@@ -2,11 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import PersistLogin from "./components/redirects/PersistLogin.js";
 import RedirectIfAuth from "./components/redirects/RedirectIfAuth.js";
 import RequireAuth from "./components/redirects/RequireAuth.js";
-import Layout from "./components/Layout.js";
+
+import Auth from "./components/authRoute/Auth.js";
 import SignUp from "./routes/SignUp.js";
 import SignIn from "./routes/SignIn.js";
-import Auth from "./components/authRoute/Auth.js";
+
+import Layout from "./components/Layout.js";
 import Timeline from "./routes/Timeline.js";
+import Redirect from "./routes/Redirect";
 import Users from "./routes/Users.js";
 
 export default function App() {
@@ -14,9 +17,9 @@ export default function App() {
     <Routes>
       <Route element={<PersistLogin />}>
         <Route element={<Layout />}>
-          {/* Layout: Componente pai responsavel pelo layout das childs */}
           <Route element={<RequireAuth />}>
             {/* Abaixo rotas protegidas, apenas logado pode acessar */}
+            <Route path="/" element={<Redirect />} />
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/user/:id" element={<Users />} />
           </Route>
