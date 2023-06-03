@@ -146,6 +146,10 @@ const UserContainer = styled.div`
     font-size: 19px;
     color: #515151;
   }
+
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const Layout = () => {
@@ -154,7 +158,7 @@ const Layout = () => {
   const [usersData, setUsersData] = useState([]);
   const axios = useAxiosPrivate();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { setAuth, auth } = useAuth();
 
   const logoutMenu = () => {
     setMenuActive(!menuActive);
@@ -187,8 +191,10 @@ const Layout = () => {
   useEffect(() => {
     async function getUsers() {
       try {
-        const data = await axios.get(`/users/getByName/${name}`);
-        setUsersData(data.data);
+        if (name !== "") {
+          const data = await axios.get(`/users/getByName/${name}`);
+          setUsersData(data.data);
+        }
       } catch (err) {
         setUsersData([]);
       }
@@ -215,7 +221,7 @@ const Layout = () => {
             </div>
             <div className="users">
               {usersData.length > 0 && usersData.map((m, index) =>
-                <UserContainer key={index}>
+                <UserContainer onClick={() => { navigate(`/user/${m.id}`); location.reload(); }} key={index}>
                   <img className="searchImg" src={m.picture} />
                   <h1>{m.name}</h1>
                 </UserContainer>)}
@@ -223,7 +229,7 @@ const Layout = () => {
           </div>
           <div>
             <DropIcon onClick={logoutMenu} menuActive={menuActive} src="/drop down icon.svg" alt="drop" />
-            <img onClick={logoutMenu} src="/profile.jpg" alt="profile" />
+            <img onClick={() => { navigate(`/user/${auth?.id}`); location.reload(); }} src={auth?.avatar} alt="profile" />
             <DropDownMenu menuActive={menuActive} onClick={logout}>
               <p>Logout</p>
             </DropDownMenu>

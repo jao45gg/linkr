@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios"
+import axios from "axios";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
+// <<<<<<< HEAD:src/components/Post.js
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+// =======
+// import useAxiosPrivate from "../hooks/useAxiosPrivate";
+// import { useNavigate } from "react-router-dom";
+// >>>>>>> main:src/components/Post.jsx
 
 export default function Post({
   id,
@@ -17,8 +22,8 @@ export default function Post({
   liked,
   RefreshDataLikes,
   RefreshTimeline,
+  userPostId,
 }) {
-
   Post.propTypes = {
     id: PropTypes.number.isRequired,
     link: PropTypes.string.isRequired,
@@ -36,6 +41,7 @@ export default function Post({
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -54,11 +60,10 @@ export default function Post({
 
   const toggleIcon = (id, type) => {
     setIsLike(!isLike);
-    console.log(id, type);
 
     if (type === true) {
       const promise = axiosPrivate.post(`/posts/likes/${id}`);
-      promise.then((res) => {
+      promise.then(() => {
         RefreshDataLikes();
         RefreshTimeline();
         const promise = axiosPrivate.get(`/posts/liked/${id}`);
@@ -68,7 +73,7 @@ export default function Post({
       promise.catch((err) => console.log(err));
     } else {
       const promise2 = axiosPrivate.post(`/posts/disliked/${id}`);
-      promise2.then((res) => {
+      promise2.then(() => {
         RefreshDataLikes();
         RefreshTimeline();
         const promise = axiosPrivate.get(`/posts/liked/${id}`);
@@ -89,40 +94,41 @@ export default function Post({
         if (people.length - 2 === 1) {
           return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
         }
-
-    };
-
-    const getTooltipContent = () => {
-        if (people && people.length > 0) {
-            const currentUser = people.some(item => item.user_id === userId)
-            const otherPeople = people.filter(item => item.user_id !== userId)
-
-            if (currentUser) {
-                const aleatoryNumber = Math.floor(Math.random() * otherPeople.length)
-                if (people.length - 2 === 1) {
-                    return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outra pessoa`;
-                }
-                return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${people.length - 2} pessoas`;
-            } else {
-                if (people.length - 2 === 0) {
-                    return `${people[people.length - 1]?.user_name} e ${people[people.length - 2]?.user_name}`;
-                }
-                return `${people[people.length - 1]?.user_name}, ${people[people.length - 2]?.user_name} e ${people.length - 2} pessoas`;
-            }
-        }
-        return `${people[people.length - 1].user_name}, ${
-          people[people.length - 2].user_name
-        } e ${people.length - 2} pessoas`;
       }
     }
-    return ""; // Retorna uma string vazia caso people seja undefined
   };
+
+  //   const getTooltipContent = () => {
+  //       if (people && people.length > 0) {
+  //           const currentUser = people.some(item => item.user_id === userId)
+  //           const otherPeople = people.filter(item => item.user_id !== userId)
+
+  //           if (currentUser) {
+  //               const aleatoryNumber = Math.floor(Math.random() * otherPeople.length)
+  //               if (people.length - 2 === 1) {
+  //                   return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outra pessoa`;
+  //               }
+  //               return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${people.length - 2} pessoas`;
+  //           } else {
+  //               if (people.length - 2 === 0) {
+  //                   return `${people[people.length - 1]?.user_name} e ${people[people.length - 2]?.user_name}`;
+  //               }
+  //               return `${people[people.length - 1]?.user_name}, ${people[people.length - 2]?.user_name} e ${people.length - 2} pessoas`;
+  //           }
+  //       }
+  //       return `${people[people.length - 1].user_name}, ${
+  //         people[people.length - 2].user_name
+  //       } e ${people.length - 2} pessoas`;
+  //     }
+  //   }
+  //   return ""; // Retorna uma string vazia caso people seja undefined
+  // };
 
   return (
     <Container>
       <Header>
         <Aside>
-          <Imagem picture={picture} />
+          <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
           <Article>
             {liked ? (
               <AiFillHeart
@@ -135,10 +141,7 @@ export default function Post({
                 style={{ fontSize: "30px", color: "#ffffff" }}
               />
             )}
-            <div
-              data-tooltip-content={getTooltipContent()}
-              data-tooltip-id="example"
-            >
+            <div data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
               {likes !== 0 && `${likes} likes`}
             </div>
             <Tooltip
@@ -159,7 +162,7 @@ export default function Post({
       {metaData !== undefined && (
         <Section>
           <Text>
-            <h1>{userName}</h1>
+            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
             <h2>{description}</h2>
           </Text>
           <a href={metaData.url} target="_blank">
@@ -207,6 +210,7 @@ const Header = styled.div`
 `;
 
 const Imagem = styled.div`
+  cursor: pointer;
   width: 50px;
   height: 50px;
   border-radius: 26.5px;
@@ -222,6 +226,7 @@ const Text = styled.div`
   margin-bottom: 10px;
 
   h1 {
+    cursor: pointer;
     padding-top: 10px;
     padding-bottom: 7px;
     font-family: "Lato";
