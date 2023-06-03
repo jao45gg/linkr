@@ -3,13 +3,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
-// <<<<<<< HEAD:src/components/Post.js
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import PropTypes from "prop-types";
-// =======
-// import useAxiosPrivate from "../hooks/useAxiosPrivate";
-// import { useNavigate } from "react-router-dom";
-// >>>>>>> main:src/components/Post.jsx
+import { useNavigate } from "react-router-dom";
 
 export default function Post({
   id,
@@ -24,19 +19,6 @@ export default function Post({
   RefreshTimeline,
   userPostId,
 }) {
-  Post.propTypes = {
-    id: PropTypes.number.isRequired,
-    link: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    userId: PropTypes.number.isRequired,
-    likes: PropTypes.number.isRequired,
-    picture: PropTypes.string.isRequired,
-    userName: PropTypes.string.isRequired,
-    liked: PropTypes.bool.isRequired,
-    RefreshDataLikes: PropTypes.func.isRequired,
-    RefreshTimeline: PropTypes.func.isRequired,
-  };
-
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
@@ -56,7 +38,7 @@ export default function Post({
     const promise = axiosPrivate.get(`/posts/liked/${id}`);
     promise.then((res) => setPeople(res.data));
     promise.catch((err) => console.log(err));
-  }, []);
+  }, [axiosPrivate, id, link]);
 
   const toggleIcon = (id, type) => {
     setIsLike(!isLike);
@@ -165,7 +147,7 @@ export default function Post({
             <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
             <h2>{description}</h2>
           </Text>
-          <a href={metaData.url} target="_blank">
+          <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
               <Block>
                 <h1>{metaData.title}</h1>

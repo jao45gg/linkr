@@ -1,17 +1,15 @@
 import { createContext, useState } from "react";
-import React from "react";
 import useLocalStorage from "../hooks/useLocalStorage.js";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
-  const [tokenOnStorage, setTokenOnStorage] = useLocalStorage(
-    "refreshToken",
-    ""
-  );
+  const [tokenOnStorage, setTokenOnStorage] = useLocalStorage("refreshToken", "");
+  //apagar isso depois
   const [cookiesAccepted, setCookiesAccepted] = useState("");
-
+  console.log(cookiesAccepted);
+  //apagar isso depois
   return (
     <AuthContext.Provider
       value={{
@@ -21,8 +19,7 @@ export const AuthProvider = ({ children }) => {
         setCookiesAccepted,
         tokenOnStorage,
         setTokenOnStorage,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );
