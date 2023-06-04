@@ -6,7 +6,7 @@ const Redirect = () => {
 
   useEffect(() => {
     navigate("/timeline");
-  }, []);
+  }, [navigate]);
 
   return <></>;
 };

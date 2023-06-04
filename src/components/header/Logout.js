@@ -21,6 +21,7 @@ const Logout = () => {
       await axios.post("/logout");
       setAuth("");
       navigate("/");
+      localStorage.removeItem("refreshToken");
     } catch (error) {
       alert("Erro ao fazer logout");
     }
