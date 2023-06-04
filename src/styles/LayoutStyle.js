@@ -73,8 +73,8 @@ export const Sidebar = styled.div`
       font-size: 19px;
       line-height: 23px;
       letter-spacing: 0.05em;
-
       color: #ffffff;
+      cursor: pointer;
     }
     li:before {
       content: "# ";

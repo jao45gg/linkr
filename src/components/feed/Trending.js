@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Sidebar } from "../../styles/LayoutStyle.js";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 
 const Trending = () => {
   const axios = useAxiosPrivate();
+  const navigate = useNavigate();
   const [trending, setTrending] = useState([]);
 
   useEffect(() => {
@@ -19,11 +21,23 @@ const Trending = () => {
     getTrending();
   }, [axios]);
 
+  const hashPage = (hashtag) => {
+    const hashtagName = hashtag.replace("#", "");
+    navigate(`/hashtag/${hashtagName}`);
+  };
+
   return (
     <Sidebar>
       <div>
         <h3>trending</h3>
-        <ul>{trending.length && trending?.map((trend) => <li key={trend.id}>{trend.hash_name}</li>)}</ul>
+        <ul>
+          {trending.length &&
+            trending?.map((trend) => (
+              <li onClick={() => hashPage(trend.hash_name)} key={trend.id}>
+                {trend.hash_name}
+              </li>
+            ))}
+        </ul>
       </div>
     </Sidebar>
   );
