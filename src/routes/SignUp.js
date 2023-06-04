@@ -28,6 +28,8 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+    setIsLoading(true);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -57,8 +59,7 @@ const SignUp = () => {
     }
     const body = { email, password, name: user, picture: pictureUrl };
 
-    try {
-      setIsLoading(true);
+   
       await axiosPrivate.post("/signup", body);
 
       navigate("/", { replace: true });
