@@ -28,6 +28,7 @@ const ResetStyle = createGlobalStyle`
 	}
 	body {
 		line-height: 1;
+		background-color: rgba(51,51,51);
 	}
 	ol, ul {
 		list-style: none;
