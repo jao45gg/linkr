@@ -104,7 +104,7 @@ const SignIn = () => {
         />
         <AuthButton disabled={isLoading} data-test="login-btn">Log In</AuthButton>
       </form>
-      <Link to="/signup" data-test="sign-up-link">
+      <Link to="/sign-up" data-test="sign-up-link">
         <P>First time? Create an account!</P>
       </Link>
     </Container>

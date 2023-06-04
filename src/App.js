@@ -19,7 +19,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route element={<RequireAuth />}>
             {/* Abaixo rotas protegidas, apenas logado pode acessar */}
-            <Route path="/" element={<Redirect />} />
+            {/* <Route path="/" element={<Redirect />} /> */}
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/user/:id" element={<Users />} />
           </Route>
@@ -27,8 +27,8 @@ export default function App() {
         <Route element={<RedirectIfAuth />}>
           {/* Abaixo redirecionar caso esteja logado */}
           <Route element={<Auth />}>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/" element={<SignIn />} />
           </Route>
         </Route>
       </Route>

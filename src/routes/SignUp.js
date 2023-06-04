@@ -125,7 +125,7 @@ const SignUp = () => {
         />
         <AuthButton disabled={isLoading} data-test="sign-up-btn">Sign Up</AuthButton>
       </form>
-      <Link to="/signin" data-test="login-link">
+      <Link to="/" data-test="login-link">
         <P>Switch back to log in</P>
       </Link>
     </Container>
