@@ -7,7 +7,7 @@ const RedirectIfAuth = () => {
   const { auth } = useAuth();
   useEffect(() => {
     if (auth?.accessToken) {
-      navigate("/");
+      navigate("/timeline");
     }
   }, [navigate, auth?.accessToken]);
 
