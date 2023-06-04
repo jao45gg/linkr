@@ -5,7 +5,7 @@ import { AiOutlineHeart, AiFillHeart, AiFillDelete, AiOutlineEdit } from "react-
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate } from "react-router-dom";
-// import Modal from "./feed/Modal.js";
+import Modal from "./feed/Modal.js";
 
 export default function Post({
   id,
@@ -22,7 +22,7 @@ export default function Post({
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
-  // const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
@@ -60,8 +60,7 @@ export default function Post({
   };
 
   const getTooltipContent = () => {
-
-    const contentUser = likes.some((item) => item.user_id === userId)
+    const contentUser = likes.some((item) => item.user_id === userId);
     const otherPeople = likes.filter((item) => item.user_id !== userId);
 
     if (contentUser) {
@@ -69,23 +68,23 @@ export default function Post({
       if (likes.length - 2 === 1) {
         return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
       } else {
-        if(otherPeople.length === 0){
-          return `Você`
+        if (otherPeople.length === 0) {
+          return `Você`;
         }
       }
       return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2} pessoas`;
-
     } else {
       if (likes.length - 2 === 0) {
         return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name}`;
-      } else{
-        if(otherPeople.length === 1){
-          return `${likes[likes.length - 1]?.user_name}`
+      } else {
+        if (otherPeople.length === 1) {
+          return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${likes.length - 2} pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${
+        likes.length - 2
+      } pessoas`;
     }
-
   };
 
   const formatHashtags = (text) => {
@@ -150,9 +149,15 @@ export default function Post({
 
       {metaData !== undefined && (
         <Section>
-          {/* <Modal modal={modal} setModal={setModal} id={id} /> */}
+          <Modal modal={modal} setModal={setModal} id={id} />
           <Text>
-            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+            <div>
+              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+              <div>
+                <AiOutlineEdit />
+                <AiFillDelete onClick={() => setModal((curr) => !curr)} />
+              </div>
+            </div>
             <h2>{formatHashtags(description)}</h2>
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
@@ -215,11 +220,29 @@ const Text = styled.div`
   flex-wrap: wrap;
   margin-bottom: 10px;
 
-  span{
-    color:#ffffff;
+  span {
+    color: #ffffff;
     font-weight: bold;
   }
-
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  div div {
+    display: flex;
+    gap: 12px;
+    color: #fff;
+  }
+  div div svg {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  h1,
+  h2 {
+    color: #fff;
+  }
   h1 {
     cursor: pointer;
     padding-top: 10px;

@@ -27,6 +27,7 @@ export const ContentContainer = styled.div`
 `;
 export const Sidebar = styled.div`
   width: 301px;
+  margin-top: 84px;
   display: none;
   overflow: hidden;
 
@@ -78,7 +79,6 @@ export const Sidebar = styled.div`
     li:before {
       content: "# ";
     }
-
     li:hover {
       background: #353535;
       border-radius: 8px;

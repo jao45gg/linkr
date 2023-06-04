@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Redirect = () => {
   const navigate = useNavigate();
-  navigate("/timeline");
+
+  useEffect(() => {
+    navigate("/timeline");
+  }, [navigate]);
+
   return <></>;
 };
 
