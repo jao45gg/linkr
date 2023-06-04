@@ -92,6 +92,7 @@ const SignIn = () => {
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           ref={emailRef}
+          data-test="email"
         />
         <AuthInput
           placeholder="password"
@@ -99,10 +100,11 @@ const SignIn = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
+          data-test="password"
         />
-        <AuthButton disabled={isLoading}>Log In</AuthButton>
+        <AuthButton disabled={isLoading} data-test="login-btn">Log In</AuthButton>
       </form>
-      <Link to="/signup">
+      <Link to="/signup" data-test="sign-up-link">
         <P>First time? Create an account!</P>
       </Link>
     </Container>
