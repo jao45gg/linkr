@@ -131,7 +131,7 @@ export default function Timeline() {
 }
 
 const Container = styled.div`
-  background-color: rgba(51, 51, 51);
+  max-width: 660px;
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;

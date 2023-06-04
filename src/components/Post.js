@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart, AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate } from "react-router-dom";
+// import Modal from "./feed/Modal.js";
 
 export default function Post({
   id,
@@ -22,6 +23,7 @@ export default function Post({
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
+  // const [modal, setModal] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
@@ -143,8 +145,16 @@ export default function Post({
 
       {metaData !== undefined && (
         <Section>
+          {/* <Modal modal={modal} setModal={setModal} id={id} /> */}
           <Text>
-            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+            <div>
+              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+              <div>
+                <AiOutlineEdit />
+                <AiFillDelete />
+                {/* <AiFillDelete onClick={() => setModal((curr) => !curr)} /> */}
+              </div>
+            </div>
             <h2>{description}</h2>
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
@@ -207,6 +217,25 @@ const Text = styled.div`
   flex-wrap: wrap;
   margin-bottom: 10px;
 
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  div div {
+    display: flex;
+    gap: 12px;
+    color: #fff;
+  }
+  div div svg {
+    font-size: 20px;
+    cursor: pointer;
+  }
+  h1,
+  h2 {
+    color: #fff;
+  }
   h1 {
     cursor: pointer;
     padding-top: 10px;
