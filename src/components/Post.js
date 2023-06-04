@@ -152,12 +152,12 @@ export default function Post({
         <Section>
           {/* <Modal modal={modal} setModal={setModal} id={id} /> */}
           <Text>
-            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
-            <h2>{formatHashtags(description)}</h2>
+            <h1 onClick={() => navigate(`/user/${userPostId}`)} data-test="username">{userName}</h1>
+            <h2 data-test="description">{formatHashtags(description)}</h2>
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
-              <Block>
+              <Block data-test="link">
                 <h1>{metaData.title}</h1>
                 <h2>{metaData.description}</h2>
                 <p>{metaData.url}</p>
