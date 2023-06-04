@@ -162,7 +162,7 @@ export default function Post({
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
-              <Block>
+              <Block data-test="link">
                 <h1>{metaData.title}</h1>
                 <h2>{metaData.description}</h2>
                 <p>{metaData.url}</p>
