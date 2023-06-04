@@ -8,14 +8,13 @@ export const AuthProvider = ({ children }) => {
   const [tokenOnStorage, setTokenOnStorage] = useLocalStorage("refreshToken", "");
   //apagar isso depois
   const [cookiesAccepted, setCookiesAccepted] = useState("");
-  console.log(cookiesAccepted);
   //apagar isso depois
   return (
     <AuthContext.Provider
       value={{
         auth,
         setAuth,
-        cookiesAccepted: false,
+        cookiesAccepted,
         setCookiesAccepted,
         tokenOnStorage,
         setTokenOnStorage,
