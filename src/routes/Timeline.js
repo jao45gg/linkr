@@ -11,26 +11,16 @@ export default function Timeline() {
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState([]);
   const [erro, setErro] = useState(false);
-  const [likesUser, setlikesUser] = useState();
   const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    RefreshDataLikes();
-    RefreshTimeline();
+    Refresh();
   }, []);
 
-  function RefreshDataLikes() {
+  function Refresh() {
     const promise = axiosPrivate.get("/posts/");
     promise.then((res) => setData(res.data));
-    promise.catch((err) => console.log(err));
-  }
-
-  function RefreshTimeline() {
-    const promise = axiosPrivate.get("/posts/isliked");
-    promise.then((res) => {
-      setlikesUser(res.data);
-    });
     promise.catch((err) => console.log(err));
   }
 
@@ -103,7 +93,7 @@ export default function Timeline() {
             />
           ) : data.length === 0 ? (
             <ErrorServer message={"There are no posts yet"} />
-          ) : data !== undefined && likesUser !== undefined ? (
+          ) : data !== undefined ? (
             data.map((item) => (
               <Post
                 key={item.id}
@@ -112,13 +102,12 @@ export default function Timeline() {
                 description={item.description}
                 userId={auth.id}
                 likes={item.likes}
-                picture={item.picture}
-                userName={item.name}
-                userPostId={item.userPostId}
+                picture={item.user_picture}
+                userName={item.user_name}
+                userPostId={item.user_id}
                 token={auth.accessToken}
-                liked={likesUser.some((like) => like.post_id === item.id)}
-                RefreshDataLikes={RefreshDataLikes}
-                RefreshTimeline={RefreshTimeline}
+                liked={item.userLiked}
+                Refresh={Refresh}
               />
             ))
           ) : (
@@ -163,7 +152,7 @@ const Aside = styled.div`
 
 const Publish = styled.div`
   width: 611px;
-  height: 209px;
+  height: 300px;
   background-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;

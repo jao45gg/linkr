@@ -16,8 +16,7 @@ export default function Post({
   picture,
   userName,
   liked,
-  RefreshDataLikes,
-  RefreshTimeline,
+  Refresh,
   userPostId,
 }) {
   const [metaData, setMetaData] = useState();
@@ -36,10 +35,6 @@ export default function Post({
       .catch((error) => {
         console.error("Erro ao obter os metadados da URL:", error);
       });
-
-    const promise = axiosPrivate.get(`/posts/liked/${id}`);
-    promise.then((res) => setPeople(res.data));
-    promise.catch((err) => console.log(err));
   }, [axiosPrivate, id, link]);
 
   const toggleIcon = (id, type) => {
@@ -48,19 +43,15 @@ export default function Post({
     if (type === true) {
       const promise = axiosPrivate.post(`/posts/likes/${id}`);
       promise.then(() => {
-        RefreshDataLikes();
-        RefreshTimeline();
-        const promise = axiosPrivate.get(`/posts/liked/${id}`);
-        promise.then((res) => setPeople(res.data));
-        promise.catch((err) => console.log(err));
+        Refresh();
       });
+
       promise.catch((err) => console.log(err));
     } else {
       const promise2 = axiosPrivate.post(`/posts/disliked/${id}`);
       promise2.then(() => {
-        RefreshDataLikes();
-        RefreshTimeline();
-        const promise = axiosPrivate.get(`/posts/liked/${id}`);
+        Refresh();
+        const promise = axiosPrivate.get(`/posts/`);
         promise.then((res) => setPeople(res.data));
         promise.catch((err) => console.log(err));
       });
@@ -69,44 +60,58 @@ export default function Post({
   };
 
   const getTooltipContent = () => {
-    if (people && people.length > 0) {
-      const currentUser = people.some((item) => item.user_id === userId);
-      const otherPeople = people.filter((item) => item.user_id !== userId);
 
-      if (currentUser) {
-        const aleatoryNumber = Math.floor(Math.random() * otherPeople.length);
-        if (people.length - 2 === 1) {
-          return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
+    const contentUser = likes.some((item) => item.user_id === userId)
+    const otherPeople = likes.filter((item) => item.user_id !== userId);
+
+    if (contentUser) {
+      const aleatoryNumber = Math.floor(Math.random() * otherPeople.length);
+      if (likes.length - 2 === 1) {
+        return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
+      } else {
+        if(otherPeople.length === 0){
+          return `Você`
         }
       }
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2} pessoas`;
+
+    } else {
+      if (likes.length - 2 === 0) {
+        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name}`;
+      } else{
+        if(otherPeople.length === 1){
+          return `${likes[likes.length - 1]?.user_name}`
+        }
+      }
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${likes.length - 2} pessoas`;
     }
+
   };
 
-  //   const getTooltipContent = () => {
-  //       if (people && people.length > 0) {
-  //           const currentUser = people.some(item => item.user_id === userId)
-  //           const otherPeople = people.filter(item => item.user_id !== userId)
+  const formatHashtags = (text) => {
+    const hashtagRegex = /#[^\s#]+/g;
+    const hashtags = text.match(hashtagRegex);
 
-  //           if (currentUser) {
-  //               const aleatoryNumber = Math.floor(Math.random() * otherPeople.length)
-  //               if (people.length - 2 === 1) {
-  //                   return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outra pessoa`;
-  //               }
-  //               return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${people.length - 2} pessoas`;
-  //           } else {
-  //               if (people.length - 2 === 0) {
-  //                   return `${people[people.length - 1]?.user_name} e ${people[people.length - 2]?.user_name}`;
-  //               }
-  //               return `${people[people.length - 1]?.user_name}, ${people[people.length - 2]?.user_name} e ${people.length - 2} pessoas`;
-  //           }
-  //       }
-  //       return `${people[people.length - 1].user_name}, ${
-  //         people[people.length - 2].user_name
-  //       } e ${people.length - 2} pessoas`;
-  //     }
-  //   }
-  //   return ""; // Retorna uma string vazia caso people seja undefined
-  // };
+    if (!hashtags) {
+      return text;
+    }
+
+    const parts = text.split(hashtagRegex);
+    const formattedText = [];
+
+    parts.forEach((part, index) => {
+      formattedText.push(part);
+      if (hashtags[index]) {
+        formattedText.push(
+          <span key={index} className="hashtag">
+            {hashtags[index]}
+          </span>
+        );
+      }
+    });
+
+    return formattedText;
+  };
 
   return (
     <Container>
@@ -126,7 +131,7 @@ export default function Post({
               />
             )}
             <div data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-              {likes !== 0 && `${likes} likes`}
+              {likes.length !== 0 && `${likes.length} likes`}
             </div>
             <Tooltip
               id="example"
@@ -147,15 +152,8 @@ export default function Post({
         <Section>
           {/* <Modal modal={modal} setModal={setModal} id={id} /> */}
           <Text>
-            <div>
-              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
-              <div>
-                <AiOutlineEdit />
-                <AiFillDelete />
-                {/* <AiFillDelete onClick={() => setModal((curr) => !curr)} /> */}
-              </div>
-            </div>
-            <h2>{description}</h2>
+            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+            <h2>{formatHashtags(description)}</h2>
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
@@ -217,25 +215,11 @@ const Text = styled.div`
   flex-wrap: wrap;
   margin-bottom: 10px;
 
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
+  span{
+    color:#ffffff;
+    font-weight: bold;
   }
-  div div {
-    display: flex;
-    gap: 12px;
-    color: #fff;
-  }
-  div div svg {
-    font-size: 20px;
-    cursor: pointer;
-  }
-  h1,
-  h2 {
-    color: #fff;
-  }
+
   h1 {
     cursor: pointer;
     padding-top: 10px;
