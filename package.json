@@ -10,6 +10,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
     "react-loader-spinner": "^5.3.4",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "react-tooltip": "^5.13.1",
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.10",
     "@types/node": "^18.15.3",
     "webpack-cli": "^5.0.1"
   }

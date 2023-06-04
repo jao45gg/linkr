@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart, AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate } from "react-router-dom";
+// import Modal from "./feed/Modal.js";
 
 export default function Post({
   id,
@@ -21,6 +22,7 @@ export default function Post({
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [people, setPeople] = useState();
+  // const [modal, setModal] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
@@ -148,6 +150,7 @@ export default function Post({
 
       {metaData !== undefined && (
         <Section>
+          {/* <Modal modal={modal} setModal={setModal} id={id} /> */}
           <Text>
             <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
             <h2>{formatHashtags(description)}</h2>
