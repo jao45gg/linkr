@@ -9,6 +9,7 @@ module.exports = {
   rules: {
     "no-console": "off",
     "react/prop-types": "off",
+    "no-unused-vars":"off"
   },
   parserOptions: { ecmaVersion: "latest", sourceType: "module" },
   settings: { react: { version: "18.2" } },
