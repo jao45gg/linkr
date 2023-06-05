@@ -148,17 +148,17 @@ export default function Post({
       </Header>
 
       {metaData !== undefined && (
-        <Section>
+        <Section data-test="post">
           <Modal modal={modal} setModal={setModal} id={id} />
           <Text>
             <div>
-              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+              <h1 onClick={() => navigate(`/user/${userPostId}`)} data-test="username">{userName}</h1>
               <div>
                 <AiOutlineEdit />
                 <AiFillDelete onClick={() => setModal((curr) => !curr)} />
               </div>
             </div>
-            <h2>{formatHashtags(description)}</h2>
+            <h2 data-test="description">{formatHashtags(description)}</h2>
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
