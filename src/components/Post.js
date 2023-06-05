@@ -154,13 +154,9 @@ export default function Post({
           <Modal modal={modal} setModal={setModal} id={id} />
           <Text>
             <div>
-<<<<<<< Updated upstream
-              <h1 onClick={() => navigate(`/user/${userPostId}`)} data-test="username">{userName}</h1>
-=======
               <h1 data-test="user-name" onClick={() => navigate(`/user/${userPostId}`)}>
                 {userName}
               </h1>
->>>>>>> Stashed changes
               <div>
                 <AiOutlineEdit data-test="edit-btn" />
                 <AiFillDelete onClick={() => setModal((curr) => !curr)} data-test="delete-btn" />
