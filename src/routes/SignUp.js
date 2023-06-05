@@ -28,6 +28,8 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+    setIsLoading(true);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -57,11 +59,10 @@ const SignUp = () => {
     }
     const body = { email, password, name: user, picture: pictureUrl };
 
-    try {
-      setIsLoading(true);
+   
       await axiosPrivate.post("/signup", body);
 
-      navigate("/signin", { replace: true });
+      navigate("/", { replace: true });
     } catch (err) {
       console.log(err);
       if (!err?.response) {
@@ -99,6 +100,7 @@ const SignUp = () => {
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           ref={emailRef}
+          data-test="email"
         />
         <AuthInput
           placeholder="password"
@@ -106,22 +108,25 @@ const SignUp = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
+          data-test="password"
         />
         <AuthInput
           placeholder="user"
           value={user}
           onChange={(e) => setUser(e.target.value)}
           disabled={isLoading}
+          data-test="username"
         />
         <AuthInput
           placeholder="picture url"
           value={pictureUrl}
           onChange={(e) => setPictureUrl(e.target.value)}
           disabled={isLoading}
+          data-test="picture-url"
         />
-        <AuthButton disabled={isLoading}>Sign Up</AuthButton>
+        <AuthButton disabled={isLoading} data-test="sign-up-btn">Sign Up</AuthButton>
       </form>
-      <Link to="/signin">
+      <Link to="/" data-test="login-link">
         <P>Switch back to log in</P>
       </Link>
     </Container>

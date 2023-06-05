@@ -40,7 +40,7 @@ export const HContent = styled.div`
       width: 53px;
       height: 53px;
       border-radius: 26.5px;
-      margin-left: 30px;
+      margin-left: 1vw;
       cursor: pointer;
     }
   }
@@ -110,6 +110,7 @@ export const Drop = styled(AiOutlineDown)`
   width: 20px;
   height: 20px;
   position: relative;
+  color: #fff;
   cursor: pointer;
   rotate: ${({ menuActive }) => (menuActive ? "180deg" : "0deg")} !important;
 `;

@@ -27,6 +27,7 @@ export const ContentContainer = styled.div`
 `;
 export const Sidebar = styled.div`
   width: 301px;
+  margin-top: 84px;
   display: none;
   overflow: hidden;
 
@@ -72,13 +73,12 @@ export const Sidebar = styled.div`
       font-size: 19px;
       line-height: 23px;
       letter-spacing: 0.05em;
-
       color: #ffffff;
+      cursor: pointer;
     }
     li:before {
       content: "# ";
     }
-
     li:hover {
       background: #353535;
       border-radius: 8px;

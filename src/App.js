@@ -7,10 +7,11 @@ import Auth from "./components/authRoute/Auth.js";
 import SignUp from "./routes/SignUp.js";
 import SignIn from "./routes/SignIn.js";
 
+// import Redirect from "./routes/Redirect";
 import Layout from "./components/Layout.js";
 import Timeline from "./routes/Timeline.js";
-import Redirect from "./routes/Redirect";
 import Users from "./routes/Users.js";
+import Trending from "./routes/Trending.js";
 
 export default function App() {
   return (
@@ -19,16 +20,17 @@ export default function App() {
         <Route element={<Layout />}>
           <Route element={<RequireAuth />}>
             {/* Abaixo rotas protegidas, apenas logado pode acessar */}
-            <Route path="/" element={<Redirect />} />
+            {/* <Route path="/" element={<Redirect />} /> */}
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/user/:id" element={<Users />} />
+            <Route path="/hashtag/:hashtag" element={<Trending />} />
           </Route>
         </Route>
         <Route element={<RedirectIfAuth />}>
           {/* Abaixo redirecionar caso esteja logado */}
           <Route element={<Auth />}>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/" element={<SignIn />} />
           </Route>
         </Route>
       </Route>
