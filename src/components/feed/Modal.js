@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import Modal from "react-modal";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
+import { useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 Modal.setAppElement("#root");
 
-const ModalPopUp = ({ modal, setModal }) => {
+const ModalPopUp = ({ modal, setModal, id }) => {
   const axios = useAxiosPrivate();
+  const [loading, setLoading] = useState(false);
 
   return (
     <Modal
@@ -16,21 +19,50 @@ const ModalPopUp = ({ modal, setModal }) => {
       <ModalContent>
         <h2>Are you sure you want to delete this post?</h2>
         <div>
-          <button onClick={() => setModal((curr) => !curr)}>No, go back</button>
+          <button onClick={() => setModal((curr) => !curr)}>
+            {loading ? (
+              <ThreeDots
+                height="12"
+                width="24"
+                radius="8"
+                color="#1072f1"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            ) : (
+              "No, go back"
+            )}
+          </button>
           <button
             onClick={async () => {
-              //setar loading
+              setLoading((curr) => !curr);
               try {
-                axios.delete(`/delete/:id`);
+                const a = await axios.delete(`/posts/delete/${id}`);
+                console.log(a);
               } catch (error) {
                 setModal((curr) => !curr);
                 alert("Nao foi possivel deletar o post");
               } finally {
-                //tirar loading
+                setLoading((curr) => !curr);
                 setModal((curr) => !curr);
               }
             }}>
-            Yes, delete it
+            {loading ? (
+              <ThreeDots
+                height="12"
+                width="24"
+                radius="8"
+                color="#fff"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            ) : (
+              "Yes, delete it"
+            )}
           </button>
         </div>
       </ModalContent>
@@ -49,6 +81,7 @@ const customStyles = {
     maxWidth: "597px",
     width: "100%",
     height: "262px",
+    color: "#fff",
     background: "#333333",
     borderRadius: "50px",
   },
