@@ -41,9 +41,7 @@ export default function Timeline() {
   async function posting(event) {
     event.preventDefault();
     setDisabled(true);
-
     console.log(form);
-    setDisabled(false);
 
     const promise = axiosPrivate.post("/posts/", form);
     promise.then(() => {
