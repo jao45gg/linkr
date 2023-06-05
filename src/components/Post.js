@@ -126,89 +126,93 @@ export default function Post({
   function handleKeyDown(event) {
     if (event.key === "Enter") {
       console.log(form)
-      const promise = axiosPrivate.put(`/posts/edit/${id}`,form);
-      promise.then(()=>  {setIsEditing(false); Refresh()})
-     
-    } else if (event.key === "Escape") {
-      setIsEditing(false);
-    }
+      const promise = axiosPrivate.put(`/posts/edit/${id}`, form);
+      promise.then(() => { setIsEditing(false); Refresh() })
+      promise.catch(() => {
+        alert("Não foi possível salvar alterações")
+        isEditing(true)
+    })
+
+  } else if (event.key === "Escape") {
+    setIsEditing(false);
   }
+}
 
-  return (
-    <Container>
-      <Header>
-        <Aside>
-          <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
-          <Article>
-            <div data-test="like-btn">
-              {liked ? (
-                <AiFillHeart
-                  onClick={() => toggleIcon(id, false)}
-                  style={{ fontSize: "30px", color: "#AC0000" }}
-                />
-              ) : (
-                <AiOutlineHeart
-                  onClick={() => toggleIcon(id, true)}
-                  style={{ fontSize: "30px", color: "#ffffff" }}
-                />
-              )}
-            </div>
-            <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-              <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
-            </div>
-            <Tooltip
-              id="example"
-              place="bottom"
-              effect="solid"
-              style={{
-                backgroundColor: "#FFFFFF",
-                width: "169px",
-                borderRadius: "3px",
-                color: "#505050",
-              }}
-            />
-          </Article>
-        </Aside>
-      </Header>
+return (
+  <Container>
+    <Header>
+      <Aside>
+        <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
+        <Article>
+          <div data-test="like-btn">
+            {liked ? (
+              <AiFillHeart
+                onClick={() => toggleIcon(id, false)}
+                style={{ fontSize: "30px", color: "#AC0000" }}
+              />
+            ) : (
+              <AiOutlineHeart
+                onClick={() => toggleIcon(id, true)}
+                style={{ fontSize: "30px", color: "#ffffff" }}
+              />
+            )}
+          </div>
+          <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
+            <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
+          </div>
+          <Tooltip
+            id="example"
+            place="bottom"
+            effect="solid"
+            style={{
+              backgroundColor: "#FFFFFF",
+              width: "169px",
+              borderRadius: "3px",
+              color: "#505050",
+            }}
+          />
+        </Article>
+      </Aside>
+    </Header>
 
-      {metaData !== undefined && (
-        <Section data-test="post">
-          <Modal modal={modal} setModal={setModal} id={id} />
-          <Text>
-            <div>
-              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
-              {currentPath[1] === 'user' && <div>
-                <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
-                <AiFillDelete onClick={() => setModal((curr) => !curr)} />
-              </div>}
-            </div>
-            {isEditing ? (<textarea
+    {metaData !== undefined && (
+      <Section data-test="post">
+        <Modal modal={modal} setModal={setModal} id={id} />
+        <Text>
+          <div>
+            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+            {currentPath[1] === 'user' && (userId === userPostId) && <div>
+              <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
+              <AiFillDelete onClick={() => setModal((curr) => !curr)} />
+            </div>}
+          </div>
+          {isEditing ? (<textarea
             data-text="edit-input"
-              placeholder=""
-              name={"description"}
-              value={form.description}
-              onChange={handleForm}
-              onKeyDown={handleKeyDown}
-              ref={editInputRef}
-              disabled={!isEditing}
-              autoFocus
-            />) : (<h2>{formatHashtags(description)}</h2>)}
-          </Text>
-          <a href={metaData.url} target="_blank" rel="noreferrer">
-            <Main>
-              <Block data-test="link">
-                <h1>{metaData.title}</h1>
-                <h2>{metaData.description}</h2>
-                <p>{metaData.url}</p>
-              </Block>
+            placeholder=""
+            name={"description"}
+            value={form.description}
+            onChange={handleForm}
+            onKeyDown={handleKeyDown}
+            ref={editInputRef}
+            disabled={!isEditing}
+            autoFocus
+          />) : (<h2>{formatHashtags(description)}</h2>)}
+        </Text>
+        <a href={metaData.url} target="_blank" rel="noreferrer">
+          <Main>
+            <Block data-test="link">
+              <h1>{metaData.title}</h1>
+              <h2>{metaData.description}</h2>
+              <p>{metaData.url}</p>
+            </Block>
 
-              <ImageLink image={metaData.images[0]} />
-            </Main>
-          </a>
-        </Section>
-      )}
-    </Container>
-  );
+            <ImageLink image={metaData.images[0]} />
+          </Main>
+        </a>
+      </Section>
+    )}
+  </Container>
+);
 }
 
 const Container = styled.div`
