@@ -19,7 +19,7 @@ const ModalPopUp = ({ modal, setModal, id }) => {
       <ModalContent>
         <h2>Are you sure you want to delete this post?</h2>
         <div>
-          <button onClick={() => setModal((curr) => !curr)}>
+          <button onClick={() => setModal((curr) => !curr)} data-test="cancel">
             {loading ? (
               <ThreeDots
                 height="12"
@@ -48,7 +48,8 @@ const ModalPopUp = ({ modal, setModal, id }) => {
                 setLoading((curr) => !curr);
                 setModal((curr) => !curr);
               }
-            }}>
+            }}
+            data-test="confirm">
             {loading ? (
               <ThreeDots
                 height="12"

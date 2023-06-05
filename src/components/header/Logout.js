@@ -29,18 +29,12 @@ const Logout = () => {
 
   return (
     <div>
-      <Drop onClick={logoutMenu} menuActive={menuActive} data-test="menu"/>
-      <img
-        onClick={() => {
-          navigate(`/user/${auth?.id}`);
-          location.reload();
-        }}
-        src={auth?.avatar}
-        alt="profile"
-        data-test="avatar"
-      />
-      <DropMenu menuActive={menuActive} onClick={logout} data-test="logout">
-        <p>Logout</p>
+      <Drop onClick={logoutMenu} menuActive={menuActive} data-test="menu" />
+      <img onClick={logoutMenu} src={auth?.avatar} alt="profile" data-test="avatar" />
+      <DropMenu menuActive={menuActive} data-test="menu">
+        <button onClick={logout} data-test="logout">
+          Logout
+        </button>
       </DropMenu>
     </div>
   );
