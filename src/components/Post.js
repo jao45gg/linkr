@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { AiOutlineHeart, AiFillHeart, AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "./feed/Modal.js";
 
 export default function Post({
@@ -21,10 +21,14 @@ export default function Post({
 }) {
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
-  const [people, setPeople] = useState();
   const [modal, setModal] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false)
+  const [form, setForm] = useState({ description: "" });
+  const currentPath = (window.location.pathname).split('/');
+  const editInputRef = useRef(null)
+
 
   useEffect(() => {
     axios
@@ -51,9 +55,6 @@ export default function Post({
       const promise2 = axiosPrivate.post(`/posts/disliked/${id}`);
       promise2.then(() => {
         Refresh();
-        const promise = axiosPrivate.get(`/posts/`);
-        promise.then((res) => setPeople(res.data));
-        promise.catch((err) => console.log(err));
       });
       promise2.catch((err) => console.log(err));
     }
@@ -81,9 +82,8 @@ export default function Post({
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${
-        likes.length - 2
-      } pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${likes.length - 2
+        } pessoas`;
     }
   };
 
@@ -111,6 +111,28 @@ export default function Post({
 
     return formattedText;
   };
+
+  function handleForm(event) {
+    setForm({ ...form, [event.target.name]: event.target.value });
+  }
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+    if (isEditing && editInputRef.current) {
+      editInputRef.current.focus()
+    }
+  };
+
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      console.log(form)
+      const promise = axiosPrivate.put(`/posts/edit/${id}`,form);
+      promise.then(()=>  {setIsEditing(false); Refresh()})
+     
+    } else if (event.key === "Escape") {
+      setIsEditing(false);
+    }
+  }
 
   return (
     <Container>
@@ -153,12 +175,22 @@ export default function Post({
           <Text>
             <div>
               <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
-              <div>
-                <AiOutlineEdit />
+              {currentPath[1] === 'user' && <div>
+                <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
                 <AiFillDelete onClick={() => setModal((curr) => !curr)} />
-              </div>
+              </div>}
             </div>
-            <h2>{formatHashtags(description)}</h2>
+            {isEditing ? (<textarea
+            data-text="edit-input"
+              placeholder=""
+              name={"description"}
+              value={form.description}
+              onChange={handleForm}
+              onKeyDown={handleKeyDown}
+              ref={editInputRef}
+              disabled={!isEditing}
+              autoFocus
+            />) : (<h2>{formatHashtags(description)}</h2>)}
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
@@ -219,6 +251,18 @@ const Text = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   margin-bottom: 10px;
+
+    textarea {
+    background: #efefef;
+    border-radius: 5px;
+    border: none;
+    resize: none;
+    display: flex;
+    flex-wrap: wrap;
+
+    
+   
+  }
 
   span {
     color: #ffffff;
