@@ -68,7 +68,6 @@ export const Sidebar = styled.div`
       padding: 9px 20px;
 
       box-sizing: border-box;
-      font-family: "Lato";
       font-weight: 700;
       font-size: 19px;
       line-height: 23px;
