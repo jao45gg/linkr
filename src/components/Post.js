@@ -138,55 +138,55 @@ export default function Post({
   }
 }
 
-return (
-  <Container>
-    <Header>
-      <Aside>
-        <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
-        <Article>
-          <div data-test="like-btn">
-            {liked ? (
-              <AiFillHeart
-                onClick={() => toggleIcon(id, false)}
-                style={{ fontSize: "30px", color: "#AC0000" }}
-              />
-            ) : (
-              <AiOutlineHeart
-                onClick={() => toggleIcon(id, true)}
-                style={{ fontSize: "30px", color: "#ffffff" }}
-              />
-            )}
-          </div>
-          <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-            <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
-          </div>
-          <Tooltip
-            id="example"
-            place="bottom"
-            effect="solid"
-            style={{
-              backgroundColor: "#FFFFFF",
-              width: "169px",
-              borderRadius: "3px",
-              color: "#505050",
-            }}
-          />
-        </Article>
-      </Aside>
-    </Header>
+  return (
+    <Container data-test="post">
+      <Header>
+        <Aside>
+          <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
+          <Article>
+            <div data-test="like-btn">
+              {liked ? (
+                <AiFillHeart
+                  onClick={() => toggleIcon(id, false)}
+                  style={{ fontSize: "30px", color: "#AC0000" }}
+                />
+              ) : (
+                <AiOutlineHeart
+                  onClick={() => toggleIcon(id, true)}
+                  style={{ fontSize: "30px", color: "#ffffff" }}
+                />
+              )}
+            </div>
+            <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
+              <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
+            </div>
+            <Tooltip
+              id="example"
+              place="bottom"
+              effect="solid"
+              style={{
+                backgroundColor: "#FFFFFF",
+                width: "169px",
+                borderRadius: "3px",
+                color: "#505050",
+              }}
+            />
+          </Article>
+        </Aside>
+      </Header>
 
-    {metaData !== undefined && (
-      <Section data-test="post">
-        <Modal modal={modal} setModal={setModal} id={id} />
-        <Text>
-          <div>
-            <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
-            {currentPath[1] === 'user' && (userId === userPostId) && <div>
-              <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
-              <AiFillDelete onClick={() => setModal((curr) => !curr)} />
-            </div>}
-          </div>
-          {isEditing ? (<textarea
+      {metaData !== undefined && (
+        <Section>
+          <Modal modal={modal} setModal={setModal} id={id} />
+          <Text>
+            <div>
+              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+              {currentPath[1] === 'user' && <div>
+                <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
+                <AiFillDelete onClick={() => setModal((curr) => !curr)} />
+              </div>}
+            </div>
+            {isEditing ? (<textarea
             data-text="edit-input"
             placeholder=""
             name={"description"}
