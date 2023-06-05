@@ -135,7 +135,6 @@ export const DropMenu = styled.div`
     color: #fff;
 
     text-align: center;
-    font-family: "lato";
     font-weight: 700;
     font-size: 17px;
     line-height: 20px;

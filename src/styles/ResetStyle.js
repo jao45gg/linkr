@@ -70,6 +70,22 @@ const ResetStyle = createGlobalStyle`
 	button:focus-visible {
 		outline: 4px auto -webkit-focus-ring-color;
 	}
+	@import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Passion+One:wght@400;700&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;700&display=swap');
+
+	body {
+		font-family: 'Lato', sans-serif;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Passion One', sans-serif;
+		font-weight: 700;
+	}
+
+	p {
+		font-family: 'Oswald', sans-serif;
+		font-weight: 700;
+	}
 `;
 
 export default ResetStyle;
