@@ -9,49 +9,41 @@ import { useParams } from "react-router-dom";
 
 export default function Users() {
   const { id } = useParams();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [erro, setErro] = useState(false);
-  const [likesUser, setlikesUser] = useState();
   const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     getPosts();
-    RefreshTimeline();
   }, []);
 
-  async function getPosts() {
-    const data = await axiosPrivate.get(`/users/getById/${id}`);
-    setData(data.data);
+  function getPosts() {
+    const promise =  axiosPrivate.get(`/users/getById/${id}`);
+    promise.then((res) => {setData(res.data); console.log(res.data)});
+    promise.catch((err) => {setErro(true);console.log(err)});
+  
   }
 
-  function RefreshTimeline() {
-    const promise = axiosPrivate.get("posts/isliked");
-    promise
-      .then((res) => {
-        setlikesUser(res.data);
-      })
-      .catch((err) => {
-        setErro(true);
-        console.log(err);
-      });
+  function Refresh() {
+    getPosts();
   }
 
   return (
     <Container>
       <Titulo>
-        <Imagem src={data.picture}></Imagem>
-        <h1>{`${data.name}’s posts`}</h1>
+        <Imagem src={data?.picture}></Imagem>
+        <h1>{`${data?.name}’s posts`}</h1>
       </Titulo>
       <Posts>
-        <Aside>
+      <Aside>
           {erro === true ? (
             <ErrorServer
               message={"An error occured while trying to fetch the posts, please refresh the page"}
             />
-          ) : data.length === 0 ? (
+          ) : data && data.posts && data.posts.length === 0 ? (
             <ErrorServer message={"There are no posts yet"} />
-          ) : data !== undefined && likesUser !== undefined ? (
+          ) : data && data.posts ? (
             data.posts.map((item) => (
               <Post
                 key={item.id}
@@ -60,13 +52,12 @@ export default function Users() {
                 description={item.description}
                 userId={auth.id}
                 likes={item.likes}
-                picture={data.picture}
-                userName={data.name}
+                picture={item.user_picture}
+                userName={item.user_name}
+                userPostId={item.user_id}
                 token={auth.accessToken}
-                userPostId={item.userPostId}
-                liked={likesUser.some((like) => like.post_id === item.id)}
-                RefreshDataLikes={getPosts}
-                RefreshTimeline={RefreshTimeline}
+                liked={item.userLiked}
+                Refresh={Refresh}
               />
             ))
           ) : (
