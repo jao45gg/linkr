@@ -3,12 +3,14 @@ import Modal from "react-modal";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
 
 const ModalPopUp = ({ modal, setModal, id }) => {
   const axios = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Modal
@@ -19,7 +21,7 @@ const ModalPopUp = ({ modal, setModal, id }) => {
       <ModalContent>
         <h2>Are you sure you want to delete this post?</h2>
         <div>
-          <button onClick={() => setModal((curr) => !curr)}>
+          <button onClick={() => setModal((curr) => !curr)} data-test="cancel">
             {loading ? (
               <ThreeDots
                 height="12"
@@ -39,8 +41,8 @@ const ModalPopUp = ({ modal, setModal, id }) => {
             onClick={async () => {
               setLoading((curr) => !curr);
               try {
-                const a = await axios.delete(`/posts/delete/${id}`);
-                console.log(a);
+                await axios.delete(`/posts/delete/${id}`);
+                navigate(`/`);
               } catch (error) {
                 setModal((curr) => !curr);
                 alert("Nao foi possivel deletar o post");
@@ -48,7 +50,8 @@ const ModalPopUp = ({ modal, setModal, id }) => {
                 setLoading((curr) => !curr);
                 setModal((curr) => !curr);
               }
-            }}>
+            }}
+            data-test="confirm">
             {loading ? (
               <ThreeDots
                 height="12"
