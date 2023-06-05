@@ -41,9 +41,7 @@ export default function Timeline() {
   async function posting(event) {
     event.preventDefault();
     setDisabled(true);
-
     console.log(form);
-    setDisabled(false);
 
     const promise = axiosPrivate.post("/posts/", form);
     promise.then(() => {
@@ -65,7 +63,7 @@ export default function Timeline() {
         <h1> {"timeline"} </h1>
       </Titulo>
       <Posts>
-        <Publish>
+        <Publish data-test="publish-box">
           <Imagem picture={auth.avatar} />
           <form onSubmit={posting}>
             <Block>
@@ -78,6 +76,7 @@ export default function Timeline() {
                 onChange={handleForm}
                 disabled={disabled}
                 required
+                data-test="link"
               />
 
               <textarea
@@ -86,9 +85,10 @@ export default function Timeline() {
                 value={form.description}
                 onChange={handleForm}
                 disabled={disabled}
+                data-test="description"
               />
 
-              <Button type="submit" disabled={disabled}>
+              <Button type="submit" disabled={disabled} data-test="publish-btn">
                 <p>{disabled ? "Publishing..." : "Publish"}</p>
               </Button>
             </Block>
@@ -100,7 +100,7 @@ export default function Timeline() {
               message={"An error occured while trying to fetch the posts, please refresh the page"}
             />
           ) : data.length === 0 ? (
-            <ErrorServer message={"There are no posts yet"} />
+            <ErrorServer message={"There are no posts yet"} data-test="message"/>
           ) : data !== undefined ? (
             data.map((item) => (
               <Post

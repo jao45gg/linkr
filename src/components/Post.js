@@ -118,19 +118,21 @@ export default function Post({
         <Aside>
           <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
           <Article>
-            {liked ? (
-              <AiFillHeart
-                onClick={() => toggleIcon(id, false)}
-                style={{ fontSize: "30px", color: "#AC0000" }}
-              />
-            ) : (
-              <AiOutlineHeart
-                onClick={() => toggleIcon(id, true)}
-                style={{ fontSize: "30px", color: "#ffffff" }}
-              />
-            )}
-            <div data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-              {likes.length !== 0 && `${likes.length} likes`}
+            <div data-test="like-btn">
+              {liked ? (
+                <AiFillHeart
+                  onClick={() => toggleIcon(id, false)}
+                  style={{ fontSize: "30px", color: "#AC0000" }}
+                />
+              ) : (
+                <AiOutlineHeart
+                  onClick={() => toggleIcon(id, true)}
+                  style={{ fontSize: "30px", color: "#ffffff" }}
+                />
+              )}
+            </div>
+            <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
+              <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
             </div>
             <Tooltip
               id="example"
@@ -148,17 +150,19 @@ export default function Post({
       </Header>
 
       {metaData !== undefined && (
-        <Section>
+        <Section data-test="post">
           <Modal modal={modal} setModal={setModal} id={id} />
           <Text>
             <div>
-              <h1 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h1>
+              <h1 data-test="user-name" onClick={() => navigate(`/user/${userPostId}`)}>
+                {userName}
+              </h1>
               <div>
-                <AiOutlineEdit />
-                <AiFillDelete onClick={() => setModal((curr) => !curr)} />
+                <AiOutlineEdit data-test="edit-btn" />
+                <AiFillDelete onClick={() => setModal((curr) => !curr)} data-test="delete-btn" />
               </div>
             </div>
-            <h2>{formatHashtags(description)}</h2>
+            <h2 data-test="description">{formatHashtags(description)}</h2>
           </Text>
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>

@@ -34,6 +34,7 @@ const Input = () => {
           minLength={3}
           debounceTimeout={300}
           onChange={(e) => setName(e.target.value)}
+          data-test="search"
         />
         <AiOutlineSearch />
       </div>
@@ -41,11 +42,12 @@ const Input = () => {
         {usersData.length > 0 &&
           usersData.map((m, index) => (
             <UserContainer
+              key={index}
               onClick={() => {
                 navigate(`/user/${m.id}`);
                 location.reload();
               }}
-              key={index}>
+              data-test="user-search">
               <img className="searchImg" src={m.picture} />
               <h1>{m.name}</h1>
             </UserContainer>

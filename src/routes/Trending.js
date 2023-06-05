@@ -33,7 +33,7 @@ const Trending = () => {
   return (
     <Container>
       <Titulo>
-        <h1>Trending</h1>
+        <h1 data-test="hashtag-title"># {params.hashtag}</h1>
       </Titulo>
       <Posts>
         <Aside>
@@ -52,6 +52,7 @@ const Trending = () => {
                 token={auth.accessToken}
                 liked={"userLiked"}
                 Refresh={() => {}}
+                data-test="post"
               />
             ))
           ) : (

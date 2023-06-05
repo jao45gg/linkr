@@ -117,7 +117,7 @@ export const Drop = styled(AiOutlineDown)`
 export const DropMenu = styled.div`
   position: absolute;
   top: 60px;
-  right: 0;
+  right: -30px;
 
   width: 150px;
   height: 47px;
@@ -127,10 +127,15 @@ export const DropMenu = styled.div`
   background: #171717;
   cursor: pointer;
   display: ${({ menuActive }) => (menuActive ? "block" : "none")} !important;
-  P {
-    margin-top: 12px;
+  button {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #fff;
+
     text-align: center;
-    font-family: "Lato";
+    font-family: "lato";
     font-weight: 700;
     font-size: 17px;
     line-height: 20px;

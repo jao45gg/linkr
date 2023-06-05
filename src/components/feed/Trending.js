@@ -28,12 +28,12 @@ const Trending = () => {
 
   return (
     <Sidebar>
-      <div>
+      <div data-test="trending">
         <h3>trending</h3>
         <ul>
           {trending.length &&
             trending?.map((trend) => (
-              <li onClick={() => hashPage(trend.hash_name)} key={trend.id}>
+              <li data-test="hashtag" onClick={() => hashPage(trend.hash_name)} key={trend.id}>
                 {trend.hash_name}
               </li>
             ))}
