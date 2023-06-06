@@ -61,14 +61,10 @@ export const HContent = styled.div`
     border: none;
     background: none;
     outline: none;
-    font-family: "Lato";
     font-size: 19px;
-    line-height: 23px;
     color: #c6c6c6;
   }
   .search svg {
-    border-left: #c6c6c6 1px solid;
-    padding-left: 17px;
     font-size: 24px;
     margin-right: 17px;
     color: #c6c6c6;

@@ -75,7 +75,6 @@ const ResetStyle = createGlobalStyle`
 	button:focus-visible {
 		outline: 4px auto -webkit-focus-ring-color;
 	}
-
 	body, textarea{
 		font-family: 'Lato', sans-serif;
 		overflow-x: hidden;
