@@ -33,7 +33,7 @@ const ResetStyle = createGlobalStyle`
 	ol, ul {
 		list-style: none;
 	}
-	input, input:focus, input:active, input:visited, input:hover{
+	input, input:focus, input:active, input:visited, input:hover, textarea, textarea:focus, textarea:active, textarea:visited, textarea:hover{
 		border: none;
 		outline: none;
 		padding-left: 12px;
@@ -78,14 +78,18 @@ const ResetStyle = createGlobalStyle`
 	@import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Passion+One:wght@400;700&display=swap');
 	@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;700&display=swap');
 
-	body {
+	body, textarea{
 		font-family: 'Lato', sans-serif;
 		overflow-x: hidden;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1, h2, h3, h4 {
 		font-family: 'Passion One', sans-serif;
 		font-weight: 700;
+	}
+	h5, h6{
+		font-family: 'Lato', sans-serif;
+		font-weight: 400;
 	}
 
 	p {
