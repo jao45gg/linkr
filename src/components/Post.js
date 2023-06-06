@@ -141,7 +141,7 @@ export default function Post({
   }
 
   return (
-    <Container>
+    <Container data-test="post">
       <Header>
         <Aside>
           <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
@@ -214,7 +214,6 @@ export default function Post({
                 <h6>{metaData.description}</h6>
                 <p>{metaData.url}</p>
               </Block>
-
               <ImageLink image={metaData.images[0]} />
             </Main>
           </a>
