@@ -13,7 +13,7 @@ const StyledInput = styled.input`
   height: ${(props) => (props.mobile ? "55px" : "65px")};
   background: #ffffff;
   border-radius: 6px;
-  width: calc(100% - 18px);
+  width: 100%;
   padding-left: 12px;
   margin-bottom: 13px;
 

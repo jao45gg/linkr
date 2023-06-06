@@ -6,9 +6,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
   const [tokenOnStorage, setTokenOnStorage] = useLocalStorage("refreshToken", "");
-  //apagar isso depois
   const [cookiesAccepted, setCookiesAccepted] = useState("");
-  //apagar isso depois
   return (
     <AuthContext.Provider
       value={{

@@ -25,6 +25,7 @@ const Input = () => {
     }
     getUsers();
   }, [name, axios]);
+
   return (
     <div className="input-menu">
       <div className="search">

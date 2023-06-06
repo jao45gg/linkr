@@ -13,7 +13,7 @@ const ResetStyle = createGlobalStyle`
 	article, aside, canvas, details, embed, 
 	figure, figcaption, footer, header, hgroup, 
 	menu, nav, output, ruby, section, summary,
-	time, mark, audio, video {
+	time, mark, audio, video{
 		margin: 0;
 		padding: 0;
 		border: 0;
@@ -32,6 +32,11 @@ const ResetStyle = createGlobalStyle`
 	}
 	ol, ul {
 		list-style: none;
+	}
+	input, input:focus, input:active, input:visited, input:hover{
+		border: none;
+		outline: none;
+		padding-left: 12px;
 	}
 	blockquote, q {
 		quotes: none;
@@ -75,6 +80,7 @@ const ResetStyle = createGlobalStyle`
 
 	body {
 		font-family: 'Lato', sans-serif;
+		overflow-x: hidden;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -85,6 +91,9 @@ const ResetStyle = createGlobalStyle`
 	p {
 		font-family: 'Oswald', sans-serif;
 		font-weight: 700;
+	}
+	* {
+		box-sizing: border-box;
 	}
 `;
 

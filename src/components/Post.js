@@ -258,16 +258,13 @@ const Text = styled.div`
   flex-wrap: wrap;
   margin-bottom: 10px;
 
-    textarea {
+  textarea {
     background: #efefef;
     border-radius: 5px;
     border: none;
     resize: none;
     display: flex;
     flex-wrap: wrap;
-
-    
-   
   }
 
   span {
@@ -278,7 +275,6 @@ const Text = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box;
   }
   div div {
     display: flex;

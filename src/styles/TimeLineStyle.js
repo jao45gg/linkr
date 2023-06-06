@@ -5,7 +5,6 @@ export const Container = styled.div`
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
-  box-sizing: border-box;
 `;
 
 export const Titulo = styled.div`
