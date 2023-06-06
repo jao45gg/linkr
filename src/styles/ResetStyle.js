@@ -75,8 +75,6 @@ const ResetStyle = createGlobalStyle`
 	button:focus-visible {
 		outline: 4px auto -webkit-focus-ring-color;
 	}
-	@import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Passion+One:wght@400;700&display=swap');
-	@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;700&display=swap');
 
 	body, textarea{
 		font-family: 'Lato', sans-serif;
