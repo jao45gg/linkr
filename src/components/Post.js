@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { AiOutlineHeart, AiFillHeart, AiFillDelete, AiOutlineEdit } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiFillHeart,
+  AiFillDelete,
+  AiOutlineEdit,
+  AiOutlineComment,
+} from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate, useParams } from "react-router-dom";
@@ -72,18 +78,22 @@ export default function Post({
           return `Você`;
         }
       }
-      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2} pessoas`;
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${
+        likes.length - 2
+      } pessoas`;
     } else {
       if (likes.length - 2 === 0) {
-        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name}`;
+        return `${likes[likes.length - 1]?.user_name} e ${
+          likes[likes.length - 2]?.user_name
+        }`;
       } else {
         if (otherPeople.length === 1) {
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${
-        likes.length - 2
-      } pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${
+        likes[likes.length - 2]?.user_name
+      } e ${likes.length - 2} pessoas`;
     }
   };
 
@@ -141,10 +151,13 @@ export default function Post({
   }
 
   return (
-    <Container data-test="post">
+    <Container  data-test="post">
       <Header>
         <Aside>
-          <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
+          <Imagem
+            onClick={() => navigate(`/user/${userPostId}`)}
+            picture={picture}
+          />
           <Article>
             <div data-test="like-btn">
               {liked ? (
@@ -159,8 +172,14 @@ export default function Post({
                 />
               )}
             </div>
-            <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-              <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
+            <div
+              data-test="tooltip"
+              data-tooltip-content={getTooltipContent()}
+              data-tooltip-id="example"
+            >
+              <div data-test="counter">
+                {likes.length !== 0 && `${likes.length} likes`}
+              </div>
             </div>
             <Tooltip
               id="example"
@@ -173,6 +192,18 @@ export default function Post({
                 color: "#505050",
               }}
             />
+          </Article>
+          <Article>
+            <div>
+              <AiOutlineComment
+                style={{ fontSize: "30px", color: "#ffffff" }}
+              />
+            </div>
+            <div>
+              <div data-test="counter">
+                {likes.length !== 0 && `${likes.length} comments`}
+              </div>
+            </div>
           </Article>
         </Aside>
       </Header>
@@ -242,10 +273,9 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  width: 60px;
+  width: 67px;
   height: 200px;
   display: flex;
-  margin-right: 8px;
 `;
 
 const Imagem = styled.div`
@@ -372,7 +402,7 @@ const Article = styled.div`
     font-size: 11px;
     line-height: 13px;
     text-align: center;
-    color: #fff;
+    color: #ffffff;
   }
 `;
 const Section = styled.div`
