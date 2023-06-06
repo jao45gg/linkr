@@ -141,7 +141,7 @@ export default function Post({
   }
 
   return (
-    <Container>
+    <Container data-test="post">
       <Header>
         <Aside>
           <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
