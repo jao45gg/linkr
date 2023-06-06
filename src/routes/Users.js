@@ -77,11 +77,9 @@ const Container = styled.div`
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
-  box-sizing: border-box;
 `;
 
 const Titulo = styled.div`
-  box-sizing: border-box;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -89,7 +87,6 @@ const Titulo = styled.div`
   width: 611px;
 
   h1 {
-    box-sizing: border-box;
     margin-left: 18px;
     padding-bottom: 8px;
     font-family: "Oswald";

@@ -151,7 +151,7 @@ export default function Post({
   }
 
   return (
-    <Container>
+    <Container  data-test="post">
       <Header>
         <Aside>
           <Imagem
@@ -213,9 +213,7 @@ export default function Post({
           <Modal modal={modal} setModal={setModal} id={id} />
           <Text>
             <div>
-              <h1 onClick={() => navigate(`/user/${userPostId}`)}>
-                {userName}
-              </h1>
+              <h5 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h5>
               {currentPath[1] === "user" && userId === userPostId && (
                 <div>
                   <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
@@ -236,14 +234,15 @@ export default function Post({
                 autoFocus
               />
             ) : (
-              <h2>{formatHashtags(description)}</h2>
+              <h6>{formatHashtags(description)}</h6>
             )}
           </Text>
+
           <a href={metaData.url} target="_blank" rel="noreferrer">
             <Main>
               <Block data-test="link">
-                <h1>{metaData.title}</h1>
-                <h2>{metaData.description}</h2>
+                <h5>{metaData.title}</h5>
+                <h6>{metaData.description}</h6>
                 <p>{metaData.url}</p>
               </Block>
 
@@ -258,19 +257,16 @@ export default function Post({
 
 const Container = styled.div`
   background-color: #171717;
-  width: 611px;
+  max-width: 611px;
   height: 276px;
 
   margin: 0 auto;
-
   margin-bottom: 15px;
   border-radius: 16px;
 
   position: relative;
-
   display: flex;
   justify-content: center;
-
   @media (max-width: 719px) {
     width: 100%;
   }
@@ -308,61 +304,46 @@ const Text = styled.div`
   }
 
   span {
-    color: #ffffff;
+    color: #fff;
     font-weight: bold;
+    cursor: pointer;
   }
   div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box;
   }
   div div {
     display: flex;
     gap: 12px;
-    color: #fff;
   }
   div div svg {
     font-size: 20px;
     cursor: pointer;
   }
-  h1,
-  h2 {
-    color: #fff;
-  }
-  h1 {
+  h5 {
     cursor: pointer;
     padding-top: 10px;
     padding-bottom: 7px;
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
     font-size: 19px;
     line-height: 23px;
-    color: #ffffff;
+    color: #fff;
   }
-
-  h2 {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
+  h6 {
     font-size: 17px;
     line-height: 20px;
-
     color: #b7b7b7;
   }
 `;
 const Main = styled.div`
-  border: 1px solid #ffffff;
-  margin-top: 40px;
-  width: 503px;
+  display: flex;
+
+  margin: 0 auto;
+  max-width: 503px;
   height: 155px;
   border: 1px solid #4d4d4d;
   border-radius: 11px;
 
-  display: flex;
-
-  margin: 0 auto;
   @media (max-width: 719px) {
     width: 90%;
   }
@@ -373,10 +354,7 @@ const Block = styled.div`
   height: 100%;
   padding: 20px;
 
-  h1 {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
+  h5 {
     font-size: 16px;
     line-height: 19px;
     color: #cecece;
@@ -384,10 +362,8 @@ const Block = styled.div`
     margin-bottom: 5px;
   }
 
-  h2 {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
+  h6 {
+    letter-spacing: 0.5px;
     font-size: 11px;
     line-height: 13px;
     color: #9b9595;
@@ -395,12 +371,9 @@ const Block = styled.div`
   }
 
   p {
-    font-family: "Lato";
-    font-style: normal;
     font-weight: 400;
     font-size: 11px;
     line-height: 13px;
-
     color: #cecece;
   }
 `;
@@ -409,25 +382,23 @@ const ImageLink = styled.div`
   width: 40vw;
   height: 100%;
 
-  border-radius: 0px 12px 13px 0px;
+  border-radius: 0px 9px 9px 0px;
   background-size: cover;
   background-image: url(${(props) => props.image});
   background-position: center center;
 `;
 
 const Aside = styled.div`
+  width: 60px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  width: 60px;
-  height: 100%;
+  margin-right: 8px;
 `;
 const Article = styled.div`
   div {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
     font-size: 11px;
     line-height: 13px;
     text-align: center;

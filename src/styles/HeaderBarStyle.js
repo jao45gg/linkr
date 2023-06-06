@@ -9,7 +9,6 @@ export const Content = styled.main`
 export const HStyle = styled.div`
   height: 72px;
   width: 100%;
-  box-sizing: border-box;
   padding: 0 12px;
   display: flex;
   justify-content: space-between;
@@ -51,7 +50,6 @@ export const HContent = styled.div`
     height: 45px;
     border: none;
     padding-left: 17px;
-    box-sizing: border-box;
     background: #ffffff;
     display: flex;
     align-items: center;
@@ -135,7 +133,6 @@ export const DropMenu = styled.div`
     color: #fff;
 
     text-align: center;
-    font-family: "lato";
     font-weight: 700;
     font-size: 17px;
     line-height: 20px;
