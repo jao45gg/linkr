@@ -56,7 +56,6 @@ export const Sidebar = styled.div`
   }
   div ul {
     width: 100%;
-    box-sizing: border-box;
 
     margin: 9px 0;
     overflow-y: scroll;
@@ -67,7 +66,6 @@ export const Sidebar = styled.div`
       width: 100%;
       padding: 9px 20px;
 
-      box-sizing: border-box;
       font-weight: 700;
       font-size: 19px;
       line-height: 23px;

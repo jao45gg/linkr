@@ -22,8 +22,7 @@ const Trending = () => {
   }, [axios]);
 
   const hashPage = (hashtag) => {
-    const hashtagName = hashtag.replace("#", "");
-    navigate(`/hashtag/${hashtagName}`);
+    navigate(`/hashtag/${hashtag}`);
   };
 
   return (

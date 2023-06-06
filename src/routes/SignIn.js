@@ -126,8 +126,6 @@ const Container = styled.div`
 `;
 
 const P = styled.p`
-  font-family: "Lato";
-  font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
