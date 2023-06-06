@@ -329,12 +329,15 @@ const Block = styled.div`
   width: 100%;
   height: 100%;
   padding: 20px;
+  overflow: hidden;
 
   h5 {
     font-size: 16px;
-    line-height: 19px;
-    color: #cecece;
+    height: calc(16px * 2);
+    text-overflow: hidden;
+    overflow: hidden;
 
+    color: #cecece;
     margin-bottom: 5px;
   }
 
@@ -342,6 +345,10 @@ const Block = styled.div`
     letter-spacing: 0.5px;
     font-size: 11px;
     line-height: 13px;
+    height: calc(13px * 4);
+    text-overflow: hidden;
+    overflow: hidden;
+
     color: #9b9595;
     margin-bottom: 5px;
   }
@@ -365,6 +372,7 @@ const ImageLink = styled.div`
 `;
 
 const Aside = styled.div`
+  margin-top: 17px;
   width: 60px;
   height: 100%;
   display: flex;
