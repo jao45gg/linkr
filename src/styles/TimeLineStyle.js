@@ -10,14 +10,10 @@ export const Container = styled.div`
 export const Titulo = styled.div`
   margin-bottom: 20px;
 
-  h1 {
-    font-family: "Oswald";
-    font-style: normal;
-    font-weight: 700;
+  p {
     font-size: 43px;
     line-height: 64px;
-    /* identical to box height */
-    color: #ffffff;
+    color: #fff;
   }
 `;
 
@@ -32,34 +28,30 @@ export const Aside = styled.div`
 
 export const Publish = styled.div`
   width: 611px;
-  height: 300px;
+  height: calc(200px + 30px + 30px);
   background-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-  margin-bottom: 10px;
   position: relative;
-
-  margin: 10px auto;
+  margin: 15px auto;
 
   @media (max-width: 719px) {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin: 10px auto;
   }
 `;
 
 export const Imagem = styled.div`
-  background-color: lightcoral;
   width: 50px;
   height: 50px;
-  border-radius: 26.5px;
+  border-radius: 50%;
   background: url(${(props) => props.picture});
   background-size: cover;
   background-position: center center;
 
   position: absolute;
-  left: 15px;
+  left: 20px;
   top: 20px;
 `;
 
@@ -70,39 +62,28 @@ export const Block = styled.div`
   width: 80%;
   margin-right: 20px;
 
-  p {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 300;
+  h5 {
     font-size: 20px;
-    line-height: 24px;
+    font-weight: 200;
     color: #707070;
-    margin-bottom: 5px;
-    padding-top: 20px;
+    padding: 20px 0px;
   }
 
   textarea {
-    background: #efefef;
+    width: 90%;
+    height: 100px;
+    padding: 10px;
     border-radius: 5px;
     border: none;
     resize: none;
     display: flex;
     flex-wrap: wrap;
-
-    width: 90%;
-    height: 100px;
+    background: #efefef;
   }
 
   textarea::placeholder {
-    font-family: "Lato";
-    font-style: normal;
     font-weight: 300;
     font-size: 15px;
-    line-height: 18px;
-    /* identical to box height */
-    padding-top: 8px;
-    padding-left: 7px;
-
     color: #949494;
   }
 `;
@@ -110,23 +91,13 @@ export const Block = styled.div`
 export const Input = styled.input`
   width: 90%;
   height: 30px;
-
-  background: #efefef;
   border-radius: 5px;
   border: none;
-
   margin-bottom: 10px;
-
+  background: #efefef;
   ::placeholder {
-    font-family: "Lato";
-    font-style: normal;
     font-weight: 300;
     font-size: 15px;
-    line-height: 18px;
-    /* identical to box height */
-    padding-top: 8px;
-    padding-left: 7px;
-
     color: #949494;
   }
 `;
@@ -143,19 +114,16 @@ export const Button = styled.button`
   justify-content: center;
 
   position: absolute;
-  top: 120%;
+  top: 111%;
   right: 10%;
   transform: translateY(-50%);
-
   p {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     font-size: 14px;
-    line-height: 17px;
-    /* identical to box height */
-    color: #ffffff;
-
-    margin-top: -10px;
+    color: #fff;
+  }
+  :hover {
+    background: #3a5ad6;
   }
 `;

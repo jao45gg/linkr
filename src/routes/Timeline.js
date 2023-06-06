@@ -60,14 +60,14 @@ export default function Timeline() {
   return (
     <Container>
       <Titulo>
-        <h1> {"timeline"} </h1>
+        <p>{"timeline"}</p>
       </Titulo>
       <Posts>
         <Publish data-test="publish-box">
           <Imagem picture={auth.avatar} />
           <form onSubmit={posting}>
             <Block>
-              <p>{"What are you going to share today?"}</p>
+              <h5>{"What are you going to share today?"}</h5>
               <Input
                 type="url"
                 placeholder="http://..."
@@ -100,7 +100,7 @@ export default function Timeline() {
               message={"An error occured while trying to fetch the posts, please refresh the page"}
             />
           ) : data.length === 0 ? (
-            <ErrorServer message={"There are no posts yet"} data-test="message"/>
+            <ErrorServer message={"There are no posts yet"} data-test="message" />
           ) : data !== undefined ? (
             data.map((item) => (
               <Post
