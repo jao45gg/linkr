@@ -337,6 +337,7 @@ const Text = styled.div`
   }
   div div svg {
     font-size: 20px;
+    color: #fff;
     cursor: pointer;
   }
   h5 {

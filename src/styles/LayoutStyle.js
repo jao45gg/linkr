@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const ResponsiveContainer = styled.div`
-  margin-top: 53px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -19,20 +18,23 @@ export const ResponsiveContainer = styled.div`
   }
 `;
 export const ContentContainer = styled.div`
-  display: flex; 
+  display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 25px;
   width: 100%;
 `;
 export const Sidebar = styled.div`
+  margin-top: calc(53px + 20px + 64px);
+
   width: 301px;
-  margin-top: 84px;
   display: none;
   overflow: hidden;
 
   @media (min-width: 1024px) {
     display: block;
+  }
+  @media (max-width: 719px) {
+    margin-top: calc(20px + 64px);
   }
   div {
     width: 100%;
