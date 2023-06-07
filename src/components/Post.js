@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { AiOutlineHeart, AiFillHeart, AiFillDelete, AiOutlineEdit, AiOutlineComment } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiFillHeart,
+  AiFillDelete,
+  AiOutlineEdit,
+  AiOutlineComment,
+} from "react-icons/ai";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "./feed/Modal.js";
+import Comments from "./Comments.js";
 
 export default function Post({
   id,
@@ -28,6 +35,7 @@ export default function Post({
   const [form, setForm] = useState({ description: "" });
   const currentPath = window.location.pathname.split("/");
   const editInputRef = useRef(null);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     axios
@@ -66,24 +74,28 @@ export default function Post({
     if (contentUser) {
       const aleatoryNumber = Math.floor(Math.random() * otherPeople.length);
       if (likes.length - 2 === 1) {
-        return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
+        return `Você,` /*  ${otherPeople[aleatoryNumber].user_name} e outra pessoa */;
       } else {
         if (otherPeople.length === 0) {
           return `Você`;
         }
       }
-      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2} pessoas`;
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${
+        likes.length - 2
+      } pessoas`;
     } else {
       if (likes.length - 2 === 0) {
-        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name}`;
+        return `${likes[likes.length - 1]?.user_name} e ${
+          likes[likes.length - 2]?.user_name
+        }`;
       } else {
         if (otherPeople.length === 1) {
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${
-        likes.length - 2
-      } pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${
+        likes[likes.length - 2]?.user_name
+      } e ${likes.length - 2} pessoas`;
     }
   };
 
@@ -141,105 +153,135 @@ export default function Post({
   }
 
   return (
-    <Container data-test="post">
-      <Header>
-        <Aside>
-          <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
-          <Article>
-            <div data-test="like-btn">
-              {liked ? (
-                <AiFillHeart
-                  onClick={() => toggleIcon(id, false)}
-                  style={{ fontSize: "30px", color: "#AC0000" }}
+    <FlexColumn>
+      <Container data-test="post">
+        <Header>
+          <Aside>
+            <Imagem
+              onClick={() => navigate(`/user/${userPostId}`)}
+              picture={picture}
+            />
+            <Article>
+              <div data-test="like-btn">
+                {liked ? (
+                  <AiFillHeart
+                    onClick={() => toggleIcon(id, false)}
+                    style={{ fontSize: "30px", color: "#AC0000" }}
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    onClick={() => toggleIcon(id, true)}
+                    style={{ fontSize: "30px", color: "#ffffff" }}
+                  />
+                )}
+              </div>
+              <div
+                data-test="tooltip"
+                data-tooltip-content={getTooltipContent()}
+                data-tooltip-id="example"
+              >
+                <div data-test="counter">
+                  {likes.length !== 0 && `${likes.length} likes`}
+                </div>
+              </div>
+              <Tooltip
+                id="example"
+                place="bottom"
+                effect="solid"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  width: "169px",
+                  borderRadius: "3px",
+                  color: "#505050",
+                }}
+              />
+            </Article>
+            <Article>
+              <div onClick={() => setShowComments(!showComments)}>
+                <div>
+                  <AiOutlineComment
+                    style={{ fontSize: "30px", color: "#ffffff" }}
+                  />
+                </div>
+                <div>
+                  <div data-test="counter">
+                    {likes.length !== 0 && `${likes.length} comments`}
+                  </div>
+                </div>
+              </div>
+            </Article>
+          </Aside>
+        </Header>
+
+        {metaData !== undefined && (
+          <Section data-test="post">
+            <Modal modal={modal} setModal={setModal} id={id} />
+            <Text>
+              <div>
+                <h5 onClick={() => navigate(`/user/${userPostId}`)}>
+                  {userName}
+                </h5>
+                {currentPath[1] === "user" && userId === userPostId && (
+                  <div>
+                    <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
+                    <AiFillDelete onClick={() => setModal((curr) => !curr)} />
+                  </div>
+                )}
+              </div>
+              {isEditing ? (
+                <textarea
+                  data-text="edit-input"
+                  placeholder=""
+                  name={"description"}
+                  value={form.description}
+                  onChange={handleForm}
+                  onKeyDown={handleKeyDown}
+                  ref={editInputRef}
+                  disabled={!isEditing}
+                  autoFocus
                 />
               ) : (
-                <AiOutlineHeart
-                  onClick={() => toggleIcon(id, true)}
-                  style={{ fontSize: "30px", color: "#ffffff" }}
-                />
+                <h6>{formatHashtags(description)}</h6>
               )}
-            </div>
-            <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-              <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
-            </div>
-            <Tooltip
-              id="example"
-              place="bottom"
-              effect="solid"
-              style={{
-                backgroundColor: "#FFFFFF",
-                width: "169px",
-                borderRadius: "3px",
-                color: "#505050",
-              }}
-            />
-          </Article>
-          <Article>
-            <div>
-              <AiOutlineComment style={{ fontSize: "30px", color: "#ffffff" }} />
-            </div>
-            <div>
-              <div data-test="counter">{likes.length !== 0 && `${likes.length} comments`}</div>
-            </div>
-          </Article>
-        </Aside>
-      </Header>
+            </Text>
 
-      {metaData !== undefined && (
-        <Section data-test="post">
-          <Modal modal={modal} setModal={setModal} id={id} />
-          <Text>
-            <div>
-              <h5 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h5>
-              {currentPath[1] === "user" && userId === userPostId && (
-                <div>
-                  <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
-                  <AiFillDelete onClick={() => setModal((curr) => !curr)} />
-                </div>
-              )}
-            </div>
-            {isEditing ? (
-              <textarea
-                data-text="edit-input"
-                placeholder=""
-                name={"description"}
-                value={form.description}
-                onChange={handleForm}
-                onKeyDown={handleKeyDown}
-                ref={editInputRef}
-                disabled={!isEditing}
-                autoFocus
-              />
-            ) : (
-              <h6>{formatHashtags(description)}</h6>
-            )}
-          </Text>
-
-          <a href={metaData.url} target="_blank" rel="noreferrer">
-            <Main>
-              <Block data-test="link">
-                <h5>{metaData.title}</h5>
-                <h6>{metaData.description}</h6>
-                <p>{metaData.url}</p>
-              </Block>
-              <ImageLink image={metaData.images[0]} />
-            </Main>
-          </a>
-        </Section>
+            <a href={metaData.url} target="_blank" rel="noreferrer">
+              <Main>
+                <Block data-test="link">
+                  <h5>{metaData.title}</h5>
+                  <h6>{metaData.description}</h6>
+                  <p>{metaData.url}</p>
+                </Block>
+                <ImageLink image={metaData.images[0]} />
+              </Main>
+            </a>
+          </Section>
+        )}
+      </Container>
+      {showComments && (
+        <Comments />
       )}
-    </Container>
+    </FlexColumn>
   );
 }
+
+const FlexColumn = styled.span`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #171717;
+  max-width: 611px;
+  margin-bottom: 15px;
+  border-radius: 16px;
+`;
 
 const Container = styled.div`
   background-color: #171717;
   max-width: 611px;
   height: 276px;
-
-  margin: 0 auto;
-  margin-bottom: 15px;
-  border-radius: 16px;
-
   position: relative;
   display: flex;
   justify-content: center;
