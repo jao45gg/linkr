@@ -147,6 +147,7 @@ export const UserContainer = styled.div`
   h1 {
     font-family: "Lato";
     font-weight: 400;
+    //pode remover essas linha acima
     margin-left: 12px;
     font-size: 19px;
     color: #515151;

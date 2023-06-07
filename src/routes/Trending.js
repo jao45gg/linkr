@@ -33,7 +33,9 @@ const Trending = () => {
   return (
     <Container>
       <Titulo>
-        <h1 data-test="hashtag-title"># {params.hashtag}</h1>
+        <div>
+          <p data-test="hashtag-title"># {params.hashtag}</p>
+        </div>
       </Titulo>
       <Posts>
         <Aside>

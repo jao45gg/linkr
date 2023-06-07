@@ -8,17 +8,67 @@ export const Container = styled.div`
 `;
 
 export const Titulo = styled.div`
-  margin-bottom: 20px;
+  position: absolute;
+  left: 50.2%;
+  transform: translateX(-49%);
+  max-width: calc(611px + 25px + 301px);
+  width: 100%;
 
-  p {
-    font-size: 43px;
-    line-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 53px;
+
+  div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    p {
+      font-size: 43px;
+      line-height: 64px;
+      color: #fff;
+    }
+  }
+
+  div:last-child button {
+    width: 112px;
+    height: 31px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  div:last-child button:hover {
+    filter: brightness(0.9);
+  }
+
+  div:last-child button.following {
+    background: #1877f2;
     color: #fff;
+  }
+
+  div:last-child button.not-following {
+    background: #fff;
+    color: #1877f2;
+  }
+
+  @media (max-width: 719px) {
+    margin-top: 0px;
   }
 `;
 
 export const Posts = styled.div`
+  margin-top: calc(53px + 20px + 64px);
+
   width: 100%;
+  @media (max-width: 719px) {
+    margin-top: calc(20px + 64px);
+  }
 `;
 
 export const Aside = styled.div`
@@ -27,18 +77,18 @@ export const Aside = styled.div`
 `;
 
 export const Publish = styled.div`
-  width: 611px;
+  max-width: 611px;
   height: calc(200px + 30px + 30px);
   background-color: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   position: relative;
   margin: 15px auto;
-
   @media (max-width: 719px) {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: calc(200px + 30px + 30px + 10px);
   }
 `;
 
@@ -63,6 +113,7 @@ export const Block = styled.div`
   margin-right: 20px;
 
   h5 {
+    width: min(90%, 62vw);
     font-size: 20px;
     font-weight: 200;
     color: #707070;
@@ -70,7 +121,7 @@ export const Block = styled.div`
   }
 
   textarea {
-    width: 90%;
+    width: min(90%, 62vw);
     height: 100px;
     padding: 10px;
     border-radius: 5px;
@@ -89,7 +140,7 @@ export const Block = styled.div`
 `;
 
 export const Input = styled.input`
-  width: 90%;
+  width: min(90%, 62vw);
   height: 30px;
   border-radius: 5px;
   border: none;
@@ -103,7 +154,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 112px;
+  max-width: 112px;
   height: 30px;
 
   background: #1877f2;
@@ -117,6 +168,9 @@ export const Button = styled.button`
   top: 111%;
   right: 10%;
   transform: translateY(-50%);
+  @media (max-width: 719px) {
+    right: 18%;
+  }
   p {
     font-weight: 500;
     letter-spacing: 0.05em;

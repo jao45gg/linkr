@@ -82,7 +82,9 @@ export default function Timeline() {
   return (
     <Container>
       <Titulo>
-        <p>{"timeline"}</p>
+        <div>
+          <p>timeline</p>
+        </div>
       </Titulo>
       <Posts>
         <Publish data-test="publish-box">
@@ -127,8 +129,7 @@ export default function Timeline() {
             <InfiniteScroll
               pageStart={0}
               loadMore={() => handleScroll(page + 1)}
-              loader={<div key={0}>Carregando...Carregando...</div>}
-            >
+              loader={<div key={0}>Carregando...Carregando...</div>}>
               {data.map((item) => (
                 <Post
                   key={item.id}
