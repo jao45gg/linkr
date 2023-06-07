@@ -28,17 +28,12 @@ const Comments = () => {
   );
 };
 
-const InputContainer = styled.div`
-  display: flex;
-  width: 100%;
-  position: relative;
-`;
+
 const StyledFiSend = styled(FiSend)`
   font-size: 16px;
-  color: #ffffff;
-  position: absolute;
-  right: 12.5px;
-  top: 11.5px;
+  margin-right: 11px;
+  color: #fff;
+  cursor: pointer;
 `;
 
 const CommentsContainer = styled.div`
@@ -54,13 +49,20 @@ const WriteComment = styled.div`
   display: flex;
   align-items: center;
 `;
-const WriteCommentInput = styled.input`
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 39px;
-  background: #252525;
   border-radius: 8px;
-  position: relative;
-
+  background: #252525;
+`;
+const WriteCommentInput = styled.input`
+  width: 92%;
+  background: none;
+  border: none;
+  outline: none;
   ::placeholder {
     font-style: italic;
     font-weight: 400;
@@ -70,7 +72,7 @@ const WriteCommentInput = styled.input`
     color: #575757;
   }
   &:valid {
-    color: #CCC;
+    color: #ccc;
   }
 `;
 const UsrImgOnWriteComment = styled.div`

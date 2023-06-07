@@ -5,40 +5,39 @@ const Comment = () => {
   return (
     <Container>
       <CommentContainer>
-        <Imagem
-          picture={"https://mcdn.wallpapersafari.com/medium/53/45/xaZHSJ.jpg"}
-        />
+        <Imagem picture={"https://mcdn.wallpapersafari.com/medium/53/45/xaZHSJ.jpg"} />
         <Flex>
           <p>
-            <strong>João Tavares</strong> • following
+            <strong>João Tavares</strong>
           </p>
           <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
         </Flex>
       </CommentContainer>
-      <Line />
     </Container>
   );
 };
 
 export default Comment;
-
 const Container = styled.div`
-  background-color: #1E1E1E;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CommentContainer = styled.section`
-  background-color: #1e1e1e;
-  border-radius: 16px;
-  min-height: 53px;
-  margin: 9px 0;
-  width: 100%;
-  position: relative;
+  width: 90%;
+
   display: flex;
   align-items: center;
-  padding: 0 25px;
+  position: relative;
+
+  padding: 20px 0px;
+  border-bottom: 1px solid #252525;
+  background-color: #1e1e1e;
 
   @media (max-width: 719px) {
-    width: 100%;
+    width: 92%;
   }
 `;
 
@@ -59,28 +58,26 @@ const Flex = styled.div`
   justify-content: center;
 
   p {
-    font-family: "Lato";
-    font-style: normal;
+    margin-top: 3px;
     font-weight: 400;
     font-size: 14px;
+    letter-spacing: 0.03em;
     line-height: 17px;
-    color: #565656;
+    color: #acacac;
   }
 
   strong {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     font-size: 14px;
     line-height: 17px;
     color: #f3f3f3;
   }
-`;
-
-const Line = styled.div`
-  width: calc(100% - 40px);
-  height: 0px;
-  border: 1px solid #353535;
-  transform: rotate(-0.1deg);
-  margin: 0 auto;
+  strong:after {
+    //receber o nome do usuário mudar content
+    content: " • following";
+    color: #565656;
+    font-size: 14px;
+    font-weight: 400;
+  }
 `;
