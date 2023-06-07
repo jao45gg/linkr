@@ -26,14 +26,14 @@ const Container = styled.div`
 `;
 
 const CommentContainer = styled.section`
-  width: 90%;
+  width: calc(100% - 40px);
 
   display: flex;
   align-items: center;
   position: relative;
 
   padding: 20px 0px;
-  border-bottom: 1px solid #252525;
+  border-bottom: 1px solid #353535;
   background-color: #1e1e1e;
 
   @media (max-width: 719px) {
