@@ -28,6 +28,7 @@ export default function Timeline() {
     Refresh();
   }, []);
 
+
   function Refresh() {
     const promise = axiosPrivate.get("/posts/");
     promise.then((res) => setData(res.data));
@@ -103,6 +104,7 @@ export default function Timeline() {
             <ErrorServer message={"There are no posts yet"} data-test="message"/>
           ) : data !== undefined ? (
             data.map((item) => (
+              <>
               <Post
                 key={item.id}
                 id={item.id}
@@ -110,6 +112,7 @@ export default function Timeline() {
                 description={item.description}
                 userId={auth.id}
                 likes={item.likes}
+                shares={item.shares}
                 picture={item.user_picture}
                 userName={item.user_name}
                 userPostId={item.user_id}
@@ -117,6 +120,7 @@ export default function Timeline() {
                 liked={item.userLiked}
                 Refresh={Refresh}
               />
+              </>
             ))
           ) : (
             <LoadingPage />

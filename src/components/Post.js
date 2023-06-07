@@ -8,17 +8,19 @@ import {
   AiOutlineEdit,
   AiOutlineComment,
 } from "react-icons/ai";
+import { FaRetweet } from "react-icons/fa"
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "./feed/Modal.js";
-
+import Repost from "./Repost.js"
 export default function Post({
   id,
   link,
   description,
   userId,
   likes,
+  shares,
   picture,
   userName,
   liked,
@@ -28,12 +30,14 @@ export default function Post({
   const [metaData, setMetaData] = useState();
   const [isLike, setIsLike] = useState(false);
   const [modal, setModal] = useState(false);
+  const [tipo, setTipo] = useState("")
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({ description: "" });
   const currentPath = window.location.pathname.split("/");
   const editInputRef = useRef(null);
+  const [isReposting, setIsReposting] = useState(false)
 
   useEffect(() => {
     axios
@@ -44,6 +48,7 @@ export default function Post({
       .catch((error) => {
         console.error("Erro ao obter os metadados da URL:", error);
       });
+      lookingIsRepost()
   }, [axiosPrivate, id, link]);
 
   const toggleIcon = (id, type) => {
@@ -78,22 +83,19 @@ export default function Post({
           return `Você`;
         }
       }
-      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${
-        likes.length - 2
-      } pessoas`;
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2
+        } pessoas`;
     } else {
       if (likes.length - 2 === 0) {
-        return `${likes[likes.length - 1]?.user_name} e ${
-          likes[likes.length - 2]?.user_name
-        }`;
+        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name
+          }`;
       } else {
         if (otherPeople.length === 1) {
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${
-        likes[likes.length - 2]?.user_name
-      } e ${likes.length - 2} pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name
+        } e ${likes.length - 2} pessoas`;
     }
   };
 
@@ -150,115 +152,140 @@ export default function Post({
     }
   }
 
+  function lookingIsRepost(){
+    shares.forEach(item => {if(item.repostID === id){
+      setIsReposting(true)
+    }})
+  }
+
   return (
-    <Container  data-test="post">
-      <Header>
-        <Aside>
-          <Imagem
-            onClick={() => navigate(`/user/${userPostId}`)}
-            picture={picture}
-          />
-          <Article>
-            <div data-test="like-btn">
-              {liked ? (
-                <AiFillHeart
-                  onClick={() => toggleIcon(id, false)}
-                  style={{ fontSize: "30px", color: "#AC0000" }}
-                />
-              ) : (
-                <AiOutlineHeart
-                  onClick={() => toggleIcon(id, true)}
+    <>
+      <Container data-test="post" isReposting={isReposting}>
+        <Header>
+          <Aside>
+            <Imagem
+              onClick={() => navigate(`/user/${userPostId}`)}
+              picture={picture}
+            />
+            <Article>
+              <div data-test="like-btn">
+                {liked ? (
+                  <AiFillHeart
+                    onClick={() => toggleIcon(id, false)}
+                    style={{ fontSize: "30px", color: "#AC0000" }}
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    onClick={() => toggleIcon(id, true)}
+                    style={{ fontSize: "30px", color: "#ffffff" }}
+                  />
+                )}
+              </div>
+              <div
+                data-test="tooltip"
+                data-tooltip-content={getTooltipContent()}
+                data-tooltip-id="example"
+              >
+                <div data-test="counter">
+                  {likes.length !== 0 && `${likes.length} likes`}
+                </div>
+              </div>
+              <Tooltip
+                id="example"
+                place="bottom"
+                effect="solid"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  width: "169px",
+                  borderRadius: "3px",
+                  color: "#505050",
+                }}
+              />
+            </Article>
+            <Article>
+              <div>
+                <AiOutlineComment
                   style={{ fontSize: "30px", color: "#ffffff" }}
                 />
-              )}
-            </div>
-            <div
-              data-test="tooltip"
-              data-tooltip-content={getTooltipContent()}
-              data-tooltip-id="example"
-            >
-              <div data-test="counter">
-                {likes.length !== 0 && `${likes.length} likes`}
               </div>
-            </div>
-            <Tooltip
-              id="example"
-              place="bottom"
-              effect="solid"
-              style={{
-                backgroundColor: "#FFFFFF",
-                width: "169px",
-                borderRadius: "3px",
-                color: "#505050",
-              }}
-            />
-          </Article>
-          <Article>
-            <div>
-              <AiOutlineComment
-                style={{ fontSize: "30px", color: "#ffffff" }}
-              />
-            </div>
-            <div>
-              <div data-test="counter">
-                {likes.length !== 0 && `${likes.length} comments`}
-              </div>
-            </div>
-          </Article>
-        </Aside>
-      </Header>
-
-      {metaData !== undefined && (
-        <Section data-test="post">
-          <Modal modal={modal} setModal={setModal} id={id} />
-          <Text>
-            <div>
-              <h5 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h5>
-              {currentPath[1] === "user" && userId === userPostId && (
-                <div>
-                  <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
-                  <AiFillDelete onClick={() => setModal((curr) => !curr)} />
+              <div>
+                <div data-test="counter">
+                  {likes.length !== 0 && `${likes.length} comments`}
                 </div>
+              </div>
+            </Article>
+            <Article>
+              <div>
+                <FaRetweet
+                  onClick={() => { setModal((curr) => !curr); setTipo("share") }}
+                  style={{ fontSize: "30px", color: "#ffffff" }}
+                />
+              </div>
+              <div>
+                <div data-test="counter">
+                  {shares && `${shares.length} re-posts`}
+                </div>
+              </div>
+            </Article>
+          </Aside>
+        </Header>
+
+        {metaData !== undefined && (
+          <Section data-test="post">
+            <Modal modal={modal} setModal={setModal} id={id} tipo={tipo} link={link} description={description} userId={userPostId}/>
+            <Text>
+              <div>
+                <h5 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h5>
+                {currentPath[1] === "user" && userId === userPostId && (
+                  <div>
+                    <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
+                    <AiFillDelete onClick={() => { setModal((curr) => !curr); setTipo("delete") }}
+                    />
+                  </div>
+                )}
+              </div>
+              {isEditing ? (
+                <textarea
+                  data-text="edit-input"
+                  placeholder=""
+                  name={"description"}
+                  value={form.description}
+                  onChange={handleForm}
+                  onKeyDown={handleKeyDown}
+                  ref={editInputRef}
+                  disabled={!isEditing}
+                  autoFocus
+                />
+              ) : (
+                <h6>{formatHashtags(description)}</h6>
               )}
-            </div>
-            {isEditing ? (
-              <textarea
-                data-text="edit-input"
-                placeholder=""
-                name={"description"}
-                value={form.description}
-                onChange={handleForm}
-                onKeyDown={handleKeyDown}
-                ref={editInputRef}
-                disabled={!isEditing}
-                autoFocus
-              />
-            ) : (
-              <h6>{formatHashtags(description)}</h6>
-            )}
-          </Text>
+            </Text>
 
-          <a href={metaData.url} target="_blank" rel="noreferrer">
-            <Main>
-              <Block data-test="link">
-                <h5>{metaData.title}</h5>
-                <h6>{metaData.description}</h6>
-                <p>{metaData.url}</p>
-              </Block>
+            <a href={metaData.url} target="_blank" rel="noreferrer">
+              <Main>
+                <Block data-test="link">
+                  <h5>{metaData.title}</h5>
+                  <h6>{metaData.description}</h6>
+                  <p>{metaData.url}</p>
+                </Block>
 
-              <ImageLink image={metaData.images[0]} />
-            </Main>
-          </a>
-        </Section>
-      )}
-    </Container>
+                <ImageLink image={metaData.images[0]} />
+              </Main>
+            </a>
+          </Section>
+        )}
+      </Container>
+    </>
   );
+
+
 }
 
 const Container = styled.div`
-  background-color: #171717;
+  background-color: ${(props) => props.isReposting ? "blue" : "#171717"};
   max-width: 611px;
   height: 276px;
+  box-sizing: border-box;
 
   margin: 0 auto;
   margin-bottom: 15px;
@@ -274,8 +301,11 @@ const Container = styled.div`
 
 const Header = styled.div`
   width: 67px;
-  height: 200px;
+  height: 100%;
   display: flex;
+
+  margin-right:8px;
+  
 `;
 
 const Imagem = styled.div`
@@ -286,6 +316,8 @@ const Imagem = styled.div`
   background-size: cover;
   background-image: url(${(props) => props.picture});
   background-position: center center;
+
+  margin-top: 17px;
 `;
 
 const Text = styled.div`
@@ -389,20 +421,27 @@ const ImageLink = styled.div`
 `;
 
 const Aside = styled.div`
-  width: 60px;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  margin-right: 8px;
+  
+  
+  
+ 
+
+  
 `;
 const Article = styled.div`
+
   div {
     font-size: 11px;
     line-height: 13px;
     text-align: center;
     color: #ffffff;
+
+    margin-top: 7px;
   }
 `;
 const Section = styled.div`

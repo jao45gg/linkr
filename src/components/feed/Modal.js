@@ -4,13 +4,15 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { axiosPrivate } from "../../api/axios.js";
 
 Modal.setAppElement("#root");
 
-const ModalPopUp = ({ modal, setModal, id }) => {
+const ModalPopUp = ({ modal, setModal, id, tipo, link, description, userId }) => {
   const axios = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [repostId, setRepostId] = useState(0)
 
   return (
     <Modal
@@ -19,7 +21,9 @@ const ModalPopUp = ({ modal, setModal, id }) => {
       style={customStyles}
       contentLabel="Example Modal">
       <ModalContent>
-        <h2>Are you sure you want to delete this post?</h2>
+        <h2>{tipo === "delete" ?
+          "Are you sure you want to delete this post?" :
+          "Do you want to re-post this link?"}</h2>
         <div>
           <button onClick={() => setModal((curr) => !curr)} data-test="cancel">
             {loading ? (
@@ -34,14 +38,24 @@ const ModalPopUp = ({ modal, setModal, id }) => {
                 visible={true}
               />
             ) : (
-              "No, go back"
+              tipo === "delete" ? "No, go back" : "No, cancel"
             )}
           </button>
           <button
             onClick={async () => {
               setLoading((curr) => !curr);
               try {
-                await axios.delete(`/posts/delete/${id}`);
+                if (tipo === "delete") {
+                  await axios.delete(`/posts/delete/${id}`);
+                } else {
+
+                  const promise = axiosPrivate.post(`/posts/repost`, { id: userId, url: link, description: description });
+                  promise.then(res => {
+                    const promise = axiosPrivate.post(`/posts/share/${id}`, { repost: res.data.new_id })
+                    promise.then(() => window.location.reload)
+                  })
+                 
+                }
                 navigate(`/`);
               } catch (error) {
                 setModal((curr) => !curr);
@@ -64,7 +78,7 @@ const ModalPopUp = ({ modal, setModal, id }) => {
                 visible={true}
               />
             ) : (
-              "Yes, delete it"
+              tipo === "delete" ? "Yes, delete it" : "Yes, share!"
             )}
           </button>
         </div>

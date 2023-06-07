@@ -20,7 +20,7 @@ export default function Users() {
 
   function getPosts() {
     const promise =  axiosPrivate.get(`/users/getById/${id}`);
-    promise.then((res) => {setData(res.data); console.log(res.data)});
+    promise.then((res) => {setData(res.data)});
     promise.catch((err) => {setErro(true);console.log(err)});
   
   }
@@ -52,6 +52,7 @@ export default function Users() {
                 description={item.description}
                 userId={auth.id}
                 likes={item.likes}
+                shares={item.shares}
                 picture={item.user_picture}
                 userName={item.user_name}
                 userPostId={item.user_id}
