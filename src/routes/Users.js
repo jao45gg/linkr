@@ -6,23 +6,32 @@ import LoadingPage from "../components/loadings/LoadingPage";
 import ErrorServer from "../components/ErrorServer";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
+import { Container, Titulo, Posts, Aside } from "../styles/TimeLineStyle.js";
 
 export default function Users() {
   const { id } = useParams();
-  const [data, setData] = useState();
-  const [erro, setErro] = useState(false);
   const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+  const [data, setData] = useState();
+  const [erro, setErro] = useState(false);
+  const [following, setFollowing] = useState(false);
+  //fazer request para saber se o usuario logado segue o usuario da pagina
+  //junto com o request dos posts
 
   useEffect(() => {
     getPosts();
   }, []);
 
   function getPosts() {
-    const promise =  axiosPrivate.get(`/users/getById/${id}`);
-    promise.then((res) => {setData(res.data)});
-    promise.catch((err) => {setErro(true);console.log(err)});
-  
+    const promise = axiosPrivate.get(`/users/getById/${id}`);
+    promise.then((res) => {
+      setData(res.data);
+      console.log(res.data);
+    });
+    promise.catch((err) => {
+      setErro(true);
+      console.log(err);
+    });
   }
 
   function Refresh() {
@@ -32,11 +41,21 @@ export default function Users() {
   return (
     <Container>
       <Titulo>
-        <Imagem src={data?.picture}></Imagem>
-        <h1>{`${data?.name}’s posts`}</h1>
+        <div>
+          <Imagem src={data?.picture}></Imagem>
+          <p>{`${data?.name}’s posts`}</p>
+        </div>
+        <div>
+          {/* se o user estiver visitando a pagina dele nao renderiza o botao */}
+          <button
+            className={following ? "following" : "not-following"}
+            onClick={() => setFollowing((curr) => !curr)}>
+            {following ? "Following" : "Follow"}
+          </button>
+        </div>
       </Titulo>
       <Posts>
-      <Aside>
+        <Aside>
           {erro === true ? (
             <ErrorServer
               message={"An error occured while trying to fetch the posts, please refresh the page"}
@@ -69,45 +88,6 @@ export default function Users() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(51, 51, 51);
-  width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
-`;
-
-const Titulo = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  padding-left: 30px;
-  width: 611px;
-
-  h1 {
-    margin-left: 18px;
-    padding-bottom: 8px;
-    font-family: "Oswald";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 43px;
-    line-height: 64px;
-    /* identical to box height */
-    color: #ffffff;
-  }
-`;
-
-const Posts = styled.div`
-  width: 100%;
-`;
-
-const Aside = styled.div`
-  width: 100%;
-  margin: 0 auto;
-`;
 
 const Imagem = styled.img`
   width: 50px;

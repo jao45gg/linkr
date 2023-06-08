@@ -75,7 +75,6 @@ const ResetStyle = createGlobalStyle`
 	button:focus-visible {
 		outline: 4px auto -webkit-focus-ring-color;
 	}
-
 	body, textarea{
 		font-family: 'Lato', sans-serif;
 		overflow-x: hidden;
@@ -85,7 +84,7 @@ const ResetStyle = createGlobalStyle`
 		font-family: 'Passion One', sans-serif;
 		font-weight: 700;
 	}
-	h5, h6{
+	h5, h6, input::placeholder{
 		font-family: 'Lato', sans-serif;
 		font-weight: 400;
 	}

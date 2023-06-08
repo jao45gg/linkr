@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth.js";
 import LoadingPage from "../components/loadings/LoadingPage.js";
 import ErrorServer from "../components/ErrorServer.js";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
+import InfiniteScroll from 'react-infinite-scroller';
 import {
   Container,
   Titulo,
@@ -21,6 +22,9 @@ export default function Timeline() {
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState([]);
   const [erro, setErro] = useState(false);
+  const [offset, setOffset] = useState(0);
+  let page = 1;
+  const [refreshState, setRefreshState] = useState(true);
   const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
@@ -28,11 +32,31 @@ export default function Timeline() {
     Refresh();
   }, []);
 
+  function handleScroll(num) {
+    page = num;
+    Refresh();
+  }
 
   function Refresh() {
-    const promise = axiosPrivate.get("/posts/");
-    promise.then((res) => setData(res.data));
+    const promise = axiosPrivate.get(`/posts/${page} ${offset}`);
+    promise.then((res) => {
+      setData(res.data);
+    });
     promise.catch((err) => console.log(err));
+  }
+
+  if (data.length > 0 && refreshState) {
+    setInterval(checkNewPosts, 15000);
+    setRefreshState(false);
+  }
+
+  function checkNewPosts() {
+    const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
+    promise.then(res => {
+      if ((data.length + res.data) > 10) {
+        setOffset(((data.length + res.data) - 10));
+      }
+    })
   }
 
   function handleForm(event) {
@@ -42,15 +66,12 @@ export default function Timeline() {
   async function posting(event) {
     event.preventDefault();
     setDisabled(true);
-    console.log(form);
 
     const promise = axiosPrivate.post("/posts/", form);
     promise.then(() => {
       setDisabled(false);
       setForm({ url: "", description: "" });
-      const promise = axiosPrivate.get("/posts/");
-      promise.then((res) => setData(res.data));
-      promise.catch((err) => console.log(err));
+      Refresh();
     });
     promise.catch(() => {
       setDisabled(false);
@@ -61,14 +82,16 @@ export default function Timeline() {
   return (
     <Container>
       <Titulo>
-        <h1> {"timeline"} </h1>
+        <div>
+          <p>timeline</p>
+        </div>
       </Titulo>
       <Posts>
         <Publish data-test="publish-box">
           <Imagem picture={auth.avatar} />
           <form onSubmit={posting}>
             <Block>
-              <p>{"What are you going to share today?"}</p>
+              <h5>{"What are you going to share today?"}</h5>
               <Input
                 type="url"
                 placeholder="http://..."
@@ -101,27 +124,30 @@ export default function Timeline() {
               message={"An error occured while trying to fetch the posts, please refresh the page"}
             />
           ) : data.length === 0 ? (
-            <ErrorServer message={"There are no posts yet"} data-test="message"/>
+            <ErrorServer message={"There are no posts yet"} data-test="message" />
           ) : data !== undefined ? (
-            data.map((item) => (
-              <>
-              <Post
-                key={item.id}
-                id={item.id}
-                link={item.link}
-                description={item.description}
-                userId={auth.id}
-                likes={item.likes}
-                shares={item.shares}
-                picture={item.user_picture}
-                userName={item.user_name}
-                userPostId={item.user_id}
-                token={auth.accessToken}
-                liked={item.userLiked}
-                Refresh={Refresh}
-              />
-              </>
-            ))
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={() => handleScroll(page + 1)}
+              loader={<div key={0}>Carregando...Carregando...</div>}>
+              {data.map((item) => (
+                <Post
+                  key={item.id}
+                  id={item.id}
+                  link={item.link}
+                  description={item.description}
+                  userId={auth.id}
+                  likes={item.likes}
+                  shares={item.shares}
+                  picture={item.user_picture}
+                  userName={item.user_name}
+                  userPostId={item.user_id}
+                  token={auth.accessToken}
+                  liked={item.userLiked}
+                  Refresh={Refresh}
+                />
+              ))}
+            </InfiniteScroll>
           ) : (
             <LoadingPage />
           )}
