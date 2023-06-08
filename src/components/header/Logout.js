@@ -30,7 +30,7 @@ const Logout = () => {
   return (
     <div>
       <Drop onClick={logoutMenu} menuActive={menuActive} data-test="menu" />
-      <img onClick={logoutMenu} src={auth?.avatar} alt="profile" data-test="avatar" />
+      <img onClick={logoutMenu}  data-test="avatar" />
       <DropMenu menuActive={menuActive} data-test="menu">
         <button onClick={logout} data-test="logout">
           Logout

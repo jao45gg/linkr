@@ -43,7 +43,12 @@ export default function Timeline() {
       setData(res.data);
     });
     promise.catch((err) => console.log(err));
-  }
+
+    promise.finally(()=>{
+      setDisabled(false);
+      setForm({ url: "", description: "" });
+    })
+  } 
 
   if (data.length > 0 && refreshState) {
     setInterval(checkNewPosts, 15000);
@@ -69,12 +74,9 @@ export default function Timeline() {
 
     const promise = axiosPrivate.post("/posts/", form);
     promise.then(() => {
-      setDisabled(false);
-      setForm({ url: "", description: "" });
       Refresh();
     });
     promise.catch(() => {
-      setDisabled(false);
       setErro(true);
     });
   }

@@ -172,7 +172,7 @@ export default function Post({
   }
 
   return (
-    <FlexColumn>
+    <FlexColumn data-test="post">
       <Repost isReposting={isReposting}>
         <FaRetweet style={{ fontSize: "20px", color: "#ffffff" }} />
         <p>
@@ -182,7 +182,7 @@ export default function Post({
             : `Re-posted by ${repostNameUser}`}{" "}
         </p>
       </Repost>
-      <Container data-test="post" isReposting={isReposting}>
+      <Container isReposting={isReposting}>
         <ContainerPost>
           <Header>
             <Aside>
@@ -275,7 +275,7 @@ export default function Post({
               />
               <Text>
                 <div>
-                  <h5 onClick={() => navigate(`/user/${userPostId}`)}>
+                  <h5 data-test="username" onClick={() => navigate(`/user/${userPostId}`)}>
                     {userName}
                   </h5>
                   {currentPath[1] === "user" &&
@@ -287,6 +287,7 @@ export default function Post({
                           onClick={handleEdit}
                         />
                         <AiFillDelete
+                          data-test="delete-btn"
                           onClick={() => {
                             setModal((curr) => !curr);
                             setTipo("delete");
@@ -308,11 +309,11 @@ export default function Post({
                     autoFocus
                   />
                 ) : (
-                  <h6>{formatHashtags(description)}</h6>
+                  <h6 data-test="description">{formatHashtags(description)}</h6>
                 )}
               </Text>
 
-              <a href={metaData.url} target="_blank" rel="noreferrer">
+              <a data-test="link" href={metaData.url} target="_blank" rel="noreferrer">
                 <Main>
                   <Block data-test="link">
                     <h5>{metaData.title}</h5>
