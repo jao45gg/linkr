@@ -17,6 +17,7 @@
     "react-tooltip": "^5.13.1",
     "styled-components": "^5.3.11",
     "url-metadata": "^3.0.1",
+    "use-interval": "^1.4.0",
     "valid-url": "^1.0.9"
   },
   "scripts": {
