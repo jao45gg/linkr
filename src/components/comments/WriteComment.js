@@ -14,6 +14,10 @@ const WriteComment = ({ post_id, comments, setComments, count, setCount }) => {
     event.preventDefault();
     setIsLoading(true);
     try {
+      if (!newComment.trim()) {
+        window.alert("Digite um comentário");
+        return;
+      }
       const body = { post_id, comment: newComment };
       const response = await axiosPrivate.post("/comments", body);
       const newComments = [...comments];
