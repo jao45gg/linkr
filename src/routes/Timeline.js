@@ -138,6 +138,7 @@ export default function Timeline() {
                   description={item.description}
                   userId={auth.id}
                   likes={item.likes}
+                  shares={item.shares}
                   picture={item.user_picture}
                   userName={item.user_name}
                   userPostId={item.user_id}
