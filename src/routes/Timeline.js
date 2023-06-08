@@ -39,7 +39,6 @@ export default function Timeline() {
   function Refresh() {
     const promise = axiosPrivate.get(`/posts/${page} ${offset}`);
     promise.then((res) => {
-      console.log(res.data)
       if (res.data[0]?.id !== data[0]?.id) {
         setData(res.data);
         setHasMore(true);
@@ -48,12 +47,7 @@ export default function Timeline() {
       }
     });
     promise.catch((err) => console.log(err));
-
-    promise.finally(()=>{
-      setDisabled(false);
-      setForm({ url: "", description: "" });
-    })
-  } 
+  }
 
   useInterval(() => {
     if (data.length > 0) {
@@ -67,6 +61,10 @@ export default function Timeline() {
           Refresh();
         }
       })
+        .catch(res => {
+          console.log(res)
+          alert(res.message);
+        })
     }
   }, 15000)
 
@@ -86,10 +84,15 @@ export default function Timeline() {
     const promise = axiosPrivate.post("/posts/", form);
     promise.then(() => {
       Refresh();
-    });
-    promise.catch(() => {
-      setErro(true);
-    });
+    })
+      .catch(res => {
+        alert(res.message);
+      })
+      .finally(() => {
+        setDisabled(false);
+        setForm({ url: "", description: "" });
+      })
+
   }
 
   return (
