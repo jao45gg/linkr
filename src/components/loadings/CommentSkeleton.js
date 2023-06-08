@@ -45,34 +45,11 @@ const Flex = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  p {
-    margin-top: 3px;
-    font-weight: 400;
-    font-size: 14px;
-    letter-spacing: 0.03em;
-    line-height: 17px;
-    color: #acacac;
-  }
-
-  strong {
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    font-size: 14px;
-    line-height: 17px;
-    color: #f3f3f3;
-  }
-  strong:after {
-    //receber o nome do usuário mudar content
-    content: " • following";
-    color: #565656;
-    font-size: 14px;
-    font-weight: 400;
-  }
 `;
 
 const StyledSkeleton = styled(Skeleton)`
   background: linear-gradient(to right, #ccc 87.267%, #ccc 12.733%);
+  margin: 2px 0;
 `;
 
 const CircleSkeleton = styled(Skeleton)`
