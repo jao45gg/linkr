@@ -13,7 +13,6 @@ import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "./feed/Modal.js";
-import Repost from "./Repost.js"
 export default function Post({
   id,
   link,
@@ -38,6 +37,11 @@ export default function Post({
   const currentPath = window.location.pathname.split("/");
   const editInputRef = useRef(null);
   const [isReposting, setIsReposting] = useState(false)
+  const [repostUserId, setRepostUserId] = useState()
+  const [repostNameUser, setRepostNameUser] = useState()
+
+
+  console.log(shares)
 
   useEffect(() => {
     axios
@@ -48,7 +52,7 @@ export default function Post({
       .catch((error) => {
         console.error("Erro ao obter os metadados da URL:", error);
       });
-      lookingIsRepost()
+    lookingIsRepost()
   }, [axiosPrivate, id, link]);
 
   const toggleIcon = (id, type) => {
@@ -77,7 +81,7 @@ export default function Post({
     if (contentUser) {
       const aleatoryNumber = Math.floor(Math.random() * otherPeople.length);
       if (likes.length - 2 === 1) {
-        return `Você, ${otherPeople[aleatoryNumber].user_name} e outra pessoa`;
+        return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outra pessoa`;
       } else {
         if (otherPeople.length === 0) {
           return `Você`;
@@ -152,15 +156,26 @@ export default function Post({
     }
   }
 
-  function lookingIsRepost(){
-    shares.forEach(item => {if(item.repostID === id){
-      setIsReposting(true)
-    }})
+  function lookingIsRepost() {
+    shares.forEach(item => {
+      if (item.repostID === id) {
+        setIsReposting(true)
+        setRepostUserId(item.user_id)
+        setRepostNameUser(item.user_name)
+      }
+
+    })
   }
 
   return (
-    <>
-      <Container data-test="post" isReposting={isReposting}>
+
+    <Container data-test="post" isReposting={isReposting}>
+      <Repost isReposting={isReposting}>
+        <FaRetweet
+          style={{ fontSize: "20px", color: "#ffffff" }} />
+        <p> {repostUserId === parseInt(userId) ? "Re-posted by you" : `Re-posted by ${repostNameUser}`} </p>
+      </Repost>
+      <ContainerPost>
         <Header>
           <Aside>
             <Imagem
@@ -171,12 +186,12 @@ export default function Post({
               <div data-test="like-btn">
                 {liked ? (
                   <AiFillHeart
-                    onClick={() => toggleIcon(id, false)}
+                    onClick={isReposting ? null : () => toggleIcon(id, false)}
                     style={{ fontSize: "30px", color: "#AC0000" }}
                   />
                 ) : (
                   <AiOutlineHeart
-                    onClick={() => toggleIcon(id, true)}
+                    onClick={isReposting ? null : () => toggleIcon(id, true)}
                     style={{ fontSize: "30px", color: "#ffffff" }}
                   />
                 )}
@@ -203,26 +218,26 @@ export default function Post({
               />
             </Article>
             <Article>
-              <div>
+              <div data-test="comment-btn">
                 <AiOutlineComment
                   style={{ fontSize: "30px", color: "#ffffff" }}
                 />
               </div>
               <div>
-                <div data-test="counter">
+                <div data-test="comment-counter">
                   {likes.length !== 0 && `${likes.length} comments`}
                 </div>
               </div>
             </Article>
             <Article>
-              <div>
+              <div data-test="repost-btn">
                 <FaRetweet
-                  onClick={() => { setModal((curr) => !curr); setTipo("share") }}
+                  onClick={isReposting ? null : () => { setModal((curr) => !curr); setTipo("share") }}
                   style={{ fontSize: "30px", color: "#ffffff" }}
                 />
               </div>
               <div>
-                <div data-test="counter">
+                <div data-test="repost-counter">
                   {shares && `${shares.length} re-posts`}
                 </div>
               </div>
@@ -232,11 +247,11 @@ export default function Post({
 
         {metaData !== undefined && (
           <Section data-test="post">
-            <Modal modal={modal} setModal={setModal} id={id} tipo={tipo} link={link} description={description} userId={userPostId}/>
+            <Modal modal={modal} setModal={setModal} id={id} tipo={tipo} link={link} description={description} userId={userPostId} />
             <Text>
               <div>
                 <h5 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h5>
-                {currentPath[1] === "user" && userId === userPostId && (
+                {currentPath[1] === "user" && userId === userPostId && !isReposting&& (
                   <div>
                     <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
                     <AiFillDelete onClick={() => { setModal((curr) => !curr); setTipo("delete") }}
@@ -274,22 +289,40 @@ export default function Post({
             </a>
           </Section>
         )}
-      </Container>
-    </>
+      </ContainerPost>
+    </Container>
+
   );
 
 
 }
 
 const Container = styled.div`
-  background-color: ${(props) => props.isReposting ? "blue" : "#171717"};
+  background-color: rgba(30,30,30);;
   max-width: 611px;
-  height: 276px;
+  height: 300px;
   box-sizing: border-box;
 
   margin: 0 auto;
   margin-bottom: 15px;
+  border-radius: 15px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+ 
+  @media (max-width: 719px) {
+    width: 100%;
+  }
+`;
+
+const ContainerPost = styled.div`
+  background-color: ${(props) => props.isReposting ? "blue" : "#171717"};
+  max-width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   border-radius: 16px;
+
 
   position: relative;
   display: flex;
@@ -297,7 +330,7 @@ const Container = styled.div`
   @media (max-width: 719px) {
     width: 100%;
   }
-`;
+`
 
 const Header = styled.div`
   width: 67px;
@@ -427,11 +460,6 @@ const Aside = styled.div`
   flex-direction: column;
   align-items: center;
   
-  
-  
- 
-
-  
 `;
 const Article = styled.div`
 
@@ -450,3 +478,29 @@ const Section = styled.div`
   flex-direction: column;
   height: 100%;
 `;
+
+const Repost = styled.div`
+  background-color: rgba(30,30,30);
+  height: 30px;
+  width: 90%;
+  border-radius: 10px 10px 0 0;
+
+  display: ${props => props.isReposting ? "flex" : "none"};
+  align-items: center;
+  margin-left: 13px;
+  
+
+
+  p{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+
+    color: #FFFFFF;
+
+    margin-left: 6px;
+}
+  
+`

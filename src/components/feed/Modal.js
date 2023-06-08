@@ -41,7 +41,7 @@ const ModalPopUp = ({ modal, setModal, id, tipo, link, description, userId }) =>
               tipo === "delete" ? "No, go back" : "No, cancel"
             )}
           </button>
-          <button
+          <button data-test="confirm"
             onClick={async () => {
               setLoading((curr) => !curr);
               try {
@@ -65,7 +65,7 @@ const ModalPopUp = ({ modal, setModal, id, tipo, link, description, userId }) =>
                 setModal((curr) => !curr);
               }
             }}
-            data-test="confirm">
+            >
             {loading ? (
               <ThreeDots
                 height="12"
