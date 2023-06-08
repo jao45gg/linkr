@@ -20,6 +20,7 @@
     "valid-url": "^1.0.9"
   },
   "scripts": {
+    "start": "react-scripts start --quiet",
     "dev": "react-scripts start --quiet",
     "build": "react-scripts build",
     "test": "react-scripts test",
