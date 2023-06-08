@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Comment from "./Comment.js";
 import styled from "styled-components";
 import { FiSend } from "react-icons/fi";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
+import useAuth from "../hooks/useAuth.js";
 
-const Comments = () => {
+const Comments = ({ post_id }) => {
   const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
+  const { avatar } = useAuth().auth;
+
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const response = await axiosPrivate.get(`/comments/${post_id}`)
+        setComments(response.data)
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getComments();
+  }, []);
   return (
     <CommentsContainer>
-      <Comment />
-      <Comment />
-      <Comment />
+        {!isLoading && comments?.map((comment, id) => <Comment data={comment} key={id}/>)}
       <WriteComment>
-        <UsrImgOnWriteComment
-          picture={"https://mcdn.wallpapersafari.com/medium/53/45/xaZHSJ.jpg"}
-        />
+        <UsrImgOnWriteComment picture={avatar} />
         <InputContainer>
           <WriteCommentInput
             type="text"
@@ -27,7 +44,6 @@ const Comments = () => {
     </CommentsContainer>
   );
 };
-
 
 const StyledFiSend = styled(FiSend)`
   font-size: 16px;

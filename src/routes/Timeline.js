@@ -144,6 +144,7 @@ export default function Timeline() {
                   userPostId={item.user_id}
                   token={auth.accessToken}
                   liked={item.userLiked}
+                  commentsCount={item.commentsCount}
                   Refresh={Refresh}
                 />
               ))}
