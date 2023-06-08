@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth.js";
 import LoadingPage from "../components/loadings/LoadingPage.js";
 import ErrorServer from "../components/ErrorServer.js";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from "react-infinite-scroller";
 import {
   Container,
   Titulo,
@@ -52,11 +52,11 @@ export default function Timeline() {
 
   function checkNewPosts() {
     const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
-    promise.then(res => {
-      if ((data.length + res.data) > 10) {
-        setOffset(((data.length + res.data) - 10));
+    promise.then((res) => {
+      if (data.length + res.data > 10) {
+        setOffset(data.length + res.data - 10);
       }
-    })
+    });
   }
 
   function handleForm(event) {
@@ -121,15 +121,21 @@ export default function Timeline() {
         <Aside>
           {erro === true ? (
             <ErrorServer
-              message={"An error occured while trying to fetch the posts, please refresh the page"}
+              message={
+                "An error occured while trying to fetch the posts, please refresh the page"
+              }
             />
           ) : data.length === 0 ? (
-            <ErrorServer message={"There are no posts yet"} data-test="message" />
+            <ErrorServer
+              message={"There are no posts yet"}
+              data-test="message"
+            />
           ) : data !== undefined ? (
             <InfiniteScroll
               pageStart={0}
               loadMore={() => handleScroll(page + 1)}
-              loader={<div key={0}>Carregando...Carregando...</div>}>
+              loader={<div key={0}>Carregando...Carregando...</div>}
+            >
               {data.map((item) => (
                 <Post
                   key={item.id}

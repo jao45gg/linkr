@@ -5,7 +5,10 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
-  const [tokenOnStorage, setTokenOnStorage] = useLocalStorage("refreshToken", "");
+  const [tokenOnStorage, setTokenOnStorage] = useLocalStorage(
+    "refreshToken",
+    ""
+  );
   const [cookiesAccepted, setCookiesAccepted] = useState("");
   return (
     <AuthContext.Provider
@@ -16,7 +19,8 @@ export const AuthProvider = ({ children }) => {
         setCookiesAccepted,
         tokenOnStorage,
         setTokenOnStorage,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
