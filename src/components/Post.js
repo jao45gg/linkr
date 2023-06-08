@@ -325,7 +325,7 @@ export default function Post({
           )}
         </ContainerPost>
       </Container>
-      {showComments && <Comments post_id={id} />}
+      {showComments && <Comments post_id={id} count={commentsCount}/>}
     </FlexColumn>
   );
 }

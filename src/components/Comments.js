@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { FiSend } from "react-icons/fi";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import useAuth from "../hooks/useAuth.js";
+import CommentSkeleton from "./loadings/CommentSkeleton.js";
 
-const Comments = ({ post_id }) => {
+const Comments = ({ post_id, count }) => {
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
   const { avatar } = useAuth().auth;
@@ -15,20 +16,25 @@ const Comments = ({ post_id }) => {
   useEffect(() => {
     const getComments = async () => {
       try {
-        const response = await axiosPrivate.get(`/comments/${post_id}`)
-        setComments(response.data)
+        const response = await axiosPrivate.get(`/comments/${post_id}`);
+        setComments(response.data);
       } catch (err) {
         console.log(err);
       } finally {
         setIsLoading(false);
       }
     };
-
-    getComments();
+    if (count) getComments();
+    else setIsLoading(false);
   }, []);
   return (
     <CommentsContainer>
-        {!isLoading && comments?.map((comment, id) => <Comment data={comment} key={id}/>)}
+      {isLoading &&
+        Array.from({ length: count }).map((_, index) => (
+          <CommentSkeleton key={index} />
+        ))}
+      {!isLoading &&
+        comments?.map((comment, id) => <Comment data={comment} key={id} />)}
       <WriteComment>
         <UsrImgOnWriteComment picture={avatar} />
         <InputContainer>
