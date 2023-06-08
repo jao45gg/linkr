@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const Comment = () => {
+const Comment = ({data}) => {
+    console.log(data)
   return (
     <Container>
       <CommentContainer>
-        <Imagem picture={"https://mcdn.wallpapersafari.com/medium/53/45/xaZHSJ.jpg"} />
+        <Imagem picture={data.picture} />
         <Flex>
           <p>
-            <strong>João Tavares</strong>
+            <strong>{data.name}</strong>
           </p>
-          <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
+          <p>{data.comment}</p>
         </Flex>
       </CommentContainer>
     </Container>
