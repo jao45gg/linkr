@@ -42,7 +42,7 @@ export default function Users() {
     <Container>
       <Titulo>
         <div>
-          <Imagem src={data?.picture}></Imagem>
+          <Imagem picture={data?.picture} ></Imagem>
           <p>{`${data?.name}’s posts`}</p>
         </div>
         <div>

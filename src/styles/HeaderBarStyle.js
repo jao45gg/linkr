@@ -41,6 +41,9 @@ export const HContent = styled.div`
       border-radius: 26.5px;
       margin-left: 1vw;
       cursor: pointer;
+      background-size: cover;
+      background-image: url(${(props) => props.picture});
+      background-position: center center;
     }
   }
 
