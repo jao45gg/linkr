@@ -10,8 +10,7 @@ const WriteComment = ({ post_id, comments, setComments, count, setCount }) => {
   const { avatar, name } = useAuth().auth;
   const axiosPrivate = useAxiosPrivate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     setIsLoading(true);
     try {
       if (!newComment.trim()) {
@@ -24,10 +23,16 @@ const WriteComment = ({ post_id, comments, setComments, count, setCount }) => {
       newComments.unshift({ ...response.data, name, picture: avatar });
       setComments(newComments);
       setCount(parseInt(count) + 1);
+      setNewComment("");
     } catch (err) {
       console.log(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit();
     }
   };
   return (
@@ -38,6 +43,7 @@ const WriteComment = ({ post_id, comments, setComments, count, setCount }) => {
           type="text"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="write a comment..."
         />
         <StyledFiSend onClick={handleSubmit} />
