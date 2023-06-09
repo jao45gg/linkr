@@ -7,6 +7,7 @@ import ErrorServer from "../components/ErrorServer";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
 import { Container, Titulo, Posts, Aside } from "../styles/TimeLineStyle.js";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Users() {
   const { id } = useParams();
@@ -15,28 +16,42 @@ export default function Users() {
   const [data, setData] = useState();
   const [erro, setErro] = useState(false);
   const [following, setFollowing] = useState(false);
-  //fazer request para saber se o usuario logado segue o usuario da pagina
-  //junto com o request dos posts
+  const [ownUser, setOwnUser] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getPosts();
   }, []);
 
-  function getPosts() {
-    const promise = axiosPrivate.get(`/users/getById/${id}`);
-    promise.then((res) => {
-      setData(res.data);
-      console.log(res.data);
-    });
-    promise.catch((err) => {
+  const getPosts = async () => {
+    try {
+      const { data } = await axiosPrivate.get(`/users/getById/${id}`);
+      const { data: follow } = await axiosPrivate.get(`/users/following/${id}`);
+      follow.ownUser === true ? setOwnUser(true) : setOwnUser(false);
+      follow.following === true ? setFollowing(true) : setFollowing(false);
+      setData(data);
+    } catch (error) {
       setErro(true);
-      console.log(err);
-    });
-  }
+      console.log(error);
+    }
+  };
 
-  function Refresh() {
-    getPosts();
-  }
+  const connectUser = async () => {
+    try {
+      setLoading(true);
+      if (following) {
+        await axiosPrivate.post(`/unfollow/${id}`);
+        setFollowing(false);
+      } else {
+        await axiosPrivate.post(`/follow/${id}`);
+        setFollowing(true);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container>
@@ -46,12 +61,28 @@ export default function Users() {
           <p>{`${data?.name}’s posts`}</p>
         </div>
         <div>
-          {/* se o user estiver visitando a pagina dele nao renderiza o botao */}
-          <button
-            className={following ? "following" : "not-following"}
-            onClick={() => setFollowing((curr) => !curr)}>
-            {following ? "Following" : "Follow"}
-          </button>
+          {ownUser ? (
+            <></>
+          ) : (
+            <button className={following ? "following" : "not-following"} onClick={connectUser}>
+              {loading ? (
+                <ThreeDots
+                  height="12"
+                  width="24"
+                  radius="8"
+                  color="#1072f1"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClassName=""
+                  visible={true}
+                />
+              ) : following ? (
+                "Following"
+              ) : (
+                "Follow"
+              )}
+            </button>
+          )}
         </div>
       </Titulo>
       <Posts>
@@ -77,8 +108,8 @@ export default function Users() {
                 userPostId={item.user_id}
                 token={auth.accessToken}
                 liked={item.userLiked}
+                Refresh={() => getPosts()}
                 commentsCount={item.commentsCount}
-                Refresh={Refresh}
               />
             ))
           ) : (

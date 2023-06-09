@@ -21,7 +21,7 @@ import styled from "styled-components";
 
 let page;
 
-export default function Timeline() {
+export default function Timeline({ setNewRequest }) {
   const [form, setForm] = useState({ url: "", description: "" });
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState([]);
@@ -69,6 +69,15 @@ export default function Timeline() {
     }
   }, 15000);
 
+  function checkNewPosts() {
+    const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
+    promise.then((res) => {
+      if (data.length + res.data > 10) {
+        setOffset(data.length + res.data - 10);
+      }
+    });
+  }
+  
   useEffect(() => {
     if (offset === 0) Refresh();
   }, [offset]);
