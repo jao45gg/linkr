@@ -233,9 +233,7 @@ export default function Post({
                   data-test="comment-btn"
                 >
                   <div>
-                    <AiOutlineComment
-                      style={{ fontSize: "30px", color: "#ffffff" }}
-                    />
+                    <AiOutlineComment style={{ fontSize: "30px", color: "#ffffff" }} />
                   </div>
                   <div>
                     <div data-test="comment-counter">
@@ -289,10 +287,7 @@ export default function Post({
                   </h5>
                   {userId === userPostId && !isReposting && (
                     <div>
-                      <AiOutlineEdit
-                        data-test="edit-btn"
-                        onClick={handleEdit}
-                      />
+                      <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
                       <AiFillDelete
                         data-test="delete-btn"
                         onClick={() => {
@@ -373,7 +368,6 @@ const Container = styled.div`
   height: 300px;
   box-sizing: border-box;
   border-radius: 15px;
-
   position: relative;
   display: flex;
   flex-direction: column;
@@ -391,14 +385,19 @@ const ContainerPost = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  @media (max-width: 520px) {
+    border-radius: 10px;
+  }
 `;
 
 const Header = styled.div`
   width: 67px;
   height: 100%;
   display: flex;
-
   margin-right: 8px;
+  @media (max-width: 520px) {
+    width: 57px;
+  }
 `;
 
 const Imagem = styled.div`
@@ -411,6 +410,10 @@ const Imagem = styled.div`
   background-position: center center;
 
   margin-top: 17px;
+  @media (max-width: 520px) {
+    width: 34px;
+    height: 34px;
+  }
 `;
 
 const Text = styled.div`
@@ -528,13 +531,15 @@ const Aside = styled.div`
   align-items: center;
 `;
 const Article = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 10px;
   div {
-    font-size: 11px;
-    line-height: 13px;
+    font-size: 10px;
+    line-height: 10px;
     text-align: center;
-    color: #ffffff;
-
-    margin-top: 7px;
+    color: #fff;
   }
 `;
 const Section = styled.div`
