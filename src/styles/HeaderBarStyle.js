@@ -114,6 +114,7 @@ export const HContent = styled.div`
 `;
 
 export const Drop = styled(AiOutlineDown)`
+  z-index: 10;
   width: 20px;
   height: 20px;
   position: relative;
@@ -122,6 +123,7 @@ export const Drop = styled(AiOutlineDown)`
   rotate: ${({ menuactive }) => (menuactive === "true" ? "180deg" : "0deg")} !important;
 `;
 export const DropMenu = styled.div`
+  z-index: 10;
   position: absolute;
   top: 60px;
   right: -30px;

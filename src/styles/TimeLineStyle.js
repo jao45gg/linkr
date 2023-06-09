@@ -5,6 +5,9 @@ export const Container = styled.div`
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
+  @media (max-width: 719px) {
+    padding: 0;
+  }
 `;
 
 export const Titulo = styled.div`
@@ -59,6 +62,7 @@ export const Titulo = styled.div`
 
   @media (max-width: 719px) {
     margin-top: 0px;
+    margin-left: 2.5dvw;
   }
 `;
 
@@ -85,11 +89,13 @@ export const Publish = styled.div`
   border-radius: 16px;
   position: relative;
   margin: 15px auto;
+
   @media (max-width: 719px) {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: calc(200px + 30px + 30px + 10px);
+    max-width: 100dvw;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0;
+    height: 36dvh;
   }
 `;
 
@@ -104,6 +110,12 @@ export const Imagem = styled.div`
   position: absolute;
   left: 20px;
   top: 20px;
+
+  @media (max-width: 719px) {
+    width: 0;
+    height: 0;
+    display: none;
+  }
 `;
 
 export const Block = styled.div`
@@ -114,11 +126,17 @@ export const Block = styled.div`
   margin-right: 20px;
 
   h5 {
-    width: min(90%, 62vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
     font-size: 20px;
     font-weight: 200;
     color: #707070;
     padding: 20px 0px;
+    @media (max-width: 719px) {
+      font-size: 2.3dvh;
+    }
   }
 
   textarea {
@@ -131,12 +149,28 @@ export const Block = styled.div`
     display: flex;
     flex-wrap: wrap;
     background: #efefef;
+
+    @media (max-width: 719px) {
+      width: 90%;
+      height: 8dvh;
+      font-size: 2dvh;
+    }
+    
   }
 
   textarea::placeholder {
     font-weight: 300;
     font-size: 15px;
     color: #949494;
+  }
+
+  @media (max-width: 719px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    width: 100dvw;
+    height: 100%;
   }
 `;
 
@@ -152,6 +186,11 @@ export const Input = styled.input`
     font-size: 15px;
     color: #949494;
   }
+  @media (max-width: 719px) {
+      width: 90%;
+      height: 5dvh;
+      font-size: 2dvh;
+    }
 `;
 
 export const Button = styled.button`
@@ -170,7 +209,12 @@ export const Button = styled.button`
   right: 10%;
   transform: translateY(-50%);
   @media (max-width: 719px) {
-    right: 18%;
+    height: 22px;
+    width: 112px;
+    margin: 0;
+    transform: 0;
+    top: 31dvh;
+    right: 5.4dvw;
   }
   p {
     font-weight: 500;
