@@ -17,7 +17,7 @@ import {
   Button,
 } from "../styles/TimeLineStyle.js";
 
-export default function Timeline() {
+export default function Timeline({ setNewRequest }) {
   const [form, setForm] = useState({ url: "", description: "" });
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState([]);
@@ -52,11 +52,11 @@ export default function Timeline() {
 
   function checkNewPosts() {
     const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
-    promise.then(res => {
-      if ((data.length + res.data) > 10) {
-        setOffset(((data.length + res.data) - 10));
+    promise.then((res) => {
+      if (data.length + res.data > 10) {
+        setOffset(data.length + res.data - 10);
       }
-    })
+    });
   }
 
   function handleForm(event) {
@@ -71,12 +71,13 @@ export default function Timeline() {
     promise.then(() => {
       setDisabled(false);
       setForm({ url: "", description: "" });
+      setNewRequest((prev) => !prev);
       Refresh();
     });
     promise.catch(() => {
       setDisabled(false);
       setErro(true);
-    });
+    }); //
   }
 
   return (
@@ -146,6 +147,7 @@ export default function Timeline() {
                   liked={item.userLiked}
                   commentsCount={item.commentsCount}
                   Refresh={Refresh}
+                  setNewRequest={setNewRequest}
                 />
               ))}
             </InfiniteScroll>
