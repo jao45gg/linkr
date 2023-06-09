@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Sidebar } from "../../styles/LayoutStyle.js";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 
-const Trending = () => {
+const Trending = ({ newRequest }) => {
   const axios = useAxiosPrivate();
   const navigate = useNavigate();
   const [trending, setTrending] = useState([]);
@@ -19,7 +19,7 @@ const Trending = () => {
       }
     };
     getTrending();
-  }, [axios]);
+  }, [axios, newRequest]);
 
   const hashPage = (hashtag) => {
     navigate(`/hashtag/${hashtag}`);
