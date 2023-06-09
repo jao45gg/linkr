@@ -110,7 +110,6 @@ export default function Users() {
                 liked={item.userLiked}
                 Refresh={() => getPosts()}
                 commentsCount={item.commentsCount}
-
               />
             ))
           ) : (
