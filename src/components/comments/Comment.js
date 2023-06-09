@@ -1,14 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import useAuth from "../../hooks/useAuth";
 
-const Comment = ({data}) => {
+const Comment = ({ data, post_user_id }) => {
+  const { id } = useAuth().auth;
+
   return (
     <Container>
       <CommentContainer>
         <Imagem picture={data.picture} />
         <Flex>
           <p>
-            <strong>{data.name}</strong>
+            <strong>
+              {data.name}
+            </strong>
+            {data.user_id === post_user_id && " • post's author"}
           </p>
           <p>{data.comment}</p>
         </Flex>
@@ -72,12 +78,5 @@ const Flex = styled.div`
     font-size: 14px;
     line-height: 17px;
     color: #f3f3f3;
-  }
-  strong:after {
-    //receber o nome do usuário mudar content
-    content: " • following";
-    color: #565656;
-    font-size: 14px;
-    font-weight: 400;
   }
 `;
