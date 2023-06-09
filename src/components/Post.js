@@ -13,7 +13,7 @@ import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate } from "react-router-dom";
 import Modal from "./feed/Modal.js";
-import Comments from "./Comments.js";
+import Comments from "./comments/Comments.js";
 
 export default function Post({
   id,
@@ -43,6 +43,7 @@ export default function Post({
   const [repostUserId, setRepostUserId] = useState();
   const [repostNameUser, setRepostNameUser] = useState();
   const [showComments, setShowComments] = useState(false);
+  const [numberOfComments, setNumberOfComments] = useState(commentsCount);
 
   useEffect(() => {
     axios
@@ -230,7 +231,7 @@ export default function Post({
                   </div>
                   <div>
                     <div data-test="counter">
-                      {commentsCount !== 0 && `${commentsCount} comments`}
+                      {numberOfComments !== 0 && `${numberOfComments} comments`}
                     </div>
                   </div>
                 </div>
@@ -323,7 +324,13 @@ export default function Post({
           )}
         </ContainerPost>
       </Container>
-      {showComments && <Comments post_id={id} />}
+      {showComments && (
+        <Comments
+          post_id={id}
+          count={numberOfComments}
+          setCount={setNumberOfComments}
+        />
+      )}
     </FlexColumn>
   );
 }
