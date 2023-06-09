@@ -334,6 +334,7 @@ const FlexColumn = styled.span`
   border-radius: 16px;
 
   @media (max-width: 719px) {
+    max-width: 100dvw;
     border-radius: 0;
   }
 `;

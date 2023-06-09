@@ -91,6 +91,7 @@ export const Publish = styled.div`
   margin: 15px auto;
 
   @media (max-width: 719px) {
+    max-width: 100dvw;
     display: flex;
     justify-content: space-around;
     border-radius: 0;
