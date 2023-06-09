@@ -43,6 +43,7 @@ export default function Timeline({ setNewRequest }) {
         setData(res.data);
         setHasMore(true);
       } else {
+        setData(res.data);
         setHasMore(false);
       }
     });
