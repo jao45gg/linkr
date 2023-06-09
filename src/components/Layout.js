@@ -13,7 +13,7 @@ const Layout = () => {
       <ResponsiveContainer>
         <ContentContainer>
           <Outlet setNewRequest={setNewRequest} />
-          <Trending />
+          <Trending newRequest={newRequest} />
         </ContentContainer>
       </ResponsiveContainer>
     </Content>
