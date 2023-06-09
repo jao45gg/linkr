@@ -62,6 +62,7 @@ export const Titulo = styled.div`
 
   @media (max-width: 719px) {
     margin-top: 0px;
+    margin-left: 2.5dvw;
   }
 `;
 
