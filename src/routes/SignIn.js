@@ -93,6 +93,7 @@ const SignIn = () => {
           disabled={isLoading}
           ref={emailRef}
           data-test="email"
+          required
         />
         <AuthInput
           placeholder="password"
@@ -101,6 +102,7 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
           data-test="password"
+          required
         />
         <AuthButton disabled={isLoading} data-test="login-btn">Log In</AuthButton>
       </form>
