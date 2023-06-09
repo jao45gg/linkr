@@ -6,14 +6,17 @@ import useAuth from "../../hooks/useAuth.js";
 import { Drop, DropMenu } from "../../styles/HeaderBarStyle.js";
 
 const Logout = () => {
-  const [menuActive, setMenuActive] = useState(false);
+  const [menuactive, setMenuActive] = useState("false");
 
   const navigate = useNavigate();
   const axios = useAxiosPrivate();
   const { setAuth, auth } = useAuth();
 
   const logoutMenu = () => {
-    setMenuActive(!menuActive);
+    if (menuactive === "true")
+      setMenuActive("false");
+    else if (menuactive === "false")
+      setMenuActive("true")
   };
 
   const logout = async () => {
@@ -29,9 +32,9 @@ const Logout = () => {
 
   return (
     <div>
-      <Drop onClick={logoutMenu} menuActive={menuActive} data-test="menu" />
-      <img onClick={logoutMenu}  data-test="avatar" />
-      <DropMenu menuActive={menuActive} data-test="menu">
+      <Drop onClick={logoutMenu} menuactive={menuactive} data-test="menu" />
+      <img onClick={logoutMenu} data-test="avatar" />
+      <DropMenu menuactive={menuactive} data-test="menu">
         <button onClick={logout} data-test="logout">
           Logout
         </button>
