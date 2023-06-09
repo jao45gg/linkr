@@ -11,7 +11,7 @@ import {
 import { FaRetweet } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "./feed/Modal.js";
 import Comments from "./comments/Comments.js";
 
@@ -125,7 +125,7 @@ export default function Post({
       if (hashtags[index]) {
         formattedText.push(
           <span key={index} className="hashtag">
-            {hashtags[index]}
+            <Link to={`/hashtag/${hashtags[index].slice(1)}`}>{hashtags[index]}</Link>
           </span>
         );
       }
