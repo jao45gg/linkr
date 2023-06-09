@@ -5,16 +5,23 @@ import styled from "styled-components";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import CommentSkeleton from "../loadings/CommentSkeleton.js";
 
-const Comments = ({ post_id, count, setCount, post_user_id }) => {
+const Comments = ({
+  post_id,
+  count,
+  setCount,
+  post_user_id,
+  originalPostId,
+  isReposting,
+}) => {
   const [comments, setComments] = useState([]);
   const [followeds, setFolloweds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
-
   useEffect(() => {
     const getComments = async () => {
       try {
-        const response = await axiosPrivate.get(`/comments/${post_id}`);
+        const postIdUrl = !isReposting ? post_id : originalPostId;
+        const response = await axiosPrivate.get(`/comments/${postIdUrl}`);
         const response2 = await axiosPrivate.get("/follows");
         setComments(response.data);
         setFolloweds(response2.data);
@@ -44,13 +51,15 @@ const Comments = ({ post_id, count, setCount, post_user_id }) => {
             )}
           />
         ))}
-      <WriteComment
-        post_id={post_id}
-        comments={comments}
-        setComments={setComments}
-        count={count}
-        setCount={setCount}
-      />
+      {!isReposting && (
+        <WriteComment
+          post_id={post_id}
+          comments={comments}
+          setComments={setComments}
+          count={count}
+          setCount={setCount}
+        />
+      )}
     </CommentsContainer>
   );
 };
