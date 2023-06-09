@@ -89,22 +89,19 @@ export default function Post({
           return `Você`;
         }
       }
-      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${
-        likes.length - 2
-      } pessoas`;
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2
+        } pessoas`;
     } else {
       if (likes.length - 2 === 0) {
-        return `${likes[likes.length - 1]?.user_name} e ${
-          likes[likes.length - 2]?.user_name
-        }`;
+        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name
+          }`;
       } else {
         if (otherPeople.length === 1) {
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${
-        likes[likes.length - 2]?.user_name
-      } e ${likes.length - 2} pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name
+        } e ${likes.length - 2} pessoas`;
     }
   };
 
