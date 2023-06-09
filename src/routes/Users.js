@@ -36,23 +36,21 @@ export default function Users() {
     }
   };
 
-  const connectUser = () => {
-    setLoading(true);
-    return async () => {
-      try {
-        if (following) {
-          await axiosPrivate.post(`/unfollow/${id}`);
-          setFollowing(false);
-        } else {
-          await axiosPrivate.post(`/follow/${id}`);
-          setFollowing(true);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
+  const connectUser = async () => {
+    try {
+      setLoading(true);
+      if (following) {
+        await axiosPrivate.post(`/unfollow/${id}`);
+        setFollowing(false);
+      } else {
+        await axiosPrivate.post(`/follow/${id}`);
+        setFollowing(true);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,7 +64,7 @@ export default function Users() {
           {ownUser ? (
             <></>
           ) : (
-            <button className={following ? "following" : "not-following"} onClick={connectUser()}>
+            <button className={following ? "following" : "not-following"} onClick={connectUser}>
               {loading ? (
                 <ThreeDots
                   height="12"
