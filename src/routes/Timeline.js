@@ -157,10 +157,7 @@ export default function Timeline({ setNewRequest }) {
               }
             />
           ) : data.length === 0 ? (
-            <ErrorServer
-              message={"No posts found from your friends"}
-              data-test="message"
-            />
+            <ErrorServer data-test="message" message={"No posts found from your friends"} />
           ) : data !== undefined ? (
             <>
               <ButtonNewposts
