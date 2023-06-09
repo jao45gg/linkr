@@ -45,7 +45,7 @@ export default function Post({
   const [numberOfComments, setNumberOfComments] = useState(commentsCount);
   const [originalPostId, setOriginalPostId] = useState("");
   const [postDescription, setPostDescription] = useState(description)
-  
+
   useEffect(() => {
     axios
       .get(`https://jsonlink.io/api/extract?url=${link}`)
@@ -90,22 +90,19 @@ export default function Post({
           return `Você`;
         }
       }
-      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${
-        likes.length - 2
-      } pessoas`;
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2
+        } pessoas`;
     } else {
       if (likes.length - 2 === 0) {
-        return `${likes[likes.length - 1]?.user_name} e ${
-          likes[likes.length - 2]?.user_name
-        }`;
+        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name
+          }`;
       } else {
         if (otherPeople.length === 1) {
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${
-        likes[likes.length - 2]?.user_name
-      } e ${likes.length - 2} pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name
+        } e ${likes.length - 2} pessoas`;
     }
   };
 
@@ -233,9 +230,9 @@ export default function Post({
                       isReposting
                         ? null
                         : () => {
-                            setModal((curr) => !curr);
-                            setTipo("share");
-                          }
+                          setModal((curr) => !curr);
+                          setTipo("share");
+                        }
                     }
                     style={{ fontSize: "30px", color: "#ffffff" }}
                     data-test="repost-btn"
@@ -335,6 +332,11 @@ const FlexColumn = styled.span`
   max-width: 611px;
   margin-bottom: 15px;
   border-radius: 16px;
+
+  @media (max-width: 719px) {
+    max-width: 100dvw;
+    border-radius: 0;
+  }
 `;
 
 const Container = styled.div`
@@ -348,7 +350,8 @@ const Container = styled.div`
   flex-direction: column;
 
   @media (max-width: 719px) {
-    width: 100%;
+    border-radius: 0;
+    width: 100dvw;
   }
 `;
 
@@ -372,6 +375,7 @@ const Header = styled.div`
   margin-right: 8px;
   @media (max-width: 520px) {
     width: 57px;
+    margin: 0;
   }
 `;
 
@@ -448,7 +452,8 @@ const Main = styled.div`
   border-radius: 11px;
 
   @media (max-width: 719px) {
-    width: 90%;
+    width: 74dvw;
+    margin: 0;
   }
 `;
 
@@ -475,7 +480,6 @@ const Block = styled.div`
     height: calc(13px * 4);
     text-overflow: hidden;
     overflow: hidden;
-
     color: #9b9595;
     margin-bottom: 5px;
   }
@@ -503,6 +507,7 @@ const Aside = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
 const Article = styled.div`
@@ -511,10 +516,13 @@ const Article = styled.div`
   justify-content: space-between;
   margin: 10px;
   div {
-    font-size: 10px;
+    font-size: 1dvh;
     line-height: 10px;
     text-align: center;
     color: #fff;
+  }
+  @media (max-width: 719px) {
+    width: 100%;
   }
 `;
 const Section = styled.div`
@@ -522,6 +530,10 @@ const Section = styled.div`
   justify-content: space-evenly;
   flex-direction: column;
   height: 100%;
+  @media (max-width: 719px) {
+
+    width: 100%;
+  }
 `;
 
 const Repost = styled.div`
@@ -544,5 +556,8 @@ const Repost = styled.div`
     color: #ffffff;
 
     margin-left: 6px;
+  }
+  @media (max-width: 719px) {
+    border-radius: 0;
   }
 `;
