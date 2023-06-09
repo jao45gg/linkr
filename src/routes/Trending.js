@@ -18,7 +18,6 @@ const Trending = () => {
       try {
         const hashtags = await axios.get(`/hashtags/${params.hashtag}`);
         if (hashtags.data.length > 0) {
-          console.log(hashtags.data);
           setHashDetail(hashtags.data);
         } else {
           setHashDetail(undefined);
@@ -48,6 +47,7 @@ const Trending = () => {
                 description={item.description}
                 userId={auth.id}
                 likes={[]}
+                shares={[]}
                 picture={item.user_picture}
                 userName={item.user_name}
                 userPostId={item.user_id}
