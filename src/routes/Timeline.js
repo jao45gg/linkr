@@ -21,7 +21,7 @@ import styled from "styled-components";
 
 let page;
 
-export default function Timeline() {
+export default function Timeline({ setNewRequest }) {
   const [form, setForm] = useState({ url: "", description: "" });
   const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState([]);
