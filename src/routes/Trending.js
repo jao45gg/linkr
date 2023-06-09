@@ -47,13 +47,14 @@ const Trending = () => {
                 description={item.description}
                 userId={auth.id}
                 likes={[]}
-                shares={[]}
+                shares={undefined}
                 picture={item.user_picture}
                 userName={item.user_name}
                 userPostId={item.user_id}
                 token={auth.accessToken}
                 liked={"userLiked"}
                 Refresh={() => { }}
+                commentsCount={[]}
                 data-test="post"
               />
             ))
