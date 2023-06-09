@@ -26,7 +26,7 @@ export default function Users() {
   const getPosts = async () => {
     try {
       const { data } = await axiosPrivate.get(`/users/getById/${id}`);
-      const { data: follow } = await axiosPrivate.get(`/users/following/${id}`);
+      const { data: follow } = await axiosPrivate.get(`/follows/checkfollowing/${id}`);
       follow.ownUser === true ? setOwnUser(true) : setOwnUser(false);
       follow.following === true ? setFollowing(true) : setFollowing(false);
       setData(data);
@@ -40,10 +40,10 @@ export default function Users() {
     try {
       setLoading(true);
       if (following) {
-        await axiosPrivate.post(`/unfollow/${id}`);
+        await axiosPrivate.post("/follows/unfollow", { id });
         setFollowing(false);
       } else {
-        await axiosPrivate.post(`/follow/${id}`);
+        await axiosPrivate.post("/follows/follow", { id });
         setFollowing(true);
       }
     } catch (error) {
