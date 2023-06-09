@@ -8,7 +8,7 @@ import { axiosPrivate } from "../../api/axios.js";
 
 Modal.setAppElement("#root");
 
-const ModalPopUp = ({ modal, setModal, id, tipo, link, description, userId }) => {
+const ModalPopUp = ({ modal, setModal, id, tipo, link, description, userId, shares }) => {
   const axios = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -46,6 +46,12 @@ const ModalPopUp = ({ modal, setModal, id, tipo, link, description, userId }) =>
               setLoading((curr) => !curr);
               try {
                 if (tipo === "delete") {
+                  
+                  if(shares.length !== 0){
+                    await shares.map(item => {
+                      axios.delete(`/posts/delete/${item.repostID}`);
+                    })
+                  }
                   await axios.delete(`/posts/delete/${id}`);
                 } else {
 
