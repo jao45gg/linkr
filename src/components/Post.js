@@ -45,6 +45,7 @@ export default function Post({
   const [showComments, setShowComments] = useState(false);
   const [numberOfComments, setNumberOfComments] = useState(commentsCount);
   const [originalPostId, setOriginalPostId] = useState("");
+  const [postDescription, setPostDescription] = useState(description)
 
   useEffect(() => {
     axios
@@ -148,13 +149,14 @@ export default function Post({
   function handleKeyDown(event) {
     if (event.key === "Enter") {
       console.log(form);
+
+      const oldDescription = postDescription
+      setPostDescription(form.description)
+      setIsEditing(false);
       const promise = axiosPrivate.put(`/posts/edit/${id}`, form);
-      promise.then(() => {
-        setIsEditing(false);
-        Refresh();
-      });
       promise.catch(() => {
         alert("Não foi possível salvar alterações");
+        setPostDescription(oldDescription)
         isEditing(true);
       });
     } else if (event.key === "Escape") {
@@ -273,7 +275,7 @@ export default function Post({
                 id={id}
                 tipo={tipo}
                 link={link}
-                description={description}
+                description={postDescription}
                 userId={userPostId}
                 shares={shares}
               />
@@ -311,7 +313,7 @@ export default function Post({
                     autoFocus
                   />
                 ) : (
-                  <h6 data-test="description">{formatHashtags(description)}</h6>
+                  <h6 data-test="description">{formatHashtags(postDescription)}</h6>
                 )}
               </Text>
 
