@@ -11,7 +11,7 @@ import {
 import { FaRetweet } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "./feed/Modal.js";
 import Comments from "./comments/Comments.js";
 
@@ -37,7 +37,6 @@ export default function Post({
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({ description: "" });
-  const currentPath = window.location.pathname.split("/");
   const editInputRef = useRef(null);
   const [isReposting, setIsReposting] = useState(false);
   const [repostUserId, setRepostUserId] = useState();
@@ -46,7 +45,7 @@ export default function Post({
   const [numberOfComments, setNumberOfComments] = useState(commentsCount);
   const [originalPostId, setOriginalPostId] = useState("");
   const [postDescription, setPostDescription] = useState(description)
-
+  
   useEffect(() => {
     axios
       .get(`https://jsonlink.io/api/extract?url=${link}`)
@@ -126,7 +125,7 @@ export default function Post({
       if (hashtags[index]) {
         formattedText.push(
           <span key={index} className="hashtag">
-            {hashtags[index]}
+            <Link to={`/hashtag/${hashtags[index].slice(1)}`}>{hashtags[index]}</Link>
           </span>
         );
       }
