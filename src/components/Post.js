@@ -89,20 +89,22 @@ export default function Post({
           return `Você`;
         }
       }
-      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${likes.length - 2} pessoas`;
+      return `Você, ${otherPeople[aleatoryNumber]?.user_name} e outras ${
+        likes.length - 2
+      } pessoas`;
     } else {
       if (likes.length - 2 === 0) {
-        return `${likes[likes.length - 1]?.user_name} e ${likes[likes.length - 2]?.user_name}`;
+        return `${likes[likes.length - 1]?.user_name} e ${
+          likes[likes.length - 2]?.user_name
+        }`;
       } else {
         if (otherPeople.length === 1) {
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
-      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${likes.length - 2
-        } pessoas`;
-      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${
-        likes.length - 2
-      } pessoas`;
+      return `${likes[likes.length - 1]?.user_name}, ${
+        likes[likes.length - 2]?.user_name
+      } e ${likes.length - 2} pessoas`;
     }
   };
 
@@ -173,13 +175,21 @@ export default function Post({
     <FlexColumn data-test="post">
       <Repost isReposting={isReposting}>
         <FaRetweet style={{ fontSize: "20px", color: "#ffffff" }} />
-        <p> {repostUserId === parseInt(userId) ? "Re-posted by you" : `Re-posted by ${repostNameUser}`} </p>
+        <p>
+          {" "}
+          {repostUserId === parseInt(userId)
+            ? "Re-posted by you"
+            : `Re-posted by ${repostNameUser}`}{" "}
+        </p>
       </Repost>
       <Container isReposting={isReposting}>
         <ContainerPost>
           <Header>
             <Aside>
-              <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
+              <Imagem
+                onClick={() => navigate(`/user/${userPostId}`)}
+                picture={picture}
+              />
               <Article>
                 <div data-test="like-btn">
                   {liked ? (
@@ -194,8 +204,14 @@ export default function Post({
                     />
                   )}
                 </div>
-                <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
-                  <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
+                <div
+                  data-test="tooltip"
+                  data-tooltip-content={getTooltipContent()}
+                  data-tooltip-id="example"
+                >
+                  <div data-test="counter">
+                    {likes.length !== 0 && `${likes.length} likes`}
+                  </div>
                 </div>
                 <Tooltip
                   id="example"
@@ -210,9 +226,14 @@ export default function Post({
                 />
               </Article>
               <Article>
-                <div onClick={() => setShowComments(!showComments)} data-test="comment-btn">
+                <div
+                  onClick={() => setShowComments(!showComments)}
+                  data-test="comment-btn"
+                >
                   <div>
-                    <AiOutlineComment style={{ fontSize: "30px", color: "#ffffff" }} />
+                    <AiOutlineComment
+                      style={{ fontSize: "30px", color: "#ffffff" }}
+                    />
                   </div>
                   <div>
                     <div data-test="comment-counter">
@@ -228,15 +249,17 @@ export default function Post({
                       isReposting
                         ? null
                         : () => {
-                          setModal((curr) => !curr);
-                          setTipo("share");
-                        }
+                            setModal((curr) => !curr);
+                            setTipo("share");
+                          }
                     }
                     style={{ fontSize: "30px", color: "#ffffff" }}
                   />
                 </div>
                 <div>
-                  <div data-test="repost-counter">{shares && `${shares.length} re-posts`}</div>
+                  <div data-test="repost-counter">
+                    {shares && `${shares.length} re-posts`}
+                  </div>
                 </div>
               </Article>
             </Aside>
@@ -255,26 +278,27 @@ export default function Post({
               />
               <Text>
                 <div>
-                  <h5 data-test="username" onClick={() => navigate(`/user/${userPostId}`)}>
+                  <h5
+                    data-test="username"
+                    onClick={() => navigate(`/user/${userPostId}`)}
+                  >
                     {userName}
                   </h5>
-                  {
-                    userId === userPostId &&
-                    !isReposting && (
-                      <div>
-                        <AiOutlineEdit
-                          data-test="edit-btn"
-                          onClick={handleEdit}
-                        />
-                        <AiFillDelete
-                          data-test="delete-btn"
-                          onClick={() => {
-                            setModal((curr) => !curr);
-                            setTipo("delete");
-                          }}
-                        />
-                      </div>
-                    )}
+                  {userId === userPostId && !isReposting && (
+                    <div>
+                      <AiOutlineEdit
+                        data-test="edit-btn"
+                        onClick={handleEdit}
+                      />
+                      <AiFillDelete
+                        data-test="delete-btn"
+                        onClick={() => {
+                          setModal((curr) => !curr);
+                          setTipo("delete");
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
                 {isEditing ? (
                   <textarea
@@ -293,7 +317,12 @@ export default function Post({
                 )}
               </Text>
 
-              <a data-test="link" href={metaData.url} target="_blank" rel="noreferrer">
+              <a
+                data-test="link"
+                href={metaData.url}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <Main>
                   <Block data-test="link">
                     <h5>{metaData.title}</h5>

@@ -47,7 +47,7 @@ const WriteComment = ({ post_id, comments, setComments, count, setCount }) => {
           placeholder="write a comment..."
           data-test="comment-input"
         />
-        <StyledFiSend onClick={handleSubmit} data-test="comment-submit"/>
+        <StyledFiSend onClick={handleSubmit} data-test="comment-submit" />
       </InputContainer>
     </WriteCommentContainer>
   );
