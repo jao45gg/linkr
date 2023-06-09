@@ -277,6 +277,7 @@ export default function Post({
                 link={link}
                 description={description}
                 userId={userPostId}
+                shares={shares}
               />
               <Text>
                 <div>
