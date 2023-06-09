@@ -54,8 +54,8 @@ export default function Timeline({ setNewRequest }) {
       const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
       promise
         .then((res) => {
-          if (((data.length / page) + res.data) > 10) {
-            setOffset((data.length / page) + res.data - 10);
+          if (data.length / page + res.data > 10) {
+            setOffset(data.length / page + res.data - 10);
           } else if (data.length < 10) {
             Refresh();
           }
@@ -65,7 +65,7 @@ export default function Timeline({ setNewRequest }) {
         });
     }
   }, 15000);
-  
+
   useEffect(() => {
     if (offset === 0) Refresh();
   }, [offset]);

@@ -28,7 +28,7 @@ const Comments = ({ post_id, count, setCount, post_user_id }) => {
     else setIsLoading(false);
   }, []);
   return (
-    <CommentsContainer>
+    <CommentsContainer data-test="comment-box">
       {isLoading &&
         Array.from({ length: count }).map((_, index) => (
           <CommentSkeleton key={index} />
