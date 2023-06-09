@@ -69,6 +69,7 @@ export default function Timeline({ setNewRequest }) {
     }
   }, 15000);
 
+
   useEffect(() => {
     if (offset === 0) Refresh();
   }, [offset]);
