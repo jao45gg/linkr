@@ -5,7 +5,7 @@ const Comment = ({ data, post_user_id, isFollowed }) => {
 
   return (
     <Container>
-      <CommentContainer>
+      <CommentContainer data-test="comment">
         <Imagem picture={data.picture} />
         <Flex>
           <p>

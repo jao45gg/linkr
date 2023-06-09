@@ -208,12 +208,12 @@ export default function Post({
                 />
               </Article>
               <Article>
-                <div onClick={() => setShowComments(!showComments)}>
+                <div onClick={() => setShowComments(!showComments)} data-test="comment-btn">
                   <div>
                     <AiOutlineComment style={{ fontSize: "30px", color: "#ffffff" }} />
                   </div>
                   <div>
-                    <div data-test="counter">
+                    <div data-test="comment-counter">
                       {numberOfComments !== 0 && `${numberOfComments} comments`}
                     </div>
                   </div>
