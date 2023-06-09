@@ -57,14 +57,17 @@ export default function Users() {
     <Container>
       <Titulo>
         <div>
-          <Imagem picture={data?.picture} ></Imagem>
+          <Imagem picture={data?.picture}></Imagem>
           <p>{`${data?.name}’s posts`}</p>
         </div>
         <div>
           {ownUser ? (
             <></>
           ) : (
-            <button className={following ? "following" : "not-following"} onClick={connectUser}>
+            <button
+              data-test="follow-btn"
+              className={following ? "following" : "not-following"}
+              onClick={connectUser}>
               {loading ? (
                 <ThreeDots
                   height="12"
