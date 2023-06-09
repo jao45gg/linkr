@@ -44,6 +44,7 @@ export default function Post({
   const [repostNameUser, setRepostNameUser] = useState();
   const [showComments, setShowComments] = useState(false);
   const [numberOfComments, setNumberOfComments] = useState(commentsCount);
+  const [originalPostId, setOriginalPostId] = useState("");
 
   useEffect(() => {
     axios
@@ -167,6 +168,7 @@ export default function Post({
         setIsReposting(true);
         setRepostUserId(item.user_id);
         setRepostNameUser(item.user_name);
+        setOriginalPostId(item.postID);
       }
     });
   }
@@ -342,6 +344,8 @@ export default function Post({
           post_user_id={userPostId}
           count={numberOfComments}
           setCount={setNumberOfComments}
+          originalPostId={originalPostId}
+          isReposting={isReposting}
         />
       )}
     </FlexColumn>
