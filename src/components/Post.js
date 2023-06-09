@@ -13,7 +13,7 @@ import { Tooltip } from "react-tooltip";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import { useNavigate } from "react-router-dom";
 import Modal from "./feed/Modal.js";
-import Comments from "./Comments.js";
+import Comments from "./comments/Comments.js";
 
 export default function Post({
   id,
@@ -43,6 +43,7 @@ export default function Post({
   const [repostUserId, setRepostUserId] = useState();
   const [repostNameUser, setRepostNameUser] = useState();
   const [showComments, setShowComments] = useState(false);
+  const [numberOfComments, setNumberOfComments] = useState(commentsCount);
 
   useEffect(() => {
     axios
@@ -167,12 +168,12 @@ export default function Post({
   }
 
   return (
-    <FlexColumn>
+    <FlexColumn data-test="post">
       <Repost isReposting={isReposting}>
         <FaRetweet style={{ fontSize: "20px", color: "#ffffff" }} />
         <p> {repostUserId === parseInt(userId) ? "Re-posted by you" : `Re-posted by ${repostNameUser}`} </p>
       </Repost>
-      <Container data-test="post" isReposting={isReposting}>
+      <Container isReposting={isReposting}>
         <ContainerPost>
           <Header>
             <Aside>
@@ -212,7 +213,9 @@ export default function Post({
                     <AiOutlineComment style={{ fontSize: "30px", color: "#ffffff" }} />
                   </div>
                   <div>
-                    <div data-test="counter">{commentsCount !== 0 && `${commentsCount} comments`}</div>
+                    <div data-test="counter">
+                      {numberOfComments !== 0 && `${numberOfComments} comments`}
+                    </div>
                   </div>
                 </div>
               </Article>
@@ -250,18 +253,26 @@ export default function Post({
               />
               <Text>
                 <div>
-                  <h5 onClick={() => navigate(`/user/${userPostId}`)}>{userName}</h5>
-                  {currentPath[1] === "user" && userId === userPostId && !isReposting && (
-                    <div>
-                      <AiOutlineEdit data-test="edit-btn" onClick={handleEdit} />
-                      <AiFillDelete
-                        onClick={() => {
-                          setModal((curr) => !curr);
-                          setTipo("delete");
-                        }}
-                      />
-                    </div>
-                  )}
+                  <h5 data-test="username" onClick={() => navigate(`/user/${userPostId}`)}>
+                    {userName}
+                  </h5>
+                  {currentPath[1] === "user" &&
+                    userId === userPostId &&
+                    !isReposting && (
+                      <div>
+                        <AiOutlineEdit
+                          data-test="edit-btn"
+                          onClick={handleEdit}
+                        />
+                        <AiFillDelete
+                          data-test="delete-btn"
+                          onClick={() => {
+                            setModal((curr) => !curr);
+                            setTipo("delete");
+                          }}
+                        />
+                      </div>
+                    )}
                 </div>
                 {isEditing ? (
                   <textarea
@@ -276,11 +287,11 @@ export default function Post({
                     autoFocus
                   />
                 ) : (
-                  <h6>{formatHashtags(description)}</h6>
+                  <h6 data-test="description">{formatHashtags(description)}</h6>
                 )}
               </Text>
 
-              <a href={metaData.url} target="_blank" rel="noreferrer">
+              <a data-test="link" href={metaData.url} target="_blank" rel="noreferrer">
                 <Main>
                   <Block data-test="link">
                     <h5>{metaData.title}</h5>
@@ -294,7 +305,13 @@ export default function Post({
           )}
         </ContainerPost>
       </Container>
-      {showComments && <Comments post_id={id} />}
+      {showComments && (
+        <Comments
+          post_id={id}
+          count={numberOfComments}
+          setCount={setNumberOfComments}
+        />
+      )}
     </FlexColumn>
   );
 }

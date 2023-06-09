@@ -57,7 +57,7 @@ export default function Users() {
     <Container>
       <Titulo>
         <div>
-          <Imagem src={data?.picture}></Imagem>
+          <Imagem picture={data?.picture} ></Imagem>
           <p>{`${data?.name}’s posts`}</p>
         </div>
         <div>
@@ -109,6 +109,7 @@ export default function Users() {
                 token={auth.accessToken}
                 liked={item.userLiked}
                 Refresh={() => getPosts()}
+                commentsCount={item.commentsCount}
               />
             ))
           ) : (

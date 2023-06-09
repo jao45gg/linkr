@@ -65,6 +65,7 @@ export const Titulo = styled.div`
 export const Posts = styled.div`
   margin-top: calc(53px + 20px + 64px);
 
+
   width: 100%;
   @media (max-width: 719px) {
     margin-top: calc(20px + 64px);

@@ -88,6 +88,7 @@ const SignIn = () => {
       <form onSubmit={handleSubmit}>
         <AuthInput
           placeholder="e-mail"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
@@ -96,6 +97,7 @@ const SignIn = () => {
         />
         <AuthInput
           placeholder="password"
+          required
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
