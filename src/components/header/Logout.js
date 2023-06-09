@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
@@ -22,11 +22,14 @@ const Logout = () => {
   const logout = async () => {
     try {
       await axios.post("/logout");
-      setAuth("");
-      navigate("/");
       localStorage.removeItem("refreshToken");
+      setAuth("");
     } catch (error) {
       alert("Erro ao fazer logout");
+    }
+    finally {
+      if (auth === "")
+        navigate("/");
     }
   };
 

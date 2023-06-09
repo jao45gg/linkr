@@ -5,8 +5,9 @@ import { useEffect } from "react";
 const RedirectIfAuth = () => {
   const navigate = useNavigate();
   const { auth } = useAuth();
+
   useEffect(() => {
-    if (auth?.accessToken) {
+    if (auth?.accessToken && localStorage.getItem("refreshToken") !== null) {
       navigate("/timeline");
     }
   }, [navigate, auth?.accessToken]);

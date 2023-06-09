@@ -85,7 +85,7 @@ export default function Timeline({ setNewRequest }) {
         Refresh();
       })
       .catch((res) => {
-        alert(res.message);
+        alert("There was an error publishing your link");
       })
       .finally(() => {
         setDisabled(false);
