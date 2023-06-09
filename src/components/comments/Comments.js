@@ -7,6 +7,7 @@ import CommentSkeleton from "../loadings/CommentSkeleton.js";
 
 const Comments = ({ post_id, count, setCount, post_user_id }) => {
   const [comments, setComments] = useState([]);
+  const [followeds, setFolloweds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
 
@@ -14,7 +15,9 @@ const Comments = ({ post_id, count, setCount, post_user_id }) => {
     const getComments = async () => {
       try {
         const response = await axiosPrivate.get(`/comments/${post_id}`);
+        const response2 = await axiosPrivate.get("/follows");
         setComments(response.data);
+        setFolloweds(response2.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -32,7 +35,14 @@ const Comments = ({ post_id, count, setCount, post_user_id }) => {
         ))}
       {!isLoading &&
         comments?.map((comment, id) => (
-          <Comment data={comment} key={id} post_user_id={post_user_id} />
+          <Comment
+            data={comment}
+            key={id}
+            post_user_id={post_user_id}
+            isFollowed={followeds.some(
+              (followed) => followed.id === comment.user_id
+            )}
+          />
         ))}
       <WriteComment
         post_id={post_id}
