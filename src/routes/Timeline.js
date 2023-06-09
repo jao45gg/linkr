@@ -138,7 +138,7 @@ export default function Timeline({ setNewRequest }) {
               message={"An error occured while trying to fetch the posts, please refresh the page"}
             />
           ) : data.length === 0 ? (
-            <ErrorServer message={"No posts found from your friends"} data-test="message" />
+            <ErrorServer data-test="message" message={"No posts found from your friends"} />
           ) : data !== undefined ? (
             <>
               <ButtonNewposts

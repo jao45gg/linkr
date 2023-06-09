@@ -179,21 +179,13 @@ export default function Post({
     <FlexColumn data-test="post">
       <Repost isReposting={isReposting}>
         <FaRetweet style={{ fontSize: "20px", color: "#ffffff" }} />
-        <p>
-          {" "}
-          {repostUserId === parseInt(userId)
-            ? "Re-posted by you"
-            : `Re-posted by ${repostNameUser}`}{" "}
-        </p>
+        <p> {repostUserId === parseInt(userId) ? "Re-posted by you" : `Re-posted by ${repostNameUser}`} </p>
       </Repost>
       <Container isReposting={isReposting}>
         <ContainerPost>
           <Header>
             <Aside>
-              <Imagem
-                onClick={() => navigate(`/user/${userPostId}`)}
-                picture={picture}
-              />
+              <Imagem onClick={() => navigate(`/user/${userPostId}`)} picture={picture} />
               <Article>
                 <div data-test="like-btn">
                   {liked ? (
@@ -208,14 +200,8 @@ export default function Post({
                     />
                   )}
                 </div>
-                <div
-                  data-test="tooltip"
-                  data-tooltip-content={getTooltipContent()}
-                  data-tooltip-id="example"
-                >
-                  <div data-test="counter">
-                    {likes.length !== 0 && `${likes.length} likes`}
-                  </div>
+                <div data-test="tooltip" data-tooltip-content={getTooltipContent()} data-tooltip-id="example">
+                  <div data-test="counter">{likes.length !== 0 && `${likes.length} likes`}</div>
                 </div>
                 <Tooltip
                   id="example"
@@ -230,11 +216,8 @@ export default function Post({
                 />
               </Article>
               <Article>
-                <div
-                  onClick={() => setShowComments(!showComments)}
-                  data-test="comment-btn"
-                >
-                  <div>
+                <div>
+                  <div onClick={() => setShowComments(!showComments)} data-test="comment-btn">
                     <AiOutlineComment style={{ fontSize: "30px", color: "#ffffff" }} />
                   </div>
                   <div>
@@ -245,7 +228,7 @@ export default function Post({
                 </div>
               </Article>
               <Article>
-                <div data-test="repost-btn">
+                <div>
                   <FaRetweet
                     onClick={
                       isReposting
@@ -256,12 +239,11 @@ export default function Post({
                           }
                     }
                     style={{ fontSize: "30px", color: "#ffffff" }}
+                    data-test="repost-btn"
                   />
                 </div>
                 <div>
-                  <div data-test="repost-counter">
-                    {shares && `${shares.length} re-posts`}
-                  </div>
+                  <div data-test="repost-counter">{shares && `${shares.length} re-posts`}</div>
                 </div>
               </Article>
             </Aside>
@@ -281,10 +263,7 @@ export default function Post({
               />
               <Text>
                 <div>
-                  <h5
-                    data-test="username"
-                    onClick={() => navigate(`/user/${userPostId}`)}
-                  >
+                  <h5 data-test="username" onClick={() => navigate(`/user/${userPostId}`)}>
                     {userName}
                   </h5>
                   {userId === userPostId && !isReposting && (
@@ -317,12 +296,7 @@ export default function Post({
                 )}
               </Text>
 
-              <a
-                data-test="link"
-                href={metaData.url}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a data-test="link" href={metaData.url} target="_blank" rel="noreferrer">
                 <Main>
                   <Block data-test="link">
                     <h5>{metaData.title}</h5>
