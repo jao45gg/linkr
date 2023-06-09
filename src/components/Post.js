@@ -159,7 +159,7 @@ export default function Post({
   }
 
   function lookingIsRepost() {
-    shares.forEach((item) => {
+    shares?.forEach((item) => {
       if (item.repostID === id) {
         setIsReposting(true);
         setRepostUserId(item.user_id);
