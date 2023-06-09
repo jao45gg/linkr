@@ -96,6 +96,7 @@ const SignUp = () => {
       <form onSubmit={handleSubmit}>
         <AuthInput
           placeholder="e-mail"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
@@ -104,6 +105,7 @@ const SignUp = () => {
         />
         <AuthInput
           placeholder="password"
+          required
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -112,6 +114,7 @@ const SignUp = () => {
         />
         <AuthInput
           placeholder="user"
+          required
           value={user}
           onChange={(e) => setUser(e.target.value)}
           disabled={isLoading}
@@ -119,6 +122,7 @@ const SignUp = () => {
         />
         <AuthInput
           placeholder="picture url"
+          required
           value={pictureUrl}
           onChange={(e) => setPictureUrl(e.target.value)}
           disabled={isLoading}
