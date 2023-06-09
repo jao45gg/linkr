@@ -261,7 +261,7 @@ export default function Post({
                   <h5 data-test="username" onClick={() => navigate(`/user/${userPostId}`)}>
                     {userName}
                   </h5>
-                  {currentPath[1] === "user" &&
+                  {
                     userId === userPostId &&
                     !isReposting && (
                       <div>
