@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import useAuth from "../../hooks/useAuth";
 
-const Comment = ({ data, post_user_id }) => {
-  const { id } = useAuth().auth;
+const Comment = ({ data, post_user_id, isFollowed }) => {
 
   return (
     <Container>
@@ -15,6 +13,7 @@ const Comment = ({ data, post_user_id }) => {
               {data.name}
             </strong>
             {data.user_id === post_user_id && " • post's author"}
+            {data.user_id !== post_user_id && isFollowed && " • following"}
           </p>
           <p>{data.comment}</p>
         </Flex>
