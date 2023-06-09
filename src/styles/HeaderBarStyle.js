@@ -109,7 +109,7 @@ export const Drop = styled(AiOutlineDown)`
   position: relative;
   color: #fff;
   cursor: pointer;
-  rotate: ${({ menuActive }) => (menuActive ? "180deg" : "0deg")} !important;
+  rotate: ${({ menuactive }) => (menuactive === "true" ? "180deg" : "0deg")} !important;
 `;
 export const DropMenu = styled.div`
   position: absolute;
@@ -123,7 +123,7 @@ export const DropMenu = styled.div`
 
   background: #171717;
   cursor: pointer;
-  display: ${({ menuActive }) => (menuActive ? "block" : "none")} !important;
+  display: ${({ menuactive }) => (menuactive === "true" ? "block" : "none")} !important;
   button {
     background: none;
     border: none;
