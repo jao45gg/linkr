@@ -98,6 +98,8 @@ export default function Post({
           return `${likes[likes.length - 1]?.user_name}`;
         }
       }
+      return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${likes.length - 2
+        } pessoas`;
       return `${likes[likes.length - 1]?.user_name}, ${likes[likes.length - 2]?.user_name} e ${
         likes.length - 2
       } pessoas`;
@@ -158,7 +160,7 @@ export default function Post({
   }
 
   function lookingIsRepost() {
-    shares.forEach((item) => {
+    shares?.forEach((item) => {
       if (item.repostID === id) {
         setIsReposting(true);
         setRepostUserId(item.user_id);
@@ -226,9 +228,9 @@ export default function Post({
                       isReposting
                         ? null
                         : () => {
-                            setModal((curr) => !curr);
-                            setTipo("share");
-                          }
+                          setModal((curr) => !curr);
+                          setTipo("share");
+                        }
                     }
                     style={{ fontSize: "30px", color: "#ffffff" }}
                   />

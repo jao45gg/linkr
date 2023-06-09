@@ -39,7 +39,7 @@ export default function Timeline({ setNewRequest }) {
   function Refresh() {
     const promise = axiosPrivate.get(`/posts/${page} ${offset}`);
     promise.then((res) => {
-      if (res.data[0]?.id !== data[0]?.id) {
+      if (res.data[res.data.length - 1]?.id !== data[data.length - 1]?.id) {
         setData(res.data);
         setHasMore(true);
       } else {
@@ -54,29 +54,17 @@ export default function Timeline({ setNewRequest }) {
       const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
       promise
         .then((res) => {
-          let num = page;
-          num === 1 && num++;
-          if (data.length / (num - 1) + res.data > 10) {
-            setOffset(data.length / (num - 1) + res.data - 10);
+          if (((data.length / page) + res.data) > 10) {
+            setOffset((data.length / page) + res.data - 10);
           } else if (data.length < 10) {
             Refresh();
           }
         })
         .catch((res) => {
-          console.log(res);
           alert(res.message);
         });
     }
   }, 15000);
-
-  function checkNewPosts() {
-    const promise = axiosPrivate.get(`/posts/newPosts/${data[0]?.id}`);
-    promise.then((res) => {
-      if (data.length + res.data > 10) {
-        setOffset(data.length + res.data - 10);
-      }
-    });
-  }
   
   useEffect(() => {
     if (offset === 0) Refresh();
