@@ -37,7 +37,6 @@ export default function Post({
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({ description: "" });
-  const currentPath = window.location.pathname.split("/");
   const editInputRef = useRef(null);
   const [isReposting, setIsReposting] = useState(false);
   const [repostUserId, setRepostUserId] = useState();
@@ -46,7 +45,7 @@ export default function Post({
   const [numberOfComments, setNumberOfComments] = useState(commentsCount);
   const [originalPostId, setOriginalPostId] = useState("");
   const [postDescription, setPostDescription] = useState(description)
-
+  
   useEffect(() => {
     axios
       .get(`https://jsonlink.io/api/extract?url=${link}`)

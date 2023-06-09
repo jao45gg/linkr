@@ -57,6 +57,8 @@ export const HContent = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    z-index: 2;
   }
   .search input {
     width: 85%;
@@ -66,6 +68,7 @@ export const HContent = styled.div`
     outline: none;
     font-size: 19px;
     color: #c6c6c6;
+
   }
   .search svg {
     font-size: 24px;
@@ -78,14 +81,21 @@ export const HContent = styled.div`
     width: 100%;
     max-width: 563px;
     border-radius: 8px;
-
-    max-height: 176px;
+    max-height: 176px; 
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; 
     background-color: #e7e7e7;
+    position: relative;
     :hover {
       .users {
         display: flex !important;
+        position: absolute;
+        z-index: 1;
+        top: 30px;
+        background-color: #e7e7e7;
+        max-height: 150px; 
+        padding-top:10px ;
+        border-radius: 12px;
       }
     }
     .users {
