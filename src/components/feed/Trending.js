@@ -31,8 +31,8 @@ const Trending = ({ newRequest }) => {
         <h3>trending</h3>
         <ul>
           {trending.length &&
-            trending?.map((trend) => (
-              <li data-test="hashtag" onClick={() => hashPage(trend.hash_name)} key={trend.id}>
+            trending?.map((trend, index) => (
+              <li key={index} data-test="hashtag" onClick={() => hashPage(trend.hash_name)}>
                 {trend.hash_name}
               </li>
             ))}

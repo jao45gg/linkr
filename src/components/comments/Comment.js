@@ -2,16 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const Comment = ({ data, post_user_id, isFollowed }) => {
-
   return (
     <Container>
-      <CommentContainer>
+      <CommentContainer data-test="comment">
         <Imagem picture={data.picture} />
         <Flex>
           <p>
-            <strong>
-              {data.name}
-            </strong>
+            <strong>{data.name}</strong>
             {data.user_id === post_user_id && " • post's author"}
             {data.user_id !== post_user_id && isFollowed && " • following"}
           </p>
