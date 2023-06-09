@@ -6,6 +6,7 @@ import ErrorServer from "../components/ErrorServer.js";
 import useAxiosPrivate from "../hooks/useAxiosPrivate.js";
 import InfiniteScroll from "react-infinite-scroller";
 import useInterval from "use-interval";
+import { TailSpin } from "react-loader-spinner";
 import {
   Container,
   Titulo,
@@ -140,7 +141,7 @@ export default function Timeline({ setNewRequest }) {
           ) : data.length === 0 ? (
             <ErrorServer data-test="message" message={"No posts found from your friends"} />
           ) : data !== undefined ? (
-            <>
+            <div className="carregando">
               <ButtonNewposts
                 display={offset > 0 ? "flex" : "none"}
                 onClick={() => {
@@ -159,34 +160,50 @@ export default function Timeline({ setNewRequest }) {
                   />
                 </svg>
               </ButtonNewposts>
-              <InfiniteScroll
-                pageStart={0}
-                hasMore={hasMore}
-                loadMore={() => {
-                  page++;
-                  Refresh();
-                }}
-                loader={<div key={0}>Carregando...Carregando...</div>}>
-                {data.map((item) => (
-                  <Post
-                    key={item.id}
-                    id={item.id}
-                    link={item.link}
-                    description={item.description}
-                    userId={auth.id}
-                    likes={item.likes}
-                    shares={item.shares}
-                    picture={item.user_picture}
-                    userName={item.user_name}
-                    userPostId={item.user_id}
-                    token={auth.accessToken}
-                    liked={item.userLiked}
-                    commentsCount={item.commentsCount}
-                    Refresh={Refresh}
-                  />
-                ))}
-              </InfiniteScroll>
-            </>
+              <div className="carregando">
+                <InfiniteScroll
+                  pageStart={0}
+                  hasMore={hasMore}
+                  loadMore={() => {
+                    page++;
+                    Refresh();
+                  }}
+                  loader={
+                    <div>
+                      <TailSpin
+                        height="80"
+                        width="80"
+                        color="#4fa94d"
+                        ariaLabel="tail-spin-loading"
+                        radius="1"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                      />
+                      <p>Loading more posts...</p>
+                    </div>
+                  }>
+                  {data.map((item) => (
+                    <Post
+                      key={item.id}
+                      id={item.id}
+                      link={item.link}
+                      description={item.description}
+                      userId={auth.id}
+                      likes={item.likes}
+                      shares={item.shares}
+                      picture={item.user_picture}
+                      userName={item.user_name}
+                      userPostId={item.user_id}
+                      token={auth.accessToken}
+                      liked={item.userLiked}
+                      commentsCount={item.commentsCount}
+                      Refresh={Refresh}
+                    />
+                  ))}
+                </InfiniteScroll>
+              </div>
+            </div>
           ) : (
             <LoadingPage />
           )}
