@@ -5,7 +5,7 @@ import styled from "styled-components";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.js";
 import CommentSkeleton from "../loadings/CommentSkeleton.js";
 
-const Comments = ({ post_id, count, setCount }) => {
+const Comments = ({ post_id, count, setCount, post_user_id }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
@@ -31,7 +31,9 @@ const Comments = ({ post_id, count, setCount }) => {
           <CommentSkeleton key={index} />
         ))}
       {!isLoading &&
-        comments?.map((comment, id) => <Comment data={comment} key={id} />)}
+        comments?.map((comment, id) => (
+          <Comment data={comment} key={id} post_user_id={post_user_id} />
+        ))}
       <WriteComment
         post_id={post_id}
         comments={comments}

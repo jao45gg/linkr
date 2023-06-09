@@ -327,6 +327,7 @@ export default function Post({
       {showComments && (
         <Comments
           post_id={id}
+          post_user_id={userPostId}
           count={numberOfComments}
           setCount={setNumberOfComments}
         />
