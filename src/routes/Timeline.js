@@ -64,7 +64,7 @@ export default function Timeline({ setNewRequest }) {
           alert(res.message);
         });
     }
-  }, 15000);
+  }, 1500);
 
 
   useEffect(() => {
