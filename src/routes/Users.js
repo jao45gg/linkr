@@ -108,8 +108,8 @@ export default function Users() {
                 userPostId={item.user_id}
                 token={auth.accessToken}
                 liked={item.userLiked}
+                Refresh={() => getPosts()}
                 commentsCount={item.commentsCount}
-                Refresh={Refresh}
               />
             ))
           ) : (
